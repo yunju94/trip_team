@@ -1,4 +1,4 @@
-package com.trip.constatnt;
+package com.trip.constant;
 
 public enum ItemSellStatus {
     SELL,SOLD_OUT

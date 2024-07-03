@@ -1,4 +1,4 @@
-package com.trip.constatnt;
+package com.trip.constant;
 
 public enum OrderStatus {
     ORDER,CANCEL

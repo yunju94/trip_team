@@ -1,7 +1,7 @@
 package com.trip.dto;
 
 
-import com.trip.constatnt.ItemSellStatus;
+import com.trip.constant.ItemSellStatus;
 import lombok.Getter;
 import lombok.Setter;
 
