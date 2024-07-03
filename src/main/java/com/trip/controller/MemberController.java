@@ -3,12 +3,16 @@ package com.trip.controller;
 
 import com.trip.Service.MemberService;
 import com.trip.dto.MemberFormDto;
+import com.trip.entity.Member;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -22,5 +26,24 @@ public class MemberController {
     public String memberForm(Model model) {
         model.addAttribute("memberFormDto",new MemberFormDto());
         return "member/memberForm";
+    }
+    @PostMapping(value = "/new")
+    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult,
+                             Model model) {
+        // @Valid 붙은 객체를 검사해서 결과에 에러가 있으면 실행
+        if(bindingResult.hasErrors()){
+            return "member/memberForm";//다시 회원가입으로 돌려보닙니다.
+        }
+        try{
+            //Member 객체 생성
+            Member member = Member.createMember(memberFormDto, passwordEncoder);
+            //데이터베이스에 저장
+            memberService.saveMember(member);
+        }
+        catch (IllegalStateException e){
+            model.addAttribute("errorMessage",e.getMessage());
+            return "member/memberForm";
+        }
+        return "redirect:/";
     }
 }
