@@ -4,20 +4,22 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @EntityListeners(value = {AuditingEntityListener.class})
 @MappedSuperclass
 @Getter
-
-public class BaseEntity extends BaseTimeEntity{
-
-    @CreatedBy
+@Setter
+public abstract class BaseTimeEntity {
+    @CreatedDate
     @Column(updatable = false)
-    private String createBy;
+    private LocalDateTime regTime;
 
-    @LastModifiedBy
-    private String modifieBy;
+    @LastModifiedDate
+    private LocalDateTime updateTime;
 }
