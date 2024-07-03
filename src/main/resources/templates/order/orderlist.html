@@ -1,15 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www/thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
+
+<style>
+    .cartdiv{
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+    .orderdiv{
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+</style>
 <div layout:fragment="content">
+
 <div>
     <p>찜 내역</p><!--cart-->
+    <div id="cartdiv" name="cartdiv">
+
+    </div>
 </div>
 <div>
     <p>예약 이력</p><!--order-->
+    <form>
+    <div id="orderdiv" name="orderdiv">
+        <table>
+            <tr>
 
+                <th>주문번호</th>
+                <th>인원</th>
+                <th>가격</th>
+            </tr>
+            <tr th:each="order, status : ${orderlist}">
+
+                <th th:text="${order.id}"></th>
+                <th th:text="${order.count}"></th>
+                <th th:text="${order.orderprice}"></th>
+
+            </tr>
+
+        </table>
+
+    </div>
+    </form>
 </div>
+<div>
+    <p>질문사항</p>
+</div>
+
+
 </div>
 
 </html>

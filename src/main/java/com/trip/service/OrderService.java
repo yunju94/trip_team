@@ -21,10 +21,11 @@ public class OrderService {
     private  final OrderItemRepository orderItemRepository;
     private  final OrderRepository orderRepository;
 
-    public  void orderlist(String email){
+    @Transactional(readOnly = true)
+    public  List<Order> orderlist(String email){
         //이메일로 주문 리스트 뽑아내기
       List<Order> orderList = orderRepository.findOrders(email);
-
+      return orderList;
 
     }
 
