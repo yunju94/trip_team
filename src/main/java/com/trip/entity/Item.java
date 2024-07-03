@@ -46,7 +46,7 @@ public class Item extends BaseEntity {
             joinColumns=@JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private List<Member> member;
+    //private List<Member> member;
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();

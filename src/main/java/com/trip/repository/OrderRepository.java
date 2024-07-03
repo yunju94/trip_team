@@ -7,5 +7,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findOrders(@Param("email") String email);
+//    List<Order> findOrders(@Param("email") String email);
 }

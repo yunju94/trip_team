@@ -17,13 +17,13 @@ public class OrderController {
     private final OrderService orderService;
 
 
-    @GetMapping(value = "/orders")
-    public String order(Principal principal, Model model){
-        String email = principal.getName();
-         = orderService.orderlist(email);// order
-
-        model.addAttribute("");
-        return "/order/orderlist";
-    }
+//    @GetMapping(value = "/orders")
+//    public String order(Principal principal, Model model){
+//        String email = principal.getName();
+//
+//
+//        model.addAttribute("");
+//        return "/order/orderlist";
+//    }
 
 }
