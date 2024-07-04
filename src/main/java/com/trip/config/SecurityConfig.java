@@ -1,6 +1,6 @@
 package com.trip.config;
 
-import com.trip.Service.MemberService;
+import com.trip.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +19,7 @@ public class SecurityConfig {
     @Autowired
     MemberService memberService;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         System.out.println("A");
@@ -26,7 +27,7 @@ public class SecurityConfig {
         //로그인에 관여
         http.authorizeRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error").permitAll()
-                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/order/**").permitAll()
+                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/orders/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(formLogin -> formLogin
@@ -51,5 +52,11 @@ public class SecurityConfig {
     public  static PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth)throws Exception{
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+    }
+
 
 }

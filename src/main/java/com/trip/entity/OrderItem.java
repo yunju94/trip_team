@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "order_item")
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends BaseEntity{
     //예약 목록-> 여행 시 한 번에 한 패키지로 예약하므로 one to one
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
 
