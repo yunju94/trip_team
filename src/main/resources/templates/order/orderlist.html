@@ -3,61 +3,122 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<th:block layout:fragment="css">
-    <style>
-        .cartdiv{
-            border: 1px solid #ccc;
-            width: 100%;
-        }
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
 
+
+
+<th:block layout:fragment="css">
+
+    <style>
         table, th, td{
             border: 1px solid #ccc;
         }
+        th, td { padding: 10px 20px;}
+        .popup_layer{
+            list-style:none
+        }
+
+
     </style>
 </th:block>
 
-<div layout:fragment="content">
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            function orderCancel(orderId){
+                var token =$("meta[name='_csrf']").attr("content");
+                var header =$("meta[name='_csrf_header']").attr("content");
 
-    <div>
-        <p>찜 내역</p><!--cart-->
-        <div class="cartdiv">
-            <p>찜</p>
+                var url = "/order/"+ orderId + "/cancel";
+                var paramData = {
+                    orderId : orderId,
+                }
+                //json 문자열 형식으로 변경
+                var param = JSON.stringify(paramData);
 
-        </div>
-    </div>
-    <div>
-        <p>예약 이력</p><!--order-->
-        <form>
-            <div>
-                <table>
-                    <tr>
-                        <th>이미지</th>
-                        <th>주문번호</th>
-                        <th>상품명</th>
-                        <th>인원</th>
-                        <th>가격</th>
-                    </tr>
-                    <tr th:each="order, status : ${orderlist}">
+                $.ajax({
+                    url : url,
+                    type : "POST",
+                    contentType : "application/json",
+                    data : param,
+                    beforeSend : function(xhr){
+                        /*데이터 전송하기 전에 헤더에 csrf 값 설정*/
+                        xhr.setRequestHeader(header, token);
+                    },
+                    dataType : "json",
+                    cache : false,
+                    success : function(result, status){
+                        alert("주문이 취소 되었습니다.");
+                        location.href='/orders/' + [[${page}]];
+                    },
+                   error : function(jqXHR, status, error){
+                        if(jqXHR.status == '401'){
+                            alert('로그인 후 이용해주세요.');
+                            location.href = '/members/login';
+                        }else{
+                            alert(jqXHR.responseText);
+                        }
+                   }
 
-                        <th th:text="${order.id}"></th><!--주문번호-->
-                        <th th:src="${${order.imgUrl}"></th><!--이미지-->
-                        <th th:text="${order.itemNm}"></th>
-                        <th th:text="${order.count}"></th><!--인원-->
-                        <th th:text="${order.orderprice}"></th><!--가격-->
+                });
 
-                    </tr>
+            }
+        </script>
+    </th:block>
 
-                </table>
 
+
+
+    <div layout:fragment="content">
+        <table>
+            <tr>
+                <td>주문 시간</td>
+                <td>주문번호</td>
+            </tr>
+            <tr >
+                <td rowspan="3">이미지</td>
+                <td>상품명</td>
+            </tr>
+            <tr >
+                <td>인원</td>
+            </tr>
+            <tr >
+                <td>가격</td>
+            </tr>
+            <tr >
+                <td><button type="button">주문 취소</button> </td>
+                <td><button type="button">주문 상세보기</button></td>
+            </tr>
+
+            <div th:each="order, status : ${orderlist}">
+                <tr >
+                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
+                    <td th:text="${order.id}"></td><!--주문번호-->
+                </tr>
+                <tr >
+                    <td rowspan="3" th:src="${order.imgUrl}"></td><!--이미지-->
+                    <td th:text="${order.itemNm}"></td><!--상품명-->
+                </tr>
+                <tr >
+                    <td th:text="${order.count}"></td><!--인원-->
+                </tr>
+                <tr >
+                    <td th:text="${order.orderprice}"></td><!--가격-->
+
+                </tr>
+                <tr>
+                    <td >
+                        <button th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}" type="button" value="${order.orderId}" onclick="orderCancel(this.value)" >주문 취소</button>
+                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                    </td>
+                    <td><button type="button" value="${order.orderId}" onclick="/order/detail/{this.value}">주문 상세보기</button></td>
+                </tr>
             </div>
-        </form>
+
+        </table>
+
     </div>
-    <div>
-        <p>Q&A 답변</p>
-    </div>
-
-
-</div>
-
 
 </html>

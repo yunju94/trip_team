@@ -17,9 +17,24 @@ public class OrderItem extends BaseEntity{
     private String orderprice;
     private int count;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private  Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private  Item item;
+
+    public  void  cancel(){
+        //주문서안의 아이템이 취소가 되면 아이템의 갯수가 다시 증가해야한다. 그러므로 아이템의 갯수를 증가시켜야한다.
+        this.getItem().cancelAdditem(count);
+    }
+
+
+
+
+
+
 
 
 }

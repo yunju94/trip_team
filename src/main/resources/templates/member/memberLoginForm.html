@@ -4,6 +4,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 <!--사용자 CSS 추가-->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+              var errorMessage = [[${errorMessage}]];
+               if(errorMessage != null){
+               alert(errorMessage);
+         }
+        });
+    </script>
+</th:block>
+
 <th:block layout:fragment="css">
     <style>
         .error{
