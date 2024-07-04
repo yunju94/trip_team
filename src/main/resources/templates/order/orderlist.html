@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="css">
+    <style>
+        .cartdiv{
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        table, th, td{
+            border: 1px solid #ccc;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+    <div>
+        <p>찜 내역</p><!--cart-->
+        <div class="cartdiv">
+            <p>찜</p>
+
+        </div>
+    </div>
+    <div>
+        <p>예약 이력</p><!--order-->
+        <form>
+            <div>
+                <table>
+                    <tr>
+                        <th>이미지</th>
+                        <th>주문번호</th>
+                        <th>상품명</th>
+                        <th>인원</th>
+                        <th>가격</th>
+                    </tr>
+                    <tr th:each="order, status : ${orderlist}">
+
+                        <th th:text="${order.id}"></th><!--주문번호-->
+                        <th th:src="${${order.imgUrl}"></th><!--이미지-->
+                        <th th:text="${order.itemNm}"></th>
+                        <th th:text="${order.count}"></th><!--인원-->
+                        <th th:text="${order.orderprice}"></th><!--가격-->
+
+                    </tr>
+
+                </table>
+
+            </div>
+        </form>
+    </div>
+    <div>
+        <p>Q&A 답변</p>
+    </div>
+
+
+</div>
+
+
+</html>

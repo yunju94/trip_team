@@ -1,9 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www/thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 
-<h5>메인입니다.</h5>
+<!--타임리프 임포트-->
+
+<!--사용자 CSS 추가-->
+
+   <style>
+       .carousel-inner > .item{
+       height : 350px;
+       }
+       .margin{
+       margin-bottom : 30px
+       }
+       .banner{
+       height : 300px;
+       position : absolute; top:0; left:0;
+       width: 100%;
+       height: 100%;
+       }
+       .card-text{
+       text-overflow : ellipsis;
+       white-space : nowrap;
+       overflow : hidden;
+       }
+       a:hover{
+       text-decoration:none;
+       }
+       .center{
+       text-align:center;
+       }
+   </style>
+</th:block>
+   <a href="/members/login">로그인</a>
+
+  <!--  <a href="/admin/item/new">아이템 버튼테스트</a> -->
 <button type="button" onclick="location.href='/members/new'">회원가입</button>
 
+<div>
+    <a href="/orders">마이 페이지</a>
+</div>
+</div>
 </html>
