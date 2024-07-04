@@ -2,6 +2,7 @@ package com.trip.controller;
 
 
 import com.trip.constant.Role;
+import com.trip.dto.OrderDto;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
@@ -25,7 +26,8 @@ public class OrderController {
 
     private final OrderService orderService;
     @GetMapping(value = "/orders")
-    public String ordergo(Principal principal, Model model){
+    public String ordergo(Principal principal, Model model, OrderDto orderDto){
+        //로그인이 비어있는 초기에만 대체용
         if (principal==null){
             Member member = new Member();
             member.setId(Long.valueOf(0));
@@ -44,7 +46,7 @@ public class OrderController {
         }
         String email = principal.getName();//email정보를 받아온다.
         // 이메일을 가지고 service에 가서 개인 정보를 이용해서 order리스트를 받아온다.
-        List<Order> orderList =orderService.orderlist(email);
+        List<Order> orderList =orderService.orderlist(orderDto, email);
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
         model.addAttribute("orderlist", orderList);
 

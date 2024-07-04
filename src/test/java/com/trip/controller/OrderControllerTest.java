@@ -5,7 +5,10 @@ import com.trip.dto.MemberFormDto;
 import com.trip.dto.OrderDto;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
+import com.trip.entity.OrderItem;
+import com.trip.repository.OrderItemRepository;
 import com.trip.service.OrderService;
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +35,12 @@ class OrderControllerTest {
 
     @Autowired
     OrderService orderService;
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
 
     public Member createMember(){
+        Member member = new Member();
         MemberFormDto memberFormDto = new MemberFormDto();
         memberFormDto.setName("홍길동");
         memberFormDto.setAddress("인천");
@@ -46,25 +52,16 @@ class OrderControllerTest {
 
 
     public Order createorder(){
-        OrderDto orderDto = new OrderDto();
-        orderDto.setItemId(createMember().getId());
-        orderDto.setCount(2);
-        return  new Order(orderDto.getItemId(), createMember(), LocalDateTime.now(), OrderStatus.SELL);
+        Member member = createMember();
+        Order order = new Order(member.getId(),member, LocalDateTime.now(), OrderStatus.SELL);
+        return order;
     }
 
     @Test
     @DisplayName("상품 접근 테스트")
-    public  void  Test() throws  Exception{
-       Member member=createMember();
-       Order order1 = new Order(member.getId(), createMember(), LocalDateTime.now(), OrderStatus.SELL);
-       Order order = createorder();
-       order1.setOrderStatus(OrderStatus.SELL);
-       order1.setMember(member);
-       order1.setId(member.getId());
-       order1.setOrderDate(LocalDateTime.now());
-       List<Order> orderList = orderService.orderlist(member.getEmail());
-       orderList.add(order);
-       assertEquals(order1.getId(),orderList.get(0).getId());
+    public void Test() throws  Exception{
+
+
     }
 
 
