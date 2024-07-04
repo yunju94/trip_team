@@ -52,4 +52,10 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth)throws Exception{
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+    }
+
+
 }
