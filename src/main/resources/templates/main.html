@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-
+<html xmlns:th="http://www/thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
 <!--타임리프 임포트-->
 
@@ -31,6 +33,7 @@
        }
    </style>
 </th:block>
+<div layout:fragment="content">
    <a href="/members/login">로그인</a>
 
   <!--  <a href="/admin/item/new">아이템 버튼테스트</a> -->

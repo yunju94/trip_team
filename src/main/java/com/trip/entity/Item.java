@@ -58,4 +58,9 @@ public class Item extends BaseEntity {
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
+    public  void  cancelAdditem(int stockNumber){
+        this.stockNumber += stockNumber;
+        //인원수를 다시 받아서 증가시킨다.
+    }
+
 }

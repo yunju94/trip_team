@@ -1,7 +1,17 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
-       xmlns:sec="http://www/thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block layout:fragment ="script">
+    <script th:inline = "javascript">
+
+    </script>
+</th:block>
+
+
+
+<body>
+
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
         <div class="container-fluid">
@@ -16,34 +26,52 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                  <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-
-                        <a class="nav-link" href="/admin/item/new">패키지 등록</a>
-                    </li>
-                    <li class="nav-item"  >
-                        <a class="nav-link" href="/admin/items">상품 관리</a>
-                    </li>
-                    <li class="nav-item" >
-                        <a class="nav-link" href="/cart">장바구니</a>
+                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                        <a class="nav-link" href="">모든메뉴</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/orders">구매 이력</a>
+                        <a class="nav-link" href="">국내 여행</a>
                     </li>
-                    <li class="nav-item" >
-                        <a class="nav-link" href="/members/login">로그인</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">해외 여행</a>
                     </li>
-                    <li class="nav-item" >
+                    <li class="nav-item">
+                        <a class="nav-link" href="">이벤트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">공지사항</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">패키지 작성</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">공지사항 작성</a>
+                    </li>
+
+                    <li class="nav-item">
+                    <div class="dropdown-center">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            마이페이지
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/orders">예약 내역</a></li>
+                            <li><a class="dropdown-item" href="#">찜 내역</a></li>
+                            <li><a class="dropdown-item" href="#">1:1문의</a></li>
+                            <li><a class="dropdown-item" href="#">마이페이지</a></li>
+                        </ul>
+                    </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/members/login" id="loginBtn">로그인</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/members/logout">로그아웃</a>
                     </li>
                 </ul>
-                <form class="d-flex" th:action="@{/}" method="get">
-                    <input name="searchQuery" class="form-control me-2" type="search"
-                        placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
 </div>
 
+</body>
 </html>
