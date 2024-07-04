@@ -3,6 +3,10 @@ package com.trip.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+<<<<<<< HEAD
+=======
+
+>>>>>>> YJ
 import com.trip.constant.ItemSellStatus;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
