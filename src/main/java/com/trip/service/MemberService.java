@@ -1,4 +1,4 @@
-package com.trip.Service;
+package com.trip.service;
 
 import com.trip.entity.Member;
 import com.trip.repository.MemberRepository;
