@@ -39,6 +39,9 @@ public class Item extends BaseEntity {
     private String nature; // 국내, 해외
     private String category; // 미국 일본..
     private int stockNumber; // 인원 수
+    private String departuredate;//출발일
+    private String arrivaldate;//도착일
+
 
     @ManyToMany
     @JoinTable(

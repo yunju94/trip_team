@@ -10,13 +10,13 @@ import com.trip.dto.QMainItemDto;
 import com.trip.entity.Item;
 import com.trip.entity.QItem;
 import com.trip.entity.QItemImg;
-import com.trip.dto.ItemSearchDto;
-import com.trip.entity.Item;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
+
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,9 +52,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         //dateTime을 시간에 맞게 세팅 후 시간에 맞는 등록된 상품이 조회하도록 조건값 반환
     }
 
-
-
-
     private BooleanExpression searchByLike(String searchBy, String searchQuery) {
         if (StringUtils.equals("itemNm", searchBy)) { //상품명
             return QItem.item.itemNm.like("%" + searchQuery + "%");
@@ -87,7 +84,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         QItemImg itemImg = QItemImg.itemImg;
 
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,
-                item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.category))
+                        item.itemDetail,itemImg.imgUrl,item.price,item.category,item.nature,item.departuredate,item.arrivaldate))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.reqImgYn.eq("Y"))
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
@@ -95,7 +92,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
-
 
 }
 
