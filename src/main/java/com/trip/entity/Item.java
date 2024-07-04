@@ -39,6 +39,9 @@ public class Item extends BaseEntity {
     private String nature; // 국내, 해외
     private String category; // 미국 일본..
     private int stockNumber; // 인원 수
+    private String departuredate;//출발일
+    private String arrivaldate;//도착일
+
 
     @ManyToMany
     @JoinTable(
@@ -46,7 +49,7 @@ public class Item extends BaseEntity {
             joinColumns=@JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private List<Member> member;
+    //private List<Member> member;
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();

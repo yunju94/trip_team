@@ -26,6 +26,7 @@ public class OrderService {
 
     private  final OrderItemRepository orderItemRepository;
     private  final OrderRepository orderRepository;
+
     private  final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
@@ -41,6 +42,7 @@ public class OrderService {
       return orderList;
 
     }
+
 
 
 }

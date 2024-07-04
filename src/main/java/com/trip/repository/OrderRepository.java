@@ -8,11 +8,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
     @Query("select o from Order o where o.member.email = :email")
     List<Order> findOrders(@Param("email") String email);
     //멤버의 이메일과 조인.
     @Query("select count(o) from Order o where o.member.email = :email")
     Long countOrder(@Param("email") String email);
+
 
 
 }

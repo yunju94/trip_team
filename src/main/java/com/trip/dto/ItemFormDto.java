@@ -27,6 +27,12 @@ public class ItemFormDto {
     @NotBlank(message = "이름은 필수 입력 값입니다")
     private String itemDetail;
 
+    @NotBlank(message = "출발일은 필수 입력 값입니다")
+    private String departuredate;
+
+    @NotBlank(message = "도착일은 필수 입력 값입니다")
+    private String arrivaldate;
+
     private ItemSellStatus itemSellStatus;
 
     //-----------------------------------ItemImage

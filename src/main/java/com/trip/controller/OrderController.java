@@ -25,6 +25,7 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+
     @GetMapping(value = "/orders")
     public String ordergo(Principal principal, Model model, OrderDto orderDto){
         //로그인이 비어있는 초기에만 대체용
@@ -52,6 +53,7 @@ public class OrderController {
 
         return "order/orderlist";
     }
+
 
 
 }

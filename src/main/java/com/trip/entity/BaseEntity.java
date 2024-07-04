@@ -13,12 +13,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @Getter
 
-public class BaseEntity {
+public class BaseEntity extends BaseTimeEntity{
 
     @CreatedBy
     @Column(updatable = false)
     private String createBy;
 
     @LastModifiedBy
-    private String modifieBy;
+    private String modifieBy;}
 
