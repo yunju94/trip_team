@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A - 여행사</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em 0;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        main {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            margin: 2em 0;
+            padding: 2em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1em;
+        }
+        .question {
+            margin: 1em 0;
+            padding: 1em;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 5px solid #4CAF50;
+            cursor: pointer;
+        }
+        .question h2 {
+            margin: 0;
+            color: #333;
+        }
+        .answer {
+            display: none;
+            margin-top: 0.5em;
+            padding: 1em;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Q&A - 자주 묻는 질문</h1>
+</header>
+<main>
+    <section class="question" data-question-id="1">
+        <h2>Q: 여행 예약은 어떻게 하나요?</h2>
+        <div class="answer"></div>
+    </section>
+    <section class="question" data-question-id="2">
+        <h2>Q: 여행 취소 정책은 어떻게 되나요?</h2>
+        <div class="answer"></div>
+    </section>
+    <section class="question" data-question-id="3">
+        <h2>Q: 여행 중에 도움이 필요하면 어떻게 하나요?</h2>
+        <div class="answer"></div>
+    </section>
+    <section class="question" data-question-id="4">
+        <h2>Q: 여행 중에 귀중품을 분실하면 어떻게 찾나요?</h2>
+        <div class="answer"></div>
+    </section>
+    <!-- 추가 질문/답변을 여기에 추가하세요 -->
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.question').click(function() {
+            var questionId = $(this).data('question-id');
+            var answerDiv = $(this).find('.answer');
+
+            if (answerDiv.is(':visible')) {
+                answerDiv.slideUp();
+            } else {
+                if (answerDiv.text().trim() === '') {
+                    $.ajax({
+                        url: '/getAnswer',
+                        type: 'GET',
+                        data: { id: questionId },
+                        success: function(response) {
+                            answerDiv.html(response.answer);
+                            answerDiv.slideDown();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error("AJAX Error: " + textStatus + ": " + errorThrown);
+                            console.error("Response Text: " + jqXHR.responseText);
+                            answerDiv.html('답변을 가져오는 중 오류가 발생했습니다.');
+                            answerDiv.slideDown();
+                        }
+                    });
+                } else {
+                    answerDiv.slideDown();
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
