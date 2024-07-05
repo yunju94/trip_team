@@ -42,4 +42,13 @@ public class Member extends BaseEntity {
         member.setRole(Role.ADMIN);
         return member;
     }
+
+    public void updatemember(MemberFormDto memberFormDto){
+        this.name = memberFormDto.getName();
+        this.email = memberFormDto.getEmail();
+        this.address = memberFormDto.getAddress();
+        this.tel = memberFormDto.getTel();
+
+
+    }
 }

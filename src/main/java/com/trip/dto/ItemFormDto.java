@@ -32,7 +32,7 @@ public class ItemFormDto {
 
     @NotBlank(message = "도착일은 필수 입력 값입니다")
     private String arrivaldate;
-
+    private int stockNumber; // 인원 수
     private ItemSellStatus itemSellStatus;
 
     //-----------------------------------ItemImage

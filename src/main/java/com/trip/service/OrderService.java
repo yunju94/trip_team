@@ -3,6 +3,7 @@ package com.trip.service;
 import com.trip.dto.OrderHistDto;
 import com.trip.dto.OrderItemDto;
 import com.trip.entity.ItemImg;
+import com.trip.entity.Member;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
 import com.trip.repository.ItemImgRepository;
@@ -71,9 +72,14 @@ public class OrderService {
     }
 
     public  Optional<OrderItem> orderItemDetail(Optional<Order> order){
-        return orderItemRepository.findById(order.get().getId());
+        return Optional.ofNullable(orderItemRepository.findById(order.get().getId()).orElseThrow(EntityNotFoundException::new));
     }
 
+    public  Optional<Order> orderfind(String email){
+        Member member = memberRepository.findByEmail(email);
+        Optional<Order> order = orderRepository.findById(member.getId());
+        return order;
+    }
 
 
 }
