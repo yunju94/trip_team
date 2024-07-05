@@ -1,13 +1,17 @@
 package com.trip.entity;
 
+import com.trip.constant.Category;
 import com.trip.constant.ItemSellStatus;
 import com.trip.dto.ItemFormDto;
+import com.trip.exception.OutOfStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.lang.reflect.Member;
+import com.trip.entity.Member;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,47 +24,59 @@ public class Item extends BaseEntity {
     @Id
     @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; //상품코드
+    private Long id; // 상품코드
 
-    @Column(nullable = false, length = 50)
-    private String itemNm; // 상품명
+    @Column(nullable = false,length = 50)
+    private String itemNm; // 패키지명
 
     @Column(name = "price", nullable = false)
-    private int price; //가격
+    private int price; // 가격
+
+    @Column(nullable = false)
+    private int stockNumber; // 인원
 
     @Lob
     @Column(nullable = false)
-    private String itemDetail; //상품 상세 설명
+    private String itemDetail; // 상품상세설명
 
     @Enumerated(EnumType.STRING)
-    private ItemSellStatus itemSellStatus; // 상품 판매 상태
+    private ItemSellStatus itemSellStatus; // 상품판매 상태
+
+    @Column(nullable = false)
+    private LocalDate startDate; // 출발 날짜
+
+    @Column(nullable = false)
+    private LocalDate endDate; // 도착 날짜
+
+    @Enumerated(EnumType.STRING)
+    private Category category; // 국내 해외
 
 
-    private String nature; // 국내, 해외
-    private String category; // 미국 일본..
-    private int stockNumber; // 인원 수
-    private String departuredate;//출발일
-    private String arrivaldate;//도착일
 
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "member_item",
-            joinColumns=@JoinColumn(name = "member_id"),
+            joinColumns =  @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    //private List<Member> member;
+    private List<Member> member;
 
-    public void updateItem(ItemFormDto itemFormDto) {
+    public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();
         this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
-    public  void  cancelAdditem(int stockNumber){
-        this.stockNumber += stockNumber;
-        //인원수를 다시 받아서 증가시킨다.
+    public void removeStock(int stockNumber) {
+        int restStock = this.stockNumber - stockNumber; // 10, 5 / 10, 20
+        if (restStock<0) {
+            throw new OutOfStockException("현재 선택하신 상품의 가용인원이 부족합니다.(현재 상품 구매 가능인원: "+this.stockNumber+")");
+        }
+        this.stockNumber = restStock; // 5
     }
+
+    public void addStock(int stockNumber) {this.stockNumber += stockNumber;}
 
 }

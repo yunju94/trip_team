@@ -28,23 +28,22 @@ public class ItemService {
     private final ItemImgService itemImgService;
     private  final ItemImgRepository itemImgRepository;
 
-    public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws  Exception{
-        //상품 등록
+    public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList)
+            throws Exception{
+        //상품등록
         Item item = itemFormDto.createItem();
         itemRepository.save(item);
         //이미지 등록
-        System.out.println(itemImgFileList.size());
-        for (int i = 0 ; i< itemImgFileList.size(); i++){
+        for (int i=0; i<itemImgFileList.size();i++) {
             ItemImg itemImg = new ItemImg();
             itemImg.setItem(item);
-            if (i==0){
+            if (i==0)
                 itemImg.setReqImgYn("Y");
-            }else {
+            else
                 itemImg.setReqImgYn("N");
-            }
-            itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
+            itemImgService.saveItemImg(itemImg,itemImgFileList.get(i));
         }
-        return  item.getId();
+        return item.getId();
     }
 
     @Transactional(readOnly = true)
@@ -83,14 +82,12 @@ public class ItemService {
         return item.getId();
     }
 
-    @Transactional(readOnly = true) // 쿼리문 실행 읽기만 함
-    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    @Transactional(readOnly = true) // 쿼리문 실행  읽기만 가능
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getAdminItemPage(itemSearchDto,pageable);
     }
-
-    @Transactional(readOnly = true) // 쿼리문 실행 읽기만 함
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-        return itemRepository.getMainItemPage(itemSearchDto, pageable);
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return  itemRepository.getMainItemPage(itemSearchDto,pageable);
     }
-
 }
