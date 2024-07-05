@@ -38,7 +38,7 @@
                         <a class="nav-link" href="/qna">Q&A</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">패키지 작성</a>
+                        <a class="nav-link" href="/admin/item/new">패키지 작성</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">공지사항 작성</a>
@@ -56,6 +56,9 @@
                             <li><a class="dropdown-item" href="">마이페이지</a></li>
                         </ul>
                     </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
                     </li>
                     <li class="nav-item" sec:authorize = "isAnonymous()">
                         <a class="nav-link" href="/members/login" id="loginBtn" >로그인</a>
