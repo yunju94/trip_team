@@ -34,11 +34,7 @@ public class ItemController {
     @PostMapping(value = "/admin/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model,
                           @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
-        System.out.println("1");
-        System.out.println(itemFormDto.getStartDate());
-        System.out.println(itemFormDto.getEndDate());
-        System.out.println(bindingResult);
-        System.out.println(itemFormDto.getStockNumber());
+
         if (bindingResult.hasErrors()) {
             System.out.println("2");
             return "item/itemForm";

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+<style>
+    div {
+     display: block;
+     unicode-bidi: isolate;
+ }
+     hr{
+         width: 100px;
+     }
+     .mypage{
+         float: left;
+         margin-right: 20px;
+     }
+     .orderlist{
+         float: left;
+         width: 900px;
+     }
+     .tit {
+     display: table-cell;
+     vertical-align: middle;
+ }
+</style>
+</th:block>
+
+<div layout:fragment="content">
+
+        <div>
+            <div class="mypage">
+                <h3>마이페이지</h3>
+                <div>
+                    <ul style="list-style: none">
+                        <hr style="border: 1px solid rgb(34, 34, 34);">
+                        <li ><a href="/mypage">예약내역</a></li>
+                        <hr>
+                        <li><a>찜</a></li>
+                        <hr>
+                        <li><a>마일리지</a></li>
+                        <hr>
+                        <li><a>쿠폰함</a></li>
+                        <hr>
+                        <li><a>1:1문의</a></li>
+                        <hr>
+                        <li><a href="/qna">자주 찾는 질문</a></li>
+                        <hr>
+                        <li><a>My 여행 후기</a></li>
+                        <hr>
+                        <li><a href="/updateInfo">개인정보 수정</a></li>
+                        <hr style="border: 1px solid rgb(34, 34, 34);">
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="orderlist">
+                <div>
+                    <h3 class="tit">예약 내역</h3>
+                </div>
+                <div>
+
+                    <table>
+                        <div th:each="order : ${orderlist}">
+                            <tr >
+                                <td th:text="${order.orderDate}"></td><!--주문 시간-->
+                                <td th:text="${order.id}"></td><!--주문번호-->
+                            </tr>
+                            <tr >
+                                <td rowspan="3" th:src="${order.imgUrl}"></td><!--이미지-->
+                                <td th:text="${order.itemNm}"></td><!--상품명-->
+                            </tr>
+                            <tr >
+                                <td th:text="${order.count}"></td><!--인원-->
+                            </tr>
+                            <tr >
+                                <td th:text="${order.orderprice}"></td><!--가격-->
+
+                            </tr>
+                            <tr>
+                                <td >
+                                    <button th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}" type="button" value="${order.orderId}" onclick="orderCancel(this.value)" >주문 취소</button>
+                                    <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                                </td>
+                                <td><button type="button" value="${order.orderId}" onclick="/order/detail/{this.value}">주문 상세보기</button></td>
+                            </tr>
+                        </div>
+
+                    </table>
+                    </div>
+           </div>
+
+
+      </div>
+
+ </div>
+
+</html>

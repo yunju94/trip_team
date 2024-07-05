@@ -28,6 +28,7 @@ public class ItemFormDto {
 
     @NotBlank(message = "상세설명은 필수 입력 값입니다.")
     private String itemDetail;
+// 인원 수
 
     @NotNull(message = "마감인원은 필수 입력 값입니다.")
     private Integer stockNumber;

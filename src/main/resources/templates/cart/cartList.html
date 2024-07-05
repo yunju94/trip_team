@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<!--사용자 스크립트 추가-->
 
-</body>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function deleteItemList(cartItemId){
+            var token =$("meta[name='_csrf']").attr("content");
+            var header =$("meta[name='_csrf_header']").attr("content");
+
+            var url = "/cart/"+ cartItemId + "/delete";
+            var paramData = {
+                orderId : orderId,
+            }
+            //json 문자열 형식으로 변경
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url : url,
+                type : "POST",
+                contentType : "application/json",
+                data : param,
+                beforeSend : function(xhr){
+                    /*데이터 전송하기 전에 헤더에 csrf 값 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType : "json",
+                cache : false,
+                success : function(result, status){
+                    alert("주문이 취소 되었습니다.");
+                    location.href='/orders/' + [[${page}]];
+                },
+               error : function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요.');
+                        location.href = '/members/login';
+                    }else{
+                        alert(jqXHR.responseText);
+                    }
+               }
+
+            });
+
+        }
+    </script>
+</th:block>
+
+
+<th:block layout:fragment="css">
+
+    <style>
+        table, th, td{
+            border: 1px solid #ccc;
+        }
+        th, td { padding: 10px 20px;}
+        .popup_layer{
+            list-style:none
+        }
+
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <table>
+        <tr>
+            <td>주문번호</td>
+            <td>상품명</td>
+            <td>여행 날짜</td>
+            <td>상품</td>
+            <td>인원</td>
+            <td>가격</td>
+            <td><button type="button">삭제</button> </td>
+        </tr>
+
+        <div th:each="cart, status : ${cartitem}">
+            <tr>
+                <td th:text="${cart.id}"></td><!--id 번호-->
+                <td th:text="${cart.itemNm}"></td><!--상품명-->
+                <td th:text="${cart.departuredate}"></td><!--출발일-->
+                <td th:text="${cart.count}"></td><!--인원-->
+                <td th:text="${cart.orderprice}"></td><!--가격-->
+            <td><button type="button" onclick="deleteItemList(this.value)" value="${cart.id}">삭제</button> </td>
+            </tr>
+        </div>
+
+    </table>
+
+</div>
+
 </html>
