@@ -2,7 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<link href="headers.css" rel="stylesheet">
 
+<style>
+    .b-example-divider {
+  width: 100%;
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.b-example-vr {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 100vh;
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+</style>
 <body>
 
 <div th:fragment="header">
@@ -37,8 +78,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/qna">Q&A</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/item/new">패키지 작성</a>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">공지사항 작성</a>
@@ -56,6 +99,9 @@
                             <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
                         </ul>
                     </div>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
                     </li>
                     <li class="nav-item" sec:authorize = "isAnonymous()">
                         <a class="nav-link" href="/members/login" id="loginBtn" >로그인</a>

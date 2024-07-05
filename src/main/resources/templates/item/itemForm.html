@@ -12,6 +12,15 @@
         alert(errorMessage);
     }
     blindDomEvent();
+    $('#startDate').change(function(){
+      var startDate = new Date($(this).val());
+      $('#startDate').text("출발날짜 : " + startDate.getFullYear() + "년 " + (startDate.getMonth() + 1) + "월 " + startDate.getDate() + "일");
+    });
+
+    $('#endDate').change(function(){
+      var endDate = new Date($(this).val());
+      $('#endDate').text("복귀날짜 : " + endDate.getFullYear() + "년 " + (endDate.getMonth() + 1) + "월 " + endDate.getDate() + "일");
+    });
     });
 
     function bindDomEvent(){
@@ -50,22 +59,28 @@
 </th:block>
 <div layout:fragment="content">
   <form role="form" class="container" method="post" enctype="multipart/form-data" th:object="${itemFormDto}">
-    <p class="h2">상품 등록</p>
+    <p class="h2">패키지 등록</p>
 
     <input type="hidden" th:field="*{id}">
 
     <div class="row mb-4">
       <select th:field="*{itemSellStatus}" class="form-select">
-        <option value="SELL">판매중</option>
-        <option value="SOLD_OUT">품절</option>
+        <option value="SELL">예약가능</option>
+        <option value="SOLD_OUT">마감</option>
+      </select>
+    </div>
+    <div class="row mb-4">
+      <select th:field="*{category}" class="form-select">
+        <option value="DOMESTIC">국내</option>
+        <option value="OVERSEAS">해외</option>
       </select>
     </div>
 
     <div class = "input-group">
       <div class="input-group-prepend">
-        <span class = "input-group-text">상품명</span>
+        <span class = "input-group-text">패키지 등록</span>
       </div>
-      <input type="text" th:field="*{itemNm}" class="form-control" placeholder="상품명을 입력해주세요">
+      <input type="text" th:field="*{itemNm}" class="form-control" placeholder="패키지명을 입력해주세요">
 
     </div>
     <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError">Incorrect data</p>
@@ -74,17 +89,42 @@
       <div class="input-group-prepend">
         <span class="input-group-text">가격</span>
       </div>
-      <input type="number" th:field="*{price}" class="form-control" placeholder="상품의 가격을 입력해주세요">
+      <input type="number" th:field="*{price}" class="form-control" placeholder="상품의 가격을 입력해주세요.">
     </div>
 
-    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError">Incorrect data</p>
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text">재고</span>
+        <span class="input-group-text">인원</span>
       </div>
-      <input type="number" th:field="*{stockNumber}" class="form-control" placeholder="상품의 재고를 입력해주세요.">
+      <input type="number" th:field="*{stockNumber}" class="form-control" placeholder="최대 여행 인원을 입력해주세요.">
     </div>
-    <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">출발 날짜</span>
+      </div>
+      <input type="date" th:field="*{startDate}" class="form-control" th:format="yyyy-MM-dd" id="startDate" min="2024-07-01" max="2050-12-31">
+      <div  id="startDateDisplay" ></div>
+    </div>
+    <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="fieldError">Incorrect data</p>
+
+    <!-- 복귀 날짜 입력 필드 -->
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">복귀 날짜</span>
+      </div>
+      <input type="date"  th:field="*{endDate}" class="form-control" th:format="yyyy-MM-dd" id="endDate" min="2024-07-01" max="2050-12-31">
+      <div id="endDateDisplay"  ></div>
+
+    </div>
+    <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="fieldError">Incorrect data</p>
+
+
+
+
+
+
+
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">상품 상세 내용</span>
