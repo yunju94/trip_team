@@ -34,14 +34,23 @@
    </style>
 </th:block>
 <div layout:fragment="content">
-   <a href="/members/login">로그인</a>
 
-  <!--  <a href="/admin/item/new">아이템 버튼테스트</a> -->
-<button type="button" onclick="location.href='/members/new'">회원가입</button>
-<button type="button" onclick="location.href='/qna'">Q&A</button>
+    <div class="container text-center">
+        <div class="row row-cols-5">
+            <th:block th:each="item, status: ${items.getContent()}">
+                <div class="col">
+                    <div class="card">
+                        <a th:href="'/item/' + ${item.id}" class="text-dark">
+                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="400" width="1000">
 
-<div>
-    <a href="/orders">마이 페이지</a>
+                        </a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+
 </div>
 </div>
 </html>
