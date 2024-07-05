@@ -1,206 +1,191 @@
 <!DOCTYPE html>
-<!--타임리프 임포트-->
-<html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link th:href="@{/css/layout1.css}" rel="stylesheet">
-
-<!--사용자 CSS 추가-->
-<th:block layout:fragment="script">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link th:href="@{/css/layout1.css}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
-              var errorMessage = [[${errorMessage}]];
-               if(errorMessage != null){
-               alert(errorMessage);
-         }
+            var errorMessage = /*[[${errorMessage}]]*/ null;
+            if (errorMessage != null) {
+                alert(errorMessage);
+            }
         });
     </script>
-</th:block>
-
-<th:block layout:fragment="css">
-    <style>
-        .loginLogo{
-         position: relative;
-        text-align: center;
-         margin: 0 auto;
-       display: block;
-
-    height: 4.5rem;
-    background-size: 100%;
-    }
+    <style th:inline="css">
+        .loginLogo {
+            position: relative;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+            height: 4.5rem;
+            background-size: 100%;
+        }
 
         .form-signin {
-         position: relative;
-        max-width: 600px;
-        padding: 2rem;
-        margin: 0 auto;
-        }
-            @media (min-width: 800px) {
-                .bd-placeholder-img-lg {
-                  font-size: 3.5rem;
-                }
-
-        .form-signin .form-floating:focus-within {
-         position: relative;
-
-
+            position: relative;
+            max-width: 600px;
+            padding: 2rem;
+            margin: 0 auto;
         }
 
-        .form-signin input[type="email"] {
-        margin-bottom: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-        }
+        @media (min-width: 800px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
 
-        .form-signin input[type="password"] {
-        border-top:0px;
-        margin: 0;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        }
-        label{
-         position: relative;
-        color: #a9a9a9
-        }
+            .form-signin .form-floating:focus-within {
+                position: relative;
+            }
 
-         .error{
-                color:#bd2130;
-                }
+            .form-signin input[type="email"] {
+                margin-bottom: 0;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
 
-        .btn-primary {
+            .form-signin input[type="password"] {
+                border-top: 0px;
+                margin: 0;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
 
-                 display: block;
-                    width: 100%;
-                   padding: 15px;;
-                    font-size: 1rem;
-                    font-weight: 600;
-                    text-align: center;
-                    color: #fff;
-                    background-color: #0d6efd;
-                    border: 1px solid #0d6efd;
-                    border-radius: 10px;
-                    transition: background-color 0.3s;
-              }
-                 .btn-primary:hover {
-                    background-color: #1E90FF;
-                     border-color: #1E90FF;
+            label {
+                position: relative;
+                color: #a9a9a9
+            }
 
-                }
+            .error {
+                color: #bd2130;
+            }
 
+            .btn-primary {
+                display: block;
+                width: 100%;
+                padding: 15px;
+                font-size: 1rem;
+                font-weight: 600;
+                text-align: center;
+                color: #fff;
+                background-color: #0d6efd;
+                border: 1px solid #0d6efd;
+                border-radius: 10px;
+                transition: background-color 0.3s;
+            }
 
+            .btn-primary:hover {
+                background-color: #1e90ff;
+                border-color: #1e90ff;
+            }
 
-            .member{
-             max-width: 9000px;
-                    margin: 0 auto;
-            text-align: center; /* 가운데 정렬을 위한 추가 */
+            .member {
+                max-width: 9000px;
+                margin: 0 auto;
+                text-align: center;
             }
 
             .button {
-              display: inline-block;
-                    color: white;
-                    padding: 3px;
-                    text-decoration: none;
-                    margin:  3px;
-                    transition: all 0.3s ease;
-                    border-radius: 0.25rem;
-                    text-align: center;
+                display: inline-block;
+                color: white;
+                padding: 3px;
+                text-decoration: none;
+                margin: 3px;
+                transition: all 0.3s ease;
+                border-radius: 0.25rem;
+                text-align: center;
             }
-
 
             .button--google {
-        background-color: #ffffff;
-    margin-left: 10px;
-              margin-right:1px;
-
+                background-color: #ffffff;
+                margin-left: 10px;
+                margin-right: 1px;
             }
-             .button--google:hover {
-                    color: #b53a2e;
-                    margin-right: 2px;
 
-                }
-
+            .button--google:hover {
+                color: #b53a2e;
+                margin-right: 2px;
+            }
 
             .button--kakao {
-       margin-left: 7px;
-              margin-right:1px;
-              background-color: #ffffff;
-
-
-
+                margin-left: 7px;
+                margin-right: 1px;
+                background-color: #ffffff;
             }
-             .button--kakao:hover {
-                    color: #e3c300;
-                    margin-left: 2px;
 
-                }
+            .button--kakao:hover {
+                color: #e3c300;
+                margin-left: 2px;
+            }
 
             .button--naver {
-              background-color: #ffffff;
- margin-left: 5px;
-              margin-right:1px;
-
+                background-color: #ffffff;
+                margin-left: 5px;
+                margin-right: 1px;
             }
-           .button--naver:hover {
-                    color: #2cb82c;
-                    margin-left: 2px;
-                }
 
-
-
-
+            .button--naver:hover {
+                color: #2cb82c;
+                margin-left: 2px;
+            }
+        }
     </style>
-</th:block>
-
-
+</head>
+<body>
 <main class="form-signin w-110 m-60">
-    <table>
+    <div class="loginLogo">
+        <img th:src="@{/css/images/logo.png}" height="50">
+    </div>
 
-            <div class="loginLogo"><img th:src="@{/css/images/logo.png}" height="50">
+    <div style="width:80%; margin:0 auto;">
+        <form action="/members/login" role="form" method="post">
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="이메일">
+                <label for="floatingInput">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#a9a9a9"
+                         class="bi bi-person" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                    </svg>
+                    이메일 입력
+                </label>
             </div>
 
-            <div style="width:80%; margin:0 auto;">
-                <form action="/members/login" role="form" method="post">
-                    <div class="form-floating">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="이메일">
-                        <label th:for="floatingInput">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#a9a9a9"
-                                 class="bi bi-person" viewBox="0 0 16 16">
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                            </svg>
-                            이메일 입력 </label>
-                    </div>
-
-                    <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호">
-                        <label th:for="floatingPassword">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#a9a9a9"
-                                 class="bi bi-lock" viewBox="0 0 16 16">
-                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
-                            </svg>
-                            비밀번호 입력 </label>
-                    </div>
-
-                    <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
-                    <button class="btn btn-primary w-100 py-2 mt-3" type="submit">로그인</button>
-
-                </form>
-            </div>
-            <div class="wrapper" style="text-align: center;">
-
-                <a href="/oauth2/authorization/google" class="button button--google"><img
-                        th:src="@{/css/images/google.png}" height="50">Google</a>
-                <a href="/oauth2/authorization/kakao" class="button button--kakao "> <img
-                        th:src="@{/css/images/kakao.png}" height="50">Kakao</a>
-                <a href="/oauth2/authorization/naver" class="button button--naver "><img
-                        th:src="@{/css/images/naver.png}" height="50">Naver</a>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="비밀번호">
+                <label for="floatingPassword">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="#a9a9a9"
+                         class="bi bi-lock" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                    </svg>
+                    비밀번호 입력
+                </label>
             </div>
 
-            <div class="member">
-                <a href="/members/new">회원가입</a>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            </div>
+            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+            <button class="btn btn-primary w-100 py-2 mt-3" type="submit">로그인</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
 
-    </table>
+    <div class="wrapper" style="text-align: center;">
+        <a href="/oauth2/authorization/google" class="button button--google">
+            <img th:src="@{/css/images/google.png}" height="50">
+            Google
+        </a>
+        <a href="/oauth2/authorization/kakao" class="button button--kakao">
+            <img th:src="@{/css/images/kakao.png}" height="50">
+            Kakao
+        </a>
+        <a href="/oauth2/authorization/naver" class="button button--naver">
+            <img th:src="@{/css/images/naver.png}" height="50">
+            Naver
+        </a>
+    </div>
+
+    <div class="member">
+        <a href="/members/new">회원가입</a>
+    </div>
 </main>
-
-
+</body>
 </html>
