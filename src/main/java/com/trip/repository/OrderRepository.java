@@ -12,6 +12,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("select o from Order o where o.member.email = :email")
     List<Order> findOrders(@Param("email") String email, Pageable pageable);
+
+    @Query("select o from Order o where o.member.email = :email")
+    Order findByOrders(@Param("email") String email);
     //멤버의 이메일과 조인.
     @Query("select count(o) from Order o where o.member.email = :email")
     Long countOrder(@Param("email") String email);

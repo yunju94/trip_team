@@ -108,6 +108,28 @@
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 
+
+
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>react-slick</artifactId>
+			<version>0.24.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>slick-carousel</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+
+
+
+
+
 	</dependencies>
 
 	<build>
