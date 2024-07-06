@@ -1,119 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <link href="headers.css" rel="stylesheet">
 
-<style>
-    .b-example-divider {
-  width: 100%;
-  height: 3rem;
-  background-color: rgba(0, 0, 0, .1);
-  border: solid rgba(0, 0, 0, .15);
-  border-width: 1px 0;
-  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-}
+    <style>
 
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
-}
+        .b-example-divider {
+          width: 100%;
+          height: 3rem;
+          background-color: rgba(0, 0, 0, .1);
+          border: solid rgba(0, 0, 0, .15);
+          border-width: 1px 0;
+          box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+        .a {
+          color:black;
+        }
 
-.bi {
-  vertical-align: -.125em;
-  fill: currentColor;
-}
+nav-item{
+list-style-type: none;
+        }
 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
 
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
 
-</style>
+
+    </style>
+
 <body>
-
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarTogglerDemo03"
-                    aria-controls="navbarTogglerDemo03"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <div class="container">
+        <header class="d-flex  align-items-center  py-3 mb-4 border-bottom">
             <a class="navbar-brand" href="/">
-                 <img th:src="@{/css/images/logo.png}" height="50">
-                </a>
+                <img th:src="@{/css/images/logo.png}" height="50">
+            </a>
 
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <svg width="100" height="100"></svg>
 
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                        <a class="nav-link" href="">모든메뉴</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">국내 여행</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">해외 여행</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">이벤트</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/qna">Q&A</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/item/new">패키지 작성</a>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2">모든메뉴</a></li>
+                <li><a href="#" class="nav-link px-2 link-secondary">국내 여행</a></li>
+                <li><a href="#" class="nav-link px-2 link-secondary">해외 여행</a></li>
+                <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
+                <li><a href="/qna" class="nav-link px-2 link-secondary">Q&A</a></li>
+            </ul>
 
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">공지사항 작성</a>
-                    </li>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/admin/item/new" class="nav-link px-2 link-secondary">패키지 작성</a></li>
+                <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
+            </ul>
 
-                    <li class="nav-item">
-                    <div class="dropdown-center">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            마이페이지
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/orders">예약 내역</a></li>
-                            <li><a class="dropdown-item" href="/cart">찜 내역</a></li>
-                            <li><a class="dropdown-item" href="#">1:1문의</a></li>
-                            <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
-                        </ul>
-                    </div>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
-                    </li>
-                    <li class="nav-item" sec:authorize = "isAnonymous()">
-                        <a class="nav-link" href="/members/login" id="loginBtn" >로그인</a>
-                    </li>
-                    <li class="nav-item" sec:authorize = "isAuthenticated()">
-                        <a class="nav-link" href="/members/logout">로그아웃</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/members/login" class="nav-link px-2">로그인</a></li></ul>
 
+                <div class="dropdown-center">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        마이페이지
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/orders">예약 내역</a></li>
+                        <li><a class="dropdown-item" href="/cart">찜 내역</a></li>
+                        <li><a class="dropdown-item" href="#">1:1문의</a></li>
+                        <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
+                    </ul>
+                </div>
+
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
+            </ul>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <a class="nav-link" href="/members/logout">로그아웃</a>
+            </ul>
+
+            </header>
+    </div>
+    </div>
 </body>
 </html>
