@@ -36,7 +36,7 @@ public class ItemController {
                           @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
 
         if (bindingResult.hasErrors()) {
-            System.out.println("2");
+
             return "item/itemForm";
         }
         if (itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null) {
@@ -44,7 +44,7 @@ public class ItemController {
                     "첫번째 상품 이미지는 필수 입력 값입니다.");
             return "item/itemForm";
         }
-        System.out.println("3");
+
         try {
             System.out.println(itemFormDto.getStartDate());
             itemService.saveItem(itemFormDto, itemImgFileList);

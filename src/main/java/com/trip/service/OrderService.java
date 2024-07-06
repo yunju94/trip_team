@@ -1,15 +1,10 @@
 package com.trip.service;
 
+import com.trip.dto.OrderDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.dto.OrderItemDto;
-import com.trip.entity.ItemImg;
-import com.trip.entity.Member;
-import com.trip.entity.Order;
-import com.trip.entity.OrderItem;
-import com.trip.repository.ItemImgRepository;
-import com.trip.repository.MemberRepository;
-import com.trip.repository.OrderItemRepository;
-import com.trip.repository.OrderRepository;
+import com.trip.entity.*;
+import com.trip.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.trip.entity.QOrder.order;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,6 +27,7 @@ public class OrderService {
     private  final OrderItemRepository orderItemRepository;
     private  final OrderRepository orderRepository;
     private  final ItemImgRepository itemImgRepository;
+    private  final ItemRepository itemRepository;
 
     private  final MemberRepository memberRepository;
 
@@ -58,6 +56,30 @@ public class OrderService {
 
     }
 
+
+
+    @Transactional(readOnly = true)
+    public List<OrderHistDto> order(String email) {
+        //orderhist에 필요한 것. 주문 리스트(가격), 총 갯수, 이미지파일, item이름
+        Order orders = orderRepository.findByOrders(email);
+        //이메일로 주문 리스트 뽑아내기 + 갯수에 따라 페이지로 만들기
+
+        List<OrderHistDto> orderHistDtos = new ArrayList<>();
+
+            OrderHistDto orderHistDto = new OrderHistDto(orders);
+            List<OrderItem> orderItems = orders.getOrderItems();
+            for (OrderItem orderItem : orderItems){
+                ItemImg itemImg = itemImgRepository.findByItemIdAndReqImgYn(orderItem.getItem().getId(), "Y");
+                OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
+                orderHistDto.addOrderItemDto(orderItemDto);
+            }
+            orderHistDtos.add(orderHistDto);
+
+
+        return orderHistDtos;
+
+    }
+
     public void  orderCancel(Long orderId){
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         //오더 레포지토리에 아이디를 넣어서 해당 오더를 찾는다.
@@ -79,6 +101,19 @@ public class OrderService {
         Member member = memberRepository.findByEmail(email);
         Optional<Order> order = orderRepository.findById(member.getId());
         return order;
+    }
+    public Long order(OrderDto orderDto, String email){
+        Item item = itemRepository.findById(orderDto.getItemId())
+                .orElseThrow(EntityNotFoundException::new);
+        Member member = memberRepository.findByEmail(email);
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+        orderItemList.add(orderItem);
+
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+        return  order.getId();
     }
 
 

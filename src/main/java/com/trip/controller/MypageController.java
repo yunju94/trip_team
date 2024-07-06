@@ -59,8 +59,10 @@ public class MypageController {
         }
         try {
             memberService.updateMember(memberFormDto);
+            model.addAttribute("errorMessage", "완료되었습니다.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "수정 중 에러가 발생하였습니다.");
+
 
         }
 

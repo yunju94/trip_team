@@ -39,30 +39,6 @@ class OrderControllerTest {
     OrderItemRepository orderItemRepository;
 
 
-    public Member createMember(){
-        Member member = new Member();
-        MemberFormDto memberFormDto = new MemberFormDto();
-        memberFormDto.setName("홍길동");
-        memberFormDto.setAddress("인천");
-        memberFormDto.setEmail("a@naver.com");
-        memberFormDto.setTel("010");
-        memberFormDto.setPassword("1234");
-        return  Member.createMember((memberFormDto), passwordEncoder);
-    }
-
-
-    public Order createorder(){
-        Member member = createMember();
-        Order order = new Order(member.getId(),member, LocalDateTime.now(), OrderStatus.SELL);
-        return order;
-    }
-
-    @Test
-    @DisplayName("상품 접근 테스트")
-    public void Test() throws  Exception{
-
-
-    }
 
 
 }
