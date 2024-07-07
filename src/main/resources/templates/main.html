@@ -15,11 +15,12 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function(){
-            $('.slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 4,
-                autoplay: true,
-                autoplaySpeed: 2000,
+           $('.slider').slick({
+            slidesToShow: 4,
+            slidesToScroll:1,
+            autoplay: true,
+            arrows: true,
+            autoplaySpeed: 2000,
                 responsive: [
                      {
                         breakpoint: 4000,
@@ -57,6 +58,10 @@
 
 <th:block layout:fragment="css">
     <style>
+        .slider{
+        width:auto;
+        margin: 0 auto;
+        }
     </style>
 </th:block>
 
