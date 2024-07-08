@@ -2,6 +2,7 @@ package com.trip.entity;
 
 import com.trip.constant.Nature;
 import com.trip.constant.ItemSellStatus;
+
 import com.trip.constant.RegionDo;
 import com.trip.dto.ItemFormDto;
 import com.trip.exception.OutOfStockException;
