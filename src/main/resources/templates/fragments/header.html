@@ -51,7 +51,7 @@ list-style-type: none;
                 <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
             </ul>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" sec:authorize = "isAnonymous()">
                 <li><a href="/members/login" class="nav-link px-2">로그인</a></li></ul>
 
                 <div class="dropdown-center">
@@ -67,11 +67,11 @@ list-style-type: none;
                 </div>
 
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"  sec:authorize="isAuthenticated()">
                 <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
             </ul>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" sec:authorize = "isAuthenticated()">
                 <a class="nav-link" href="/members/logout">로그아웃</a>
             </ul>
 
