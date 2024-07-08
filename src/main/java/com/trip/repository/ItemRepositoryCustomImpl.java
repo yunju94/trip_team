@@ -52,11 +52,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         String Date = StartPlace;
         String startDate = Date.substring(10);//08/06/2024
         String[] str = startDate.split("/");
-        String Start = str[2] +"-" + str[0]+"-" + str[1]; //2024-08-06
+        String Start =  str[6]+str[7]+str[8]+str[9]+"-"+ str[0]+ str[1]+"-"+ str[3]+ str[4]; //2024-08-06
 
         String endDate = Date.substring(17, 27); //08/09/2024
         str = endDate.split("/");
-        String End = str[2] +"-" + str[0]+"-" + str[1]; //2024-08-09
+        String End = str[6]+str[7]+str[8]+str[9]+"-" + str[0]+ str[1]+"-"+ str[3]+ str[4]; //2024-08-09
 
         return QItem.item.startDate.eq(LocalDate.parse(Start));
 
