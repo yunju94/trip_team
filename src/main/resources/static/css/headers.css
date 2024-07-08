@@ -6,3 +6,6 @@
 .dropdown-toggle:not(:focus) {
   outline: 0;
 }
+.nav-link:hover {
+    text-decoration: underline;
+}
