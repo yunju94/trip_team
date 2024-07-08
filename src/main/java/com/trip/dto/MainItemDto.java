@@ -1,7 +1,6 @@
 package com.trip.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.trip.constant.Category;
 import lombok.Getter;
 import lombok.Setter;
 
