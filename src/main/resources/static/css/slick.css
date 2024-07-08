@@ -25,7 +25,7 @@
     display: block;
     overflow: hidden;
 
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
 }
 .slick-list:focus
@@ -36,6 +36,7 @@
 {
     cursor: pointer;
     cursor: hand;
+    margin: 0 auto;
 }
 
 .slick-slider .slick-track,
@@ -101,6 +102,7 @@
 .slick-initialized .slick-slide
 {
     display: block;
+    width:740px;
 }
 .slick-loading .slick-slide
 {

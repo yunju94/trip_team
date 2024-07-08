@@ -27,7 +27,9 @@ public class MainController {
     public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+
         model.addAttribute("items", items);//이미지 꺼내는 용
+        model.addAttribute("itemSearchDto", itemSearchDto);
         return "main";
     }
 }
