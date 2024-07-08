@@ -125,7 +125,6 @@
 			<artifactId>slick-carousel</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -135,8 +134,9 @@
 
 
 
-
 	</dependencies>
+
+
 
 	<build>
 		<plugins>

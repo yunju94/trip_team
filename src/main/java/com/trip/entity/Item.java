@@ -1,8 +1,12 @@
 package com.trip.entity;
 
+import com.trip.constant.Category;
 import com.trip.constant.Nature;
 import com.trip.constant.ItemSellStatus;
+
+
 import com.trip.constant.RegionDo;
+
 import com.trip.dto.ItemFormDto;
 import com.trip.exception.OutOfStockException;
 import jakarta.persistence.*;
@@ -50,7 +54,7 @@ public class Item extends BaseEntity {
     private Nature nature; // 국내 해외
 
     @Enumerated(EnumType.STRING)
-    private RegionDo regionDo; // 지역
+    private Category category; // 지역
 
 
 
