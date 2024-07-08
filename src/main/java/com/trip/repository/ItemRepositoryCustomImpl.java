@@ -1,10 +1,10 @@
 package com.trip.repository;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import com.trip.constant.ItemSellStatus;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.dto.QMainItemDto;
@@ -15,12 +15,13 @@ import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.thymeleaf.util.StringUtils;
 
 
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.trip.constant.Nature.DOMESTIC;
+import static com.trip.constant.Nature.OVERSEAS;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     private JPAQueryFactory queryFactory; // 동적쿼리 사용하기 위해 JPAQueryFactory 변수 선언
@@ -28,51 +29,52 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     public ItemRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em); // JPAQueryFactory 실질적인 객체 생성
     }
-    private BooleanExpression searchSellStatusEq(ItemSellStatus searchSellStatus){
-        return searchSellStatus == null ?
-                null : QItem.item.itemSellStatus.eq(searchSellStatus);
-        //ItemSellStatus null  이면 null 리턴 / null 아니면 SELL , SOLD 둘중 하나 리턴
-    }
-    private BooleanExpression regDtsAfter(String searchDateType) { // all, 1d , 1w, 1m 6m
-        LocalDateTime dateTime = LocalDateTime.now(); // 현재시간을 추출해서 변수에 대입
+    //여행지
+    private BooleanExpression searchNatureStatusEq(String nature){
+        if (nature.equals("placeIncheon")||nature.equals("placeSeoul")||
+                nature.equals("placeDeajeon")||nature.equals("placeYangyang")||
+                nature.equals("placeBusan")||nature.equals("placeJeju")){
+            nature= "DOMESTIC";}
+        return nature.equals("DOMESTIC")?
+                QItem.item.nature.eq(DOMESTIC): QItem.item.nature.eq(OVERSEAS);
 
-        if (StringUtils.equals("all",searchDateType) || searchDateType == null){
-            return null;
-        } else if (StringUtils.equals("1d",searchDateType)) {
-            dateTime = dateTime.minusDays(1);
-        } else if (StringUtils.equals("1w",searchDateType)) {
-            dateTime = dateTime.minusWeeks(1);
-        } else if (StringUtils.equals("1m",searchDateType)) {
-            dateTime = dateTime.minusMonths(1);
-        } else if (StringUtils.equals("6m",searchDateType)) {
-            dateTime = dateTime.minusMonths(6);
-        }
-        return QItem.item.regTime.after(dateTime);
-        // dateTime 을 시간에 맞게 세팅 후 시간에 맞는 등록된 상품이 조회되도록 조건값 반환
     }
-    private BooleanExpression searchByLike(String searchBy, String searchQuery){
-        if (StringUtils.equals("itemNm",searchBy)){ // 상품명
-            return QItem.item.itemNm.like("%"+searchQuery+"%");
-        } else if (StringUtils.equals("createdBy",searchBy)) { // 상품 등록자
-            return QItem.item.createBy.like("%"+searchQuery+"%");
-        }
-        return null;
+    //여행지가 placeIncheon,placeSeoul, placeDeajeon, placeYangyang, placeBusan, placeJeju 이면,
+    //국내 DOMESTIC
+    //여행지가 placeAme, placePhi, placeVie,placeKot,placeJap, placeHaw 이면,
+    //해외 OVERSEAS
+
+
+    //출발지
+    //startIncheon,startBusan,startDeagu,startChungju,startGwangju,startYangyang,startJeju
+    // 날짜              08/06/2024%20-%2008/09/2024
+    private BooleanExpression DateChange(String StartPlace) {
+        String Date = StartPlace;
+        String startDate = Date.substring(10);//08/06/2024
+        String[] str = startDate.split("/");
+        String Start = str[2] +"-" + str[0]+"-" + str[1]; //2024-08-06
+
+        String endDate = Date.substring(17, 27); //08/09/2024
+        str = endDate.split("/");
+        String End = str[2] +"-" + str[0]+"-" + str[1]; //2024-08-09
+
+        return QItem.item.startDate.eq(LocalDate.parse(Start));
+
     }
+
+
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QueryResults<Item> results = queryFactory.selectFrom(QItem.item).
-                where(regDtsAfter(itemSearchDto.getSearchDateType()),
-                        searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
-                        searchByLike(itemSearchDto.getSearchBy(),itemSearchDto.getSearchQuery()))
+                where(DateChange(itemSearchDto.getDatefilter()),//출발일
+                        searchNatureStatusEq(itemSearchDto.getPlaceSearch()))//여행지
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<Item> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
     }
-    private BooleanExpression itemNmLike(String searchQuery) {
-        return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%"+searchQuery+"%");
-    }
+
 
     @Override
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
@@ -80,9 +82,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         QItemImg itemImg = QItemImg.itemImg;
         //QMainItemDto @QueryProjection을 활용하면 Dto 바로 조회 가능
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id,item.itemNm,
-                        item.itemDetail,itemImg.imgUrl,item.price,item.startDate,item.endDate))
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.reqImgYn.eq("Y"))
-                .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
