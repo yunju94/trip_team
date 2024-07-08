@@ -3,10 +3,6 @@ package com.trip.entity;
 import com.trip.constant.Category;
 import com.trip.constant.Nature;
 import com.trip.constant.ItemSellStatus;
-
-
-import com.trip.constant.RegionDo;
-
 import com.trip.dto.ItemFormDto;
 import com.trip.exception.OutOfStockException;
 import jakarta.persistence.*;
@@ -81,6 +77,7 @@ public class Item extends BaseEntity {
         }
         this.stockNumber = restStock; // 5
     }
+
 
     public void addStock(int stockNumber) {this.stockNumber += stockNumber;}
 
