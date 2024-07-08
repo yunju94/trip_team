@@ -25,5 +25,22 @@ public class CartItem extends  BaseEntity{// 찜 목록
     @JoinColumn(name = "item_id")
     private  Item item;
 
+    public  static  CartItem createCartItem(Cart cart, Item item, int count){
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setCount(count);
+        return cartItem;
+
+    }
+
+    public  void addCount(int count){
+        this.count += count;
+    }
+
+    public  void  updateCount(int count){
+        this.count = count;
+        //변경 감지로 인해 DB에서 알아서 작동/수정
+    }
 
 }

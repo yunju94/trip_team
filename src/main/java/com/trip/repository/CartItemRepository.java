@@ -10,11 +10,10 @@ import java.util.List;
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     CartItem findByCartIdAndItemId(Long cartId, Long itemId);
 
-    @Query("select new com.trip.dto.CartDetailDto(ci.id, i.itemNm,i.startDate,  ci.count, i.price)" +
-            "from CartItem ci, ItemImg im " +
+    @Query("select new com.trip.dto.CartDetailDto(ci.id, i.itemNm, i.startDate, ci.count, i.price)" +
+            "from CartItem ci " +
             "join ci.item i " +
             "where ci.cart.id = :cartId " +
-            "and im.item.id = ci.item.id " +
             "order by ci.regTime desc")
     List<CartDetailDto> findCartDetailDtoList(Long cartId);
 }

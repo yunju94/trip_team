@@ -92,7 +92,7 @@
                 dataType : "json",
                 cache : false,
                 success : function(result, status){
-                    alert("상품을 장바구니에 담았습니다.");
+                    alert("상품을 찜했습니다. 찜내역에 가시면 확인하실 수 있습니다. ");
                     location.href='/';
                 },
                 error : function(jqXHR, status, error){
@@ -185,9 +185,9 @@
     </div>
     <div class="mgt-30">
         <div class="container">
-            <h4 class="border border-success-subtle rounded-pill display-5">상품 상세 설명</h4>
-            <hr class="m6-4">
             <p class="lead" th:text="${item.itemDetail}"></p>
+            <hr class="m6-4">
+
         </div>
     </div>
     <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
