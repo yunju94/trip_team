@@ -8,9 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemSearchDto {
-    private String searchDateType;// 조회날짜
-    private ItemSellStatus searchSellStatus;//상태
-    private String searchBy; // 조회유형
-    private String searchQuery = ""; //검색단어
+    private String placeSearch;// 여행지
+    private String startPlace; // 출발지
+    private String datefilter; //여행 날짜
 
 }
