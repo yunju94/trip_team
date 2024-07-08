@@ -16,5 +16,5 @@ public class ItemDto {
     private String category;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
+    private String nature;
 }

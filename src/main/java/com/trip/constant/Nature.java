@@ -1,5 +1,5 @@
 package com.trip.constant;
 
-public enum Category {
+public enum Nature {
     OVERSEAS , DOMESTIC
 }

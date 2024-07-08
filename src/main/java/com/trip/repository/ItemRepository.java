@@ -13,6 +13,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
         QuerydslPredicateExecutor<Item>, ItemRepositoryCustom {
     // select * from item where itemNm = ?(String itemNm)
     List<Item> findByItemNm(String itemNm);
+    List<Item> findByNature(String nature);
     List<Item> findByItemNmOrItemDetail(String itemNm, String itemDetail);
     List<Item> findByPriceLessThan(Integer price);
     //select * from item where price < Integer price order by desc;
