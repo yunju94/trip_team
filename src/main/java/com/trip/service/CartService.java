@@ -1,11 +1,14 @@
 package com.trip.service;
 
 import com.trip.dto.CartDetailDto;
+import com.trip.dto.CartItemDto;
 import com.trip.entity.Cart;
 import com.trip.entity.CartItem;
+import com.trip.entity.Item;
 import com.trip.entity.Member;
 import com.trip.repository.CartItemRepository;
 import com.trip.repository.CartRepository;
+import com.trip.repository.ItemRepository;
 import com.trip.repository.MemberRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,11 +26,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartService {
 
+    private  final ItemRepository itemRepository;
+    private  final MemberRepository memberRepository;
+    private  final CartRepository cartRepository;
+    private  final CartItemRepository cartItemRepository;
+    private  final  OrderService orderService;
 
-    private final MemberRepository memberRepository;
-    private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
-
+    @Transactional(readOnly = true)
     public List<CartDetailDto> getCartList(String email){
         //오더랑 아이템에서 정보를 뽑아낸다.
         //이메일이 있다. 아이템 정보를 가져오기 위해 email을 멤버에 넣자.
@@ -70,4 +75,36 @@ public class CartService {
         cartItemRepository.delete(cartItem);
         //찜 목록에서 지우고 DB에서 지운다.
     }
+
+    public  Long addCart(CartItemDto cartItemDto, String email){
+        Member member = memberRepository.findByEmail(email); //쿼리문 날려서 멤버 객체 빼옴
+
+        Cart cart = cartRepository.findByMemberId(member.getId());
+        if (cart==null){ //카드 ==null, 회원가입 한 적이 없다. ==> 첫 가입 고객
+            cart = Cart.creatCart(member); //cart 생성
+            cartRepository.save(cart);  //cart DB에 저장
+        }
+        //else인 경우, 회원가입 된 회원. 그냥 내려옴
+        Item item = itemRepository.findById(cartItemDto.getItemId())
+                .orElseThrow(EntityExistsException::new);//쿼리문 날려서 cartitem 정보 객체 빼옴
+
+
+        CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
+
+        if (savedCartItem != null){
+            // cartitem에 객체가 있다. == 장바구니에 이미 담겨 있다. ==> 수량이 올라간다.(변경감지) _ save 안함
+            savedCartItem.addCount(cartItemDto.getCount());
+            return  savedCartItem.getId();
+        }
+        else {
+            //객체가 없다. == 장바구니에 처음 담긴다. ==> DB에 저장을 해야한다.
+            CartItem cartItem = CartItem.createCartItem(cart, item, cartItemDto.getCount());
+            cartItemRepository.save(cartItem);
+            return cartItem.getId();
+        }
+
+
+    }
+
+
 }

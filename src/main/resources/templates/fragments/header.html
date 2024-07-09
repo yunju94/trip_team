@@ -2,85 +2,91 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <link href="headers.css" rel="stylesheet">
-
-    <style>
-
-        .b-example-divider {
-          width: 100%;
-          height: 3rem;
-          background-color: rgba(0, 0, 0, .1);
-          border: solid rgba(0, 0, 0, .15);
-          border-width: 1px 0;
-          box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-        .a {
-          color:black;
-        }
-
-nav-item{
-list-style-type: none;
-        }
-.custom-btn {
-        background-color: blue;
-        color: black;
-
-    }
+<head>
+<style>
 
 
+</style>
+</head>
 
-    </style>
 
 <body>
 <div th:fragment="header">
     <div class="container">
-        <header class="d-flex  align-items-center  py-3 mb-4 border-bottom">
+        <header class="d-flex  align-items-center" style="height:100px;">
             <a class="navbar-brand" href="/">
                 <img th:src="@{/css/images/logo.png}" height="50">
             </a>
 
 
-            <svg width="100" height="100"></svg>
+
+        <svg width="310" height="100">
+            <img th:src="@{/css/images/logo.png}" height="50"></svg>
 
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2">모든메뉴</a></li>
-                <li><a href="/domestic" class="nav-link px-2 link-secondary">국내 여행</a></li>
-                <li><a href="/overseas" class="nav-link px-2 link-secondary">해외 여행</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
-                <li><a href="/qna" class="nav-link px-2 link-secondary">Q&A</a></li>
-            </ul>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/admin/item/new" class="nav-link px-2 link-secondary">패키지 작성</a></li>
-                <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
-            </ul>
+        <svg width="800" height="100">
+            <ul class="nav col-md-auto " sec:authorize = "isAnonymous()">
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" sec:authorize = "isAnonymous()">
                 <li><a href="/members/login" class="nav-link px-2">로그인</a></li></ul>
 
-                <div class="dropdown-center">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        마이페이지
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/orders">예약 내역</a></li>
-                        <li><a class="dropdown-item" href="/cart">찜 내역</a></li>
-                        <li><a class="dropdown-item" href="#">1:1문의</a></li>
-                        <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
-                    </ul>
-                </div>
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle nav-link px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    마이페이지
+                </button>
 
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"  sec:authorize="isAuthenticated()">
-                <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
-            </ul>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item " href="/orders">예약 내역</a></li>
+                    <li><a class="dropdown-item" href="/cart">찜 내역</a></li>
+                    <li><a class="dropdown-item" href="#">1:1문의</a></li>
+                    <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
+                </ul>
+            </div>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" sec:authorize = "isAuthenticated()">
-                <a class="nav-link" href="/members/logout">로그아웃</a>
-            </ul>
-
-            </header>
+        </svg>
     </div>
-    </div>
+</div>
+
+<header class="d-flex  border-bottom">
+    <svg width="300" height="10"></svg>
+
+    <ul class="nav col-18">
+
+
+        <li><a href="#" class="nav-link">모든메뉴</a></li>
+        <li><a href="/domestic" class="nav-link px-2 link-secondary">국내 여행</a></li>
+        <li><a href="/overseas" class="nav-link px-2 link-secondary">해외 여행</a></li>
+    </ul>
+
+        <svg width="10" height="5">
+            <img th:src="@{/css/images/menuline.png}" height="50"></svg>
+
+
+    <ul class="nav col-18">
+        <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
+        <li><a href="/qna" class="nav-link px-2 link-secondary">Q&A</a></li>
+
+    </ul>
+
+    <ul class="nav col-15">
+        <li><a href="/admin/item/new" class="nav-link px-2 link-secondary">패키지 작성</a></li>
+        <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
+    </ul>
+
+
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"  sec:authorize="isAuthenticated()">
+        <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
+    </ul>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" sec:authorize = "isAuthenticated()">
+        <a class="nav-link" href="/members/logout">로그아웃</a>
+    </ul>
+</header>
+
+</div>
+</div>
+
 </body>
 </html>
