@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .gradient-button {
+            background-color: #009879;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .gradient-button:hover {
+            background-color: #007a63;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #009879;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #009879;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .delete-link {
+            color: red;
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
+        }
+
+        .hr1 {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 15px 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 글쓰기 버튼 클릭 시 이벤트 처리
+            function goToWriteForm() {
+                window.location.href = "writeForm";
+            }
+
+            // 게시글 목록 가져오기
+            function loadBoardList() {
+                $.ajax({
+                    url: '/questions', // 서버에서 데이터를 가져올 엔드포인트
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var tableBody = '';
+                        data.forEach(function(dto) {
+                            tableBody += `
+                                <tr>
+                                    <td>${dto.id}</td>
+                                    <td>${dto.writer}</td>
+                                    <td><a href="view?id=${dto.id}">${dto.title}</a></td>
+                                    <td><a href="delete?id=${dto.id}" class="delete-link">X</a></td>
+                                </tr>`;
+                        });
+                        $('table tbody').html(tableBody);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error loading board list:', textStatus, errorThrown);
+                    }
+                });
+            }
+
+            // 초기 데이터 로드
+            loadBoardList();
+
+            // 글쓰기 버튼 클릭 이벤트 바인딩
+            $('.gradient-button').click(goToWriteForm);
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>게시글 목록</h2>
+    <hr class="hr1">
+    <input type="button" value="글쓰기" class="gradient-button" href="/writeForm">
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 서버에서 데이터를 가져와 이 부분을 채울 예정 -->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

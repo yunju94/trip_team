@@ -95,10 +95,6 @@ public class QnAController {
                         "<span style='color:red;'>또한 여행에 대한 사전 준비가 부족하더라도</span> 인솔자나 가이드가 동행하여" +"<br>"+
                         "여행지 정보, 의사소통 문제 등의 <span style='color:red; font-weight:bold;'>도움</span>을 받을 수 있어" +
                         "안전하고 편리하다는 장점이 있습니다.";
-
-
-
-
             default:
                 return "해당 질문에 대한 답변이 준비되어 있지 않습니다.";
         }

@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,52 +17,81 @@
             align-items: center;
         }
         header {
-            background-color: #4CAF50;
+            background-color: #343a40;
             color: white;
             padding: 1em 0;
             width: 100%;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         main {
             max-width: 800px;
             width: 100%;
             background: white;
-            margin: 2em 0;
+            margin: 2em;
             padding: 2em;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
         h1 {
-            color: #333;
+            color: #343a40;
             margin-bottom: 1em;
         }
         .question {
             margin: 1em 0;
             padding: 1em;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             border-radius: 5px;
-            border-left: 5px solid #4CAF50;
+            border-left: 4px solid #343a40;
             cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .question h2 {
             margin: 0;
-            color: #333;
+            color: #343a40;
         }
         .answer {
             display: none;
             margin-top: 0.5em;
             padding: 1em;
-            background-color: #e9e9e9;
+            background-color: #f1f1f1;
             border-radius: 5px;
-            color: #666;
+            color: #495057;
         }
+       .sidebar {
+    position: fixed;
+    top: 155px;  /* 상단으로 고정 */
+    left: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar button {
+    width: 120px;
+    padding: 0.8em;
+    margin: 0.2em 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #343a40;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar button:hover {
+    background-color: #495057;
+}
     </style>
 </head>
 <body>
 <header>
     <h1>Q&A - 자주 묻는 질문</h1>
 </header>
+<aside class="sidebar">
+    <button onclick="window.location.href='/qna'">자주찾는질문</button>
+    <button onclick="window.location.href='/questions'">1:1문의</button>
+</aside>
 <main>
     <section class="question" data-question-id="1">
         <h2>차량에 몇 명이나 탑승하나요?</h2>
@@ -88,7 +117,6 @@
         <h2>패키지 여행이란 무엇인가요?</h2>
         <div class="answer"></div>
     </section>
-
     <!-- 추가 질문/답변을 여기에 추가하세요 -->
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
