@@ -91,19 +91,20 @@ public class ItemController {
     }
 
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
-    @GetMapping(value = {"/admin/items", "/admin/items/{page}"})
-    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page")Optional<Integer> page,
+    @GetMapping(value = {"/admin/items", "/admin/items/page"})
+    public String itemManage(ItemSearchDto itemSearchDto, Optional<Integer> page,
                              Model model){
         // page.isPresent() -> page 값이 있는지 확인
         // 값 있을 시 page.get() , 값 없을 시 0
         // 한 페이지에 개수 -> 5개
+        System.out.println("abcdefg");
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0,5);
 
         Page<Item> items = itemService.getAdminItemPage(itemSearchDto,pageable);
         model.addAttribute("items",items);
         model.addAttribute("itemSearchDto",itemSearchDto);
         model.addAttribute("maxPage",5);
-        return "item/itemMng";
+        return "mypage/mypageOrder"; //임시 연동---------------------###########################
     }
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId")Long itemId){

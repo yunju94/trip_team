@@ -47,28 +47,33 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     //출발지
     //startIncheon,startBusan,startDeagu,startChungju,startGwangju,startYangyang,startJeju
-    // 날짜              08/06/2024%20-%2008/09/2024
-    private BooleanExpression DateChange(String StartPlace) {
+    // 날짜              08/06/2024%20-%2008/09/2024 ===>07/15/2024 - 07/18/2024
+    private BooleanExpression DateChangeStartDate(String StartPlace) {
         String Date = StartPlace;
-        String startDate = Date.substring(10);//08/06/2024
-        String[] str = startDate.split("/");
-        String Start =  str[6]+str[7]+str[8]+str[9]+"-"+ str[0]+ str[1]+"-"+ str[3]+ str[4]; //2024-08-06
 
-        String endDate = Date.substring(17, 27); //08/09/2024
+        String startDate = Date.substring(0, 10);//07/15/2024
+        String[] str = startDate.split("/");
+        String Start =  str[2]+"-"+ str[0]+"-"+ str[1]; //2024-07-15
+
+
+        String endDate = Date.substring(13, 23); //07/18/2024
+
         str = endDate.split("/");
-        String End = str[6]+str[7]+str[8]+str[9]+"-" + str[0]+ str[1]+"-"+ str[3]+ str[4]; //2024-08-09
+        String End = str[2]+"-" + str[0]+"-"+ str[1]; //2024-07-18
+
 
         return QItem.item.startDate.eq(LocalDate.parse(Start));
 
     }
 
 
+
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        QueryResults<Item> results = queryFactory.selectFrom(QItem.item).
-                where(DateChange(itemSearchDto.getDatefilter()),//출발일
-                        searchNatureStatusEq(itemSearchDto.getPlaceSearch()))//여행지
-                .orderBy(QItem.item.id.desc())
+        QueryResults<Item> results = queryFactory.selectFrom(QItem.item).//item에서 찾는다.
+                where(DateChangeStartDate(itemSearchDto.getDatefilter()),//출발일(itemSearchDto.getDatefilter())
+                        searchNatureStatusEq(itemSearchDto.getPlaceSearch()))//여행지(itemSearchDto.getPlaceSearch())
+                .orderBy(QItem.item.id.desc())//id가 내림차순순으로
                 .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<Item> content = results.getResults();
         long total = results.getTotal();
