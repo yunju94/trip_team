@@ -31,9 +31,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     }
     //여행지
     private BooleanExpression searchNatureStatusEq(String nature){
-        if (nature.equals("placeIncheon")||nature.equals("placeSeoul")||
-                nature.equals("placeDeajeon")||nature.equals("placeYangyang")||
-                nature.equals("placeBusan")||nature.equals("placeJeju")){
+        if (nature.equals("인천")||nature.equals("서울")||
+                nature.equals("대전")||nature.equals("양양")||
+                nature.equals("부산")||nature.equals("제주도")){
             nature= "DOMESTIC";}
         return nature.equals("DOMESTIC")?
                 QItem.item.nature.eq(DOMESTIC): QItem.item.nature.eq(OVERSEAS);
@@ -50,6 +50,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     // 날짜              08/06/2024%20-%2008/09/2024 ===>07/15/2024 - 07/18/2024
     private BooleanExpression DateChangeStartDate(String StartPlace) {
         String Date = StartPlace;
+        if (Date.length() == 0 ){
+            return null;
+        }
 
         String startDate = Date.substring(0, 10);//07/15/2024
         String[] str = startDate.split("/");
