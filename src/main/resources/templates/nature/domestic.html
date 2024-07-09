@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>국내 패키지</title>
-</head>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 <body>
+<div layout:fragment="content">
 국내 패키지 입니다.
+    <div th:each="item : ${items}">
+        <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+        <a th:text="${item.id}"></a>
+        <a th:text="${item.itemNm}"></a>
+        <a th:text="${item.price}"></a>
+        <a th:text="${item.category}"></a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

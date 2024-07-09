@@ -1,14 +1,12 @@
 package com.trip.service;
 
 
-import com.trip.dto.ItemFormDto;
-import com.trip.dto.ItemImgDto;
-import com.trip.dto.ItemSearchDto;
-import com.trip.dto.MainItemDto;
-import com.trip.entity.Item;
-import com.trip.entity.ItemImg;
+import com.trip.dto.*;
+import com.trip.entity.*;
 import com.trip.repository.ItemImgRepository;
 import com.trip.repository.ItemRepository;
+import com.trip.repository.MemberRepository;
+import com.trip.repository.OrderItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static com.trip.constant.Nature.DOMESTIC;
 
 @Service
 @Transactional
@@ -27,6 +28,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemImgService itemImgService;
     private  final ItemImgRepository itemImgRepository;
+    private final OrderItemRepository orderItemRepository;
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList)
             throws Exception{
@@ -91,6 +93,18 @@ public class ItemService {
         return  itemRepository.getMainItemPage(itemSearchDto,pageable);
     }
 
+    public List<Item> getItemAll(){
+        return itemRepository.findAll();
+
+    }
+
+    public  Optional<OrderItem> getmemberId(Long cartid){
+        Optional<Item> item = itemRepository.findById(cartid);
+        Optional<OrderItem> orderItem = orderItemRepository.findById(item.get().getId());
+        return orderItem;
+
+
+    }
 
 
 

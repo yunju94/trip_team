@@ -2,15 +2,14 @@ package com.trip.controller;
 
 
 import com.trip.constant.Role;
-import com.trip.dto.ItemFormDto;
-import com.trip.dto.OrderDto;
-import com.trip.dto.OrderHistDto;
-import com.trip.dto.OrderItemDto;
+import com.trip.dto.*;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
 import com.trip.service.ItemService;
+import com.trip.service.MemberService;
 import com.trip.service.OrderService;
+import com.trip.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +34,12 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ItemService itemService;
+    private  final PaymentService paymentService;
+
+    //포트원
+    private final MemberService memberService;
+    //private final OrderService orderService;
+
 
     @PostMapping(value = "/order")
     public @ResponseBody
@@ -55,8 +61,8 @@ public class OrderController {
         //principal.gerName() (현재 로그인된 정보)
         String email = principal.getName();
         Long orderId;
-        try{
-            orderId = orderService.order(orderDto, email);
+            try{
+                orderId = orderService.order(orderDto, email);
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
@@ -124,6 +130,30 @@ public class OrderController {
 
         return "mypage/orderdetail";
     }
+
+
+
+    //포트원
+
+
+    @GetMapping("/order")
+    public String orderget(@PathVariable("cartId")Long id, BindingResult bindingResult,
+                           Principal principal, Model model) {
+        if (bindingResult.hasErrors()) {
+            // 유효성 검사 에러 처리
+            return "redirect:/"; // 적절한 에러 페이지로 리다이렉트 또는 에러 처리
+        }
+
+       Optional<OrderItem> orderItem = itemService.getmemberId(id);
+        // 카트 아이드를 받아서 아이템 서비스에서 오더 아이템을 불러온다.
+        //오더 아이템에서 오더를 불러서 payment로 접근을 꾀한다.
+        Optional<Order> order = orderService.getOrder(orderItem.get().getId());
+        RequestPayDto requestPayDto = paymentService.findRequestDto(order.get().getId());
+        model.addAttribute("requestDto", requestPayDto);
+
+        return "order/payment"; // 결제 페이지로 이동
+    }
+
 
 
 }

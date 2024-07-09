@@ -6,6 +6,7 @@ import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.entity.CartItem;
 import com.trip.service.CartService;
+import com.trip.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,19 +30,18 @@ public class CartController {
 
     private  final CartService cartService;
 
+
     @GetMapping(value = "/cart")
     public String main(Principal principal, Model model) {
         if (principal ==null){ //만약에 개인정보가 없으면 로그인으로 이동시킨다.
             model.addAttribute("errorMessage", "로그인 후 이용하시기 바랍니다.");
             return "member/memberLoginForm";
         }
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
         //개인정보가 있으면 그 뒤에 진행.
         //아이템과 오더, 카트를 조인한 후 거기에 필요한 정보를 빼와서 리스트로 만든다.
         List<CartDetailDto> cartDetailItem = cartService.getCartList(principal.getName());
-        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         model.addAttribute("cartDetailItem", cartDetailItem);
-        System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+
         return "cart/cartList";
     }
 
@@ -73,9 +73,10 @@ public class CartController {
     }
 
 
-    @PostMapping(value = "/cart/{cartItemId}/delete")
+    @DeleteMapping(value = "/cart/{cartItemId}/delete")
     public  @ResponseBody ResponseEntity cartItemDelete(@PathVariable("cartItemId")  Long cartItemId
                                             , Principal principal){
+
         if (!cartService.validateCartItem(cartItemId, principal.getName())){
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }

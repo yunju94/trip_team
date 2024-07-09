@@ -21,7 +21,7 @@ public class CartItem extends  BaseEntity{// 찜 목록
     @JoinColumn(name = "cart_id")
     private  Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private  Item item;
 
