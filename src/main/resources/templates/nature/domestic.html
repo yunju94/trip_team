@@ -5,13 +5,22 @@
       layout:decorate="~{layouts/layout1}">
 <body>
 <div layout:fragment="content">
-국내 패키지 입니다.
+
+    국내 패키지 입니다.
     <div th:each="item : ${items}">
         <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-        <a th:text="${item.id}"></a>
-        <a th:text="${item.itemNm}"></a>
-        <a th:text="${item.price}"></a>
-        <a th:text="${item.category}"></a>
+            <div class="card">
+                <a th:href="'/item/' + ${item.id}" class="text-dark">
+                    <img th:src="${item.itemImgs[0].imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
+                </a>
+            </div>
+            <div>
+                <a>[[${item.itemNm}]]</a><!--상품명-->
+            </div>
+            <div>
+                <a>[[${item.price}]]원</a><!--가격-->
+            </div>
+
         </div>
     </div>
 </div>

@@ -62,6 +62,10 @@ public class Item extends BaseEntity {
     )
     private List<Member> member;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ItemImg> itemImgs; // itemImg 엔티티와의 일대다 관계
+
+
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();
         this.price = itemFormDto.getPrice();
