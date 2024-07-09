@@ -91,6 +91,9 @@ public class ItemService {
         return  itemRepository.getMainItemPage(itemSearchDto,pageable);
     }
 
+    public List<Item> getItemAll(){
+        return itemRepository.findAll();
+    }
 
 
 
