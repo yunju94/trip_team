@@ -9,11 +9,16 @@
 </style>
 </head>
 
+
 <body>
-
 <div th:fragment="header">
+    <div class="container">
+        <header class="d-flex  align-items-center" style="height:100px;">
+            <a class="navbar-brand" href="/">
+                <img th:src="@{/css/images/logo.png}" height="50">
+            </a>
 
-    <div class="d-flex align-items-center" >
+
 
         <svg width="310" height="100">
             <img th:src="@{/css/images/logo.png}" height="50"></svg>
@@ -57,6 +62,7 @@
         <svg width="10" height="5">
             <img th:src="@{/css/images/menuline.png}" height="50"></svg>
 
+
     <ul class="nav col-18">
         <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
         <li><a href="/qna" class="nav-link px-2 link-secondary">Q&A</a></li>
@@ -81,5 +87,6 @@
 
 </div>
 </div>
+
 </body>
 </html>

@@ -21,6 +21,12 @@
     <script th:inline="javascript">
 
         $(document).ready(function() {
+              $("#searchBtn").on("click", function(e){
+                 e.preventDefault();
+                 Searchhref();
+             });
+
+
             // Slick Carousel 초기화
             $('.slider').slick({
                 slidesToShow: 1,
@@ -81,16 +87,36 @@
                 $('#placeSearch').val(start);
             });
 
-            $('#startIncheon, #startBusan, #startDeagu, #startChungju, #startGwangju, #startYangyang, #startjeju').on("click", function() {
+            $('#startIncheon, #startBusan, #startDeagu, #startChungju, #startGwangju, #startYangyang, #startJeju').on("click", function() {
                 var start = $(this).text();
                 $('#startPlace').val(start);
             });
+
+
+        function Searchhref(){
+            var placeSearch = $("#placeSearch").val();
+            var startPlace = $("#startPlace").val();
+            var datefilter = $("#datefilter").val();
+            console.log(datefilter);
+
+
+             location.href=
+                "/admin/items/"+ 'page' + "?placeSearch=" + placeSearch
+                 + "&startPlace=" + startPlace + "&datefilter=" + datefilter;
+
+         }
+
+
+
         });
+
+
+
 
     </script>
 
     <style>
-        /* 여기에 추가적인 CSS 스타일링을 할 수 있습니다. */
+
         .con {
             width: 740px;
             margin: 0 auto;
@@ -125,7 +151,8 @@
             </div>
         </div>
     </div>
-    <form>
+    <form th:action="@{/admin/items/}" method="get" role="form">
+    <div>
     <div>
 
         <div>
@@ -137,22 +164,22 @@
             <div name="placeDiv" id="placeDiv">
                 <button type="button" name="Domestic" id="Domestic">국내</button>
                 <div name="DomesticMenu" id="DomesticMenu">
-                    <button name="placeIncheon" id="placeIncheon" value="인천">인천</button>
-                    <button name="placeSeoul" id="placeSeoul" value="서울">서울</button>
-                    <button name="placeDeajeon" id="placeDeajeon" value="대전">대전</button>
-                    <button name="placeYangyang" id="placeYangyang" value="양양">양양</button>
-                    <button name="placeBusan" id="placeBusan" value="부산">부산</button>
-                    <button name="placeJeju" id="placeJeju" value="제주도">제주도</button>
+                    <button type="button" name="placeIncheon" id="placeIncheon" value="인천">인천</button>
+                    <button type="button" name="placeSeoul" id="placeSeoul" value="서울">서울</button>
+                    <button type="button" name="placeDeajeon" id="placeDeajeon" value="대전">대전</button>
+                    <button type="button" name="placeYangyang" id="placeYangyang" value="양양">양양</button>
+                    <button type="button" name="placeBusan" id="placeBusan" value="부산">부산</button>
+                    <button type="button" name="placeJeju" id="placeJeju" value="제주도">제주도</button>
                 </div>
 
                 <button type="button" name="Overseas" id="Overseas">해외</button>
                 <div name="OverseasMenu" id="OverseasMenu">
-                    <button name="placeAme" id="placeAme" value="미국">미국</button>
-                    <button name="placePhi" id="placePhi" value="필리핀">필리핀</button>
-                    <button name="placeVie" id="placeVie" value="베트남">베트남</button>
-                    <button name="placeKot" id="placeKot" value="코타키나발루">코타키나발루</button>
-                    <button name="placeJap" id="placeJap" value="일본">일본</button>
-                    <button name="placeHaw" id="placeHaw" value="하와이">하와이</button>
+                    <button type="button" name="placeAme" id="placeAme" value="미국">미국</button>
+                    <button type="button" name="placePhi" id="placePhi" value="필리핀">필리핀</button>
+                    <button type="button" name="placeVie" id="placeVie" value="베트남">베트남</button>
+                    <button type="button" name="placeKot" id="placeKot" value="코타키나발루">코타키나발루</button>
+                    <button type="button" name="placeJap" id="placeJap" value="일본">일본</button>
+                    <button type="button" name="placeHaw" id="placeHaw" value="하와이">하와이</button>
                 </div>
             </div>
         </div>
@@ -181,17 +208,23 @@
             <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
         </svg>
         <!-- 날짜 -->
-        <input type="text" name="datefilter" value="" />
+        <input type="text" name="datefilter" id="datefilter" value="" >
     </div>
     <div>
-        <button type="submit">검색</button>
+        <button type="submit" id="searchBtn">검색</button>
+    </div>
     </div>
     </form>
+
+
     <div class="container text-center">
-        <div class="row row-cols-5">
-            <th:block th:each="item, status: ${items.getContent()}">
-                <div class="col">
-                    <div class="card">
+        <div >
+            <div><h3>국내 패키지 여행</h3></div>
+            <th:block th:each="item: ${items.getContent()}">
+                <div class="row row-cols-5">
+                <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+
+                    <div>
                         <a th:href="'/item/' + ${item.id}" class="text-dark">
                             <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
                         </a>
@@ -203,6 +236,26 @@
                         <a>[[${item.price}]]원</a><!--가격-->
                     </div>
                 </div>
+                </div>
+            </th:block>
+            <div><h3>해외 패키지 여행</h3></div>
+             <th:block th:each="item: ${items.getContent()}">
+                 <div class="row row-cols-5">
+                <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+
+                    <div>
+                        <a th:href="'/item/' + ${item.id}" class="text-dark">
+                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
+                        </a>
+                    </div>
+                    <div>
+                        <a>[[${item.itemNm}]]</a><!--상품명-->
+                    </div>
+                    <div>
+                        <a>[[${item.price}]]원</a><!--가격-->
+                    </div>
+                </div>
+                 </div>
             </th:block>
         </div>
     </div>
