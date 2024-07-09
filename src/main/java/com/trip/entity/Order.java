@@ -27,12 +27,17 @@ public class Order extends BaseEntity{//예약서
 
     private LocalDateTime orderDate; //주문일
 
+    private String orderUid; // 주문 번호
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; //주문 상태
 
     @OneToMany(mappedBy = "order", cascade= CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     public  Order(){
 

@@ -175,7 +175,7 @@
             <div th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}" class="text-right">
                 <button type="button" class="btn btn-light border border-primary btn-lg"
                         onclick="addCart()">찜♡</button>
-                <button type="button" class="btn btn-primary btn-lg" onclick="order()">예약하기</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="/order()" >예약하기</button>
             </div>
             <div th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                  class="text-right">

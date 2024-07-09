@@ -5,6 +5,7 @@
       layout:decorate="~{layouts/layout1}">
 <body>
 <div layout:fragment="content">
+
     국내 패키지 입니다.
     <div th:each="item : ${items}">
         <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
@@ -19,6 +20,7 @@
             <div>
                 <a>[[${item.price}]]원</a><!--가격-->
             </div>
+
         </div>
     </div>
 </div>

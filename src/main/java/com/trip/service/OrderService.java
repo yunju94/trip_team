@@ -103,11 +103,13 @@ public class OrderService {
         return order;
     }
     public Long order(OrderDto orderDto, String email){
+
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+        Optional<Order> orderItemOP = orderRepository.findById(member.getId());
+
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(email);
-
-        List<OrderItem> orderItemList = new ArrayList<>();
         OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
         orderItemList.add(orderItem);
 
@@ -115,6 +117,21 @@ public class OrderService {
         orderRepository.save(order);
         return  order.getId();
     }
+
+    public Optional<Order> getOrder(Long id){
+        Optional<Order> order = orderRepository.findById(id);
+        return order;
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 }
