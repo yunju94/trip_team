@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +27,9 @@ public class Order extends BaseEntity{//예약서
     private  Member member;
 
     private LocalDateTime orderDate; //주문일
+
+    private int price;//총 주문 가격
+
 
     private String orderUid; // 주문 번호
 
@@ -50,11 +54,18 @@ public class Order extends BaseEntity{//예약서
             orderItem.cancel();
         }
     }
-    public  static  Order createOrder(Member member, List<OrderItem> orderItemList){
+    public  static  Order createOrder(Member member, List<OrderItem> orderItemList, Payment payment){
         Order order = new Order();
+        order.setOrderUid(UUID.randomUUID().toString());
         order.setMember(member);
+        order.setPayment(payment);
+
         for (OrderItem orderItem : orderItemList){
+
+            order.price += (orderItem.getOrderPrice() * orderItem.getCount());
+            System.out.println(order.price);
             order.addOrderItem(orderItem);
+
         }
         order.setOrderStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
