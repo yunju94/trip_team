@@ -112,6 +112,10 @@ public class QnAController {
                         "<br>"+
                         "또한, <strong><span style='color:red;'>25세 이후까지 계속 국외에 체류하고자 할 경우</span></strong>에는 25세가 되는 해 1월 15일까지 " +"<br>"+
                         "여행목적에 따른 구비서류를 갖추어 <strong><span style='color:red;'>병무청장의 국외여행 기간 연장 허가를 받아야 합니다.</span></strong>";
+            case 9:
+                return "아래 있는 링크로 가시면 자세하게 나와있습니다."+"<br>"+
+                        "<br>"+
+                        "<a href=\"http://localhost/map\">탑승 장소 안내 바로가기</a>";
             default:
                 return "해당 질문에 대한 답변이 준비되어 있지 않습니다.";
         }
