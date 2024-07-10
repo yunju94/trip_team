@@ -7,9 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- Slick Carousel 및 DateRangePicker 관련 CSS 및 JavaScript -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 
     <!-- jQuery 및 관련 JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -32,7 +30,9 @@
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 1000
+                autoplaySpeed: 4000,
+                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> < </button></div>',
+                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> > </button></div>'
             });
 
             // DateRangePicker 초기화
@@ -121,142 +121,280 @@
             width: 740px;
             margin: 0 auto;
         }
+        .main {
+            margin-top: -50px;
+            margin-left: -300px;
+            width: 3000px;
+            background-color: #D5EAFC;
+            height: 740px;
+            position: relative;
 
+        }
         .slider {
-            width: 100%;
-            margin: 0 auto;
+            margin-left: 980px;
+            display: block;
+            width: 740px;
+            height: 610px;
+            position: relative;
+            box-shadow: 10px 60px 30px rgba(0, 0, 0, 0.1); /* 오른쪽 아래 방향 그림자 추가 */
         }
 
-        .slider > img {
+        .slick-arrows {
+        width: 100px;
+         height: 40px;
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 4rem;/* 원형 버튼으로 만듦 */
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 90%;
+            left: 40px;
+            display: flex;
+            z-index: 1000;
         }
+
+        .slick-prev {
+            height: 30px;
+            width: 30px; /* 버튼의 크기를 지정 */
+            margin-left:10px;
+            margin-top:5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%; /* 원형 버튼으로 만듦 */
+            color: white;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            display: flex;
+            justify-content: center;
+ align-items: center;
+ }
+.slick-next {
+ height: 30px;
+ display: flex;
+            width: 30px; /* 버튼의 크기를 지정 */
+             margin-top:5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%; /* 원형 버튼으로 만듦 */
+            color: white;
+            cursor: pointer;
+            border: none;
+            outline: none;
+margin-left:60px;
+            justify-content: center;
+            align-items: center; }
+        .slider img {
+            margin-top: 50px;
+        }
+
+    /* ===========================여기까지 슬라이더================================ */
+    .main2{
+     margin-left: 10px;
+            display: block;
+            width: 740px;
+            height: 610px;
+            position: relative;
+    }
+
+    .textBox{
+            width: 1000px; /* 버튼의 크기를 지정 */
+             margin-top:-530px;
+             margin-left:450px;
+    }
+   .con {
+            width: 1000px;
+            margin-left:100px;
+        }
+        .ment{
+        margin-left: 200px;
+        font-size: 26px;
+        line-height: 34px;
+        color: #111;
+        margin: 75px 0 35px;
+        text-align: left;
+        }
+
+/* 여기 부터 */
+       .form-group {
+
+    margin-bottom: 10px;
+}
+
+svg {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    width:300px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #007bff;
+}
+
+#DomesticMenu,
+#OverseasMenu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+}
+        .form-group > div button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group > div button:hover {
+    background-color: #ddd;
+}
+
+
     </style>
 
 </head>
 
 <body>
 <div layout:fragment="content">
-    <div class="con">
-        <div>
+    <div class="main">
+        <div class="main2">
             <div class="slider">
                 <div><img th:src="@{/css/images/jeju.jpg}"></div>
                 <div><img th:src="@{/css/images/puket.jpg}"></div>
                 <div><img th:src="@{/css/images/eu.jpg}"></div>
                 <div><img th:src="@{/css/images/dongnam.jpg}"></div>
             </div>
-        </div>
-    </div>
-    <form th:action="@{/admin/items/}" method="get" role="form">
-    <div>
-    <div>
+            <!-- ======================여기까지 슬라이더================================ -->
+            <div class="textBox">
+                <form th:action="@{/admin/items/}" method="get" role="form">
 
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-            <!-- 여행지 -->
-            <input type="text" name="placeSearch" id="placeSearch" placeholder=" 여행 가고 싶은 곳을 골라주세요">
-            <div name="placeDiv" id="placeDiv">
-                <button type="button" name="Domestic" id="Domestic">국내</button>
-                <div name="DomesticMenu" id="DomesticMenu">
-                    <button type="button" name="placeIncheon" id="placeIncheon" value="인천">인천</button>
-                    <button type="button" name="placeSeoul" id="placeSeoul" value="서울">서울</button>
-                    <button type="button" name="placeDeajeon" id="placeDeajeon" value="대전">대전</button>
-                    <button type="button" name="placeYangyang" id="placeYangyang" value="양양">양양</button>
-                    <button type="button" name="placeBusan" id="placeBusan" value="부산">부산</button>
-                    <button type="button" name="placeJeju" id="placeJeju" value="제주도">제주도</button>
-                </div>
 
-                <button type="button" name="Overseas" id="Overseas">해외</button>
-                <div name="OverseasMenu" id="OverseasMenu">
-                    <button type="button" name="placeAme" id="placeAme" value="미국">미국</button>
-                    <button type="button" name="placePhi" id="placePhi" value="필리핀">필리핀</button>
-                    <button type="button" name="placeVie" id="placeVie" value="베트남">베트남</button>
-                    <button type="button" name="placeKot" id="placeKot" value="코타키나발루">코타키나발루</button>
-                    <button type="button" name="placeJap" id="placeJap" value="일본">일본</button>
-                    <button type="button" name="placeHaw" id="placeHaw" value="하와이">하와이</button>
+                    <p class="ment">
+                        고객님,
+                        <br>
+                        <strong>어떤 여행을 꿈꾸시나요?</strong></p>
+                    <div>
+                        <div class="form-group">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                            <!-- 여행지 -->
+                            <input type="text" name="placeSearch" id="placeSearch" placeholder="어디로 떠나세요?">
+                            <div name="placeDiv" id="placeDiv">
+                                <button type="button" name="Domestic" id="Domestic">국내</button>
+                                <div name="DomesticMenu" id="DomesticMenu">
+                                    <button type="button" name="placeIncheon" id="placeIncheon" value="인천">인천</button>
+                                    <button type="button" name="placeSeoul" id="placeSeoul" value="서울">서울</button>
+                                    <button type="button" name="placeDeajeon" id="placeDeajeon" value="대전">대전</button>
+                                    <button type="button" name="placeYangyang" id="placeYangyang" value="양양">양양</button>
+                                    <button type="button" name="placeBusan" id="placeBusan" value="부산">부산</button>
+                                    <button type="button" name="placeJeju" id="placeJeju" value="제주도">제주도</button>
+                                </div>
+
+                                <button type="button" name="Overseas" id="Overseas">해외</button>
+                                <div name="OverseasMenu" id="OverseasMenu">
+                                    <button type="button" name="placeAme" id="placeAme" value="미국">미국</button>
+                                    <button type="button" name="placePhi" id="placePhi" value="필리핀">필리핀</button>
+                                    <button type="button" name="placeVie" id="placeVie" value="베트남">베트남</button>
+                                    <button type="button" name="placeKot" id="placeKot" value="코타키나발루">코타키나발루</button>
+                                    <button type="button" name="placeJap" id="placeJap" value="일본">일본</button>
+                                    <button type="button" name="placeHaw" id="placeHaw" value="하와이">하와이</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff" viewBox="0 0 16 16">
+                                <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
+                                <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.232 2.08-.188.244.023.435.06.57.093q.1.026.16.045c.184.06.279.13.351.295l.029.073a3.5 3.5 0 0 1 .157.721c.055.485.051 1.178-.159 2.065m-4.828 7.475.04-.04-.107 1.081a1.54 1.54 0 0 1-.44.913l-1.298 1.3.054-.38c.072-.506-.034-.993-.172-1.418a9 9 0 0 0-.164-.45c.738-.065 1.462-.38 2.087-1.006M5.205 5c-.625.626-.94 1.351-1.004 2.09a9 9 0 0 0-.45-.164c-.424-.138-.91-.244-1.416-.172l-.38.054 1.3-1.3c.245-.246.566-.401.91-.44l1.08-.107zm9.406-3.961c-.38-.034-.967-.027-1.746.163-1.558.38-3.917 1.496-6.937 4.521-.62.62-.799 1.34-.687 2.051.107.676.483 1.362 1.048 1.928.564.565 1.25.941 1.924 1.049.71.112 1.429-.067 2.048-.688 3.079-3.083 4.192-5.444 4.556-6.987.183-.771.18-1.345.138-1.713a3 3 0 0 0-.045-.283 3 3 0 0 0-.3-.041Z"/>
+                                <path d="M7.009 12.139a7.6 7.6 0 0 1-1.804-1.352A7.6 7.6 0 0 1 3.794 8.86c-1.102.992-1.965 5.054-1.839 5.18.125.126 3.936-.896 5.054-1.902Z"/>
+                            </svg>
+                            <!-- 출발지 -->
+                            <input type="text" name="startPlace" id="startPlace" placeholder=" 출발할 도시를 고르세요">
+                            <div name="startMenu" id="startMenu">
+                                <button type="button" name="Incheon" id="startIncheon">인천</button>
+                                <button type="button" name="Busan" id="startBusan">부산</button>
+                                <button type="button" name="Deagu" id="startDeagu">대구</button>
+                                <button type="button" name="Chungju" id="startChungju">충주</button>
+                                <button type="button" name="Gwangju" id="startGwangju">광주</button>
+                                <button type="button" name="Yangyang" id="startYangyang">양양</button>
+                                <button type="button" name="Jeju" id="startJeju">제주도</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                            <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                        </svg>
+                        <!-- 날짜 -->
+                        <input type="text" name="datefilter" id="datefilter" value="" >
+                    </div>
+                    <div>
+                        <button type="submit" id="searchBtn">검색</button>
+                    </div>
+                </form>
+
+                <!-- ======================여기까지 함================================ -->
+                <div class="container text-center">
+                    <div >
+                        <div><h3>국내 패키지 여행</h3></div>
+                        <th:block th:each="item: ${items.getContent()}">
+                            <div class="row row-cols-5">
+                                <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+
+                                    <div>
+                                        <a th:href="'/item/' + ${item.id}" class="text-dark">
+                                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a>[[${item.itemNm}]]</a><!--상품명-->
+                                    </div>
+                                    <div>
+                                        <a>[[${item.price}]]원</a><!--가격-->
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                        <div><h3>해외 패키지 여행</h3></div>
+                        <th:block th:each="item: ${items.getContent()}">
+                            <div class="row row-cols-5">
+                                <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+
+                                    <div>
+                                        <a th:href="'/item/' + ${item.id}" class="text-dark">
+                                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a>[[${item.itemNm}]]</a><!--상품명-->
+                                    </div>
+                                    <div>
+                                        <a>[[${item.price}]]원</a><!--가격-->
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff" viewBox="0 0 16 16">
-                <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
-                <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.232 2.08-.188.244.023.435.06.57.093q.1.026.16.045c.184.06.279.13.351.295l.029.073a3.5 3.5 0 0 1 .157.721c.055.485.051 1.178-.159 2.065m-4.828 7.475.04-.04-.107 1.081a1.54 1.54 0 0 1-.44.913l-1.298 1.3.054-.38c.072-.506-.034-.993-.172-1.418a9 9 0 0 0-.164-.45c.738-.065 1.462-.38 2.087-1.006M5.205 5c-.625.626-.94 1.351-1.004 2.09a9 9 0 0 0-.45-.164c-.424-.138-.91-.244-1.416-.172l-.38.054 1.3-1.3c.245-.246.566-.401.91-.44l1.08-.107zm9.406-3.961c-.38-.034-.967-.027-1.746.163-1.558.38-3.917 1.496-6.937 4.521-.62.62-.799 1.34-.687 2.051.107.676.483 1.362 1.048 1.928.564.565 1.25.941 1.924 1.049.71.112 1.429-.067 2.048-.688 3.079-3.083 4.192-5.444 4.556-6.987.183-.771.18-1.345.138-1.713a3 3 0 0 0-.045-.283 3 3 0 0 0-.3-.041Z"/>
-                <path d="M7.009 12.139a7.6 7.6 0 0 1-1.804-1.352A7.6 7.6 0 0 1 3.794 8.86c-1.102.992-1.965 5.054-1.839 5.18.125.126 3.936-.896 5.054-1.902Z"/>
-            </svg>
-            <!-- 출발지 -->
-            <input type="text" name="startPlace" id="startPlace" placeholder=" 출발할 도시를 고르세요">
-            <div name="startMenu" id="startMenu">
-                <button type="button" name="Incheon" id="startIncheon">인천</button>
-                <button type="button" name="Busan" id="startBusan">부산</button>
-                <button type="button" name="Deagu" id="startDeagu">대구</button>
-                <button type="button" name="Chungju" id="startChungju">충주</button>
-                <button type="button" name="Gwangju" id="startGwangju">광주</button>
-                <button type="button" name="Yangyang" id="startYangyang">양양</button>
-                <button type="button" name="Jeju" id="startJeju">제주도</button>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
-            <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
-        </svg>
-        <!-- 날짜 -->
-        <input type="text" name="datefilter" id="datefilter" value="" >
-    </div>
-    <div>
-        <button type="submit" id="searchBtn">검색</button>
-    </div>
-    </div>
-    </form>
-
-
-    <div class="container text-center">
-        <div >
-            <div><h3>국내 패키지 여행</h3></div>
-            <th:block th:each="item: ${items.getContent()}">
-                <div class="row row-cols-5">
-                <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-
-                    <div>
-                        <a th:href="'/item/' + ${item.id}" class="text-dark">
-                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
-                        </a>
-                    </div>
-                    <div>
-                        <a>[[${item.itemNm}]]</a><!--상품명-->
-                    </div>
-                    <div>
-                        <a>[[${item.price}]]원</a><!--가격-->
-                    </div>
-                </div>
-                </div>
-            </th:block>
-            <div><h3>해외 패키지 여행</h3></div>
-             <th:block th:each="item: ${items.getContent()}">
-                 <div class="row row-cols-5">
-                <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-
-                    <div>
-                        <a th:href="'/item/' + ${item.id}" class="text-dark">
-                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300" width="300">
-                        </a>
-                    </div>
-                    <div>
-                        <a>[[${item.itemNm}]]</a><!--상품명-->
-                    </div>
-                    <div>
-                        <a>[[${item.price}]]원</a><!--가격-->
-                    </div>
-                </div>
-                 </div>
-            </th:block>
         </div>
     </div>
 
