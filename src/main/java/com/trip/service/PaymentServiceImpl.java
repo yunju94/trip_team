@@ -4,11 +4,10 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
-import com.trip.constant.PaymentStatus;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
 import com.trip.entity.Order;
+import com.trip.entity.Payment;
 import com.trip.repository.OrderRepository;
 import com.trip.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import static com.trip.constant.PaymentStatus.OK;
 
 @Service
 @Transactional
@@ -28,21 +29,25 @@ public class PaymentServiceImpl implements PaymentService {
     private final IamportClient iamportClient;
 
     @Override
-    public RequestPayDto findRequestDto(Long orderUid) {
+    public RequestPayDto findRequestDto(Long id) {
 
-        Order order = orderRepository.findOrderAndPaymentAndMember(orderUid)
+        Order order = orderRepository.findOrderAndPaymentAndMember(id)
                 .orElseThrow(() -> new IllegalArgumentException("주문이 없습니다."));
+
 
         return RequestPayDto.builder()
                 .buyerName(order.getMember().getName())
                 .buyerEmail(order.getMember().getEmail())
                 .buyerAddress(order.getMember().getAddress())
                 .paymentPrice(order.getPayment().getPrice())
+                .orderUid(order.getPayment().getPaymentUid())
+                .itemName(order.getOrderItems().getFirst().getItem().getItemNm())
                 .build();
     }
 
+
     @Override
-    public IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request) {
+    public IamportResponse<com.siot.IamportRestClient.response.Payment> paymentByCallback(PaymentCallbackRequest request) {
 
         try {
             // 결제 단건 조회(아임포트)
@@ -61,7 +66,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
 
             // DB에 저장된 결제 금액
-            Long price = order.getPayment().getPrice();
+            int price = order.getPayment().getPrice();
             // 실 결제 금액
             int iamportPrice = iamportResponse.getResponse().getAmount().intValue();
 
@@ -78,7 +83,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
 
             // 결제 상태 변경
-            order.getPayment().changePaymentBySuccess(PaymentStatus.OK, iamportResponse.getResponse().getImpUid());
+            order.getPayment().changePaymentBySuccess(OK, iamportResponse.getResponse().getImpUid());
 
             return iamportResponse;
 

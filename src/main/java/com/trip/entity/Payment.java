@@ -16,14 +16,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long price;
+    private int price;
     private PaymentStatus status;
     private String paymentUid; // 결제 고유 번호
 
     @Builder
-    public Payment(Long price, PaymentStatus status) {
+    public Payment(int price, PaymentStatus status) {
         this.price = price;
         this.status = status;
     }

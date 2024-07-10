@@ -28,7 +28,7 @@ public class NatureController {
     public String doList(ItemDto itemDto, Model model) {
         List<Item> itemList = itemService.getItemAll();
         model.addAttribute("items", itemList);
-r
+
         return "nature/domestic";
 
     }

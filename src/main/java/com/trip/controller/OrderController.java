@@ -49,20 +49,26 @@ public class OrderController {
         //stringBuilder a;
         //a.append("abc")
         //a.append("def")
+
         if (bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             for (FieldError fieldError : fieldErrors){
                 sb.append(fieldError.getDefaultMessage());
             }
+            System.out.println(bindingResult.hasErrors());
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
+
         //로그인 정보 -> sprinf security
         //principal.gerName() (현재 로그인된 정보)
         String email = principal.getName();
         Long orderId;
             try{
+
                 orderId = orderService.order(orderDto, email);
+
+
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
@@ -130,30 +136,6 @@ public class OrderController {
 
         return "mypage/orderdetail";
     }
-
-
-
-    //포트원
-
-
-    @GetMapping("/order")
-    public String orderget(@PathVariable("cartId")Long id, BindingResult bindingResult,
-                           Principal principal, Model model) {
-        if (bindingResult.hasErrors()) {
-            // 유효성 검사 에러 처리
-            return "redirect:/"; // 적절한 에러 페이지로 리다이렉트 또는 에러 처리
-        }
-
-       Optional<OrderItem> orderItem = itemService.getmemberId(id);
-        // 카트 아이드를 받아서 아이템 서비스에서 오더 아이템을 불러온다.
-        //오더 아이템에서 오더를 불러서 payment로 접근을 꾀한다.
-        Optional<Order> order = orderService.getOrder(orderItem.get().getId());
-        RequestPayDto requestPayDto = paymentService.findRequestDto(order.get().getId());
-        model.addAttribute("requestDto", requestPayDto);
-
-        return "order/payment"; // 결제 페이지로 이동
-    }
-
 
 
 }
