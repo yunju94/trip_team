@@ -8,8 +8,8 @@
 		<version>3.2.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.shop</groupId>
-	<artifactId>shop</artifactId>
+	<groupId>com.trip</groupId>
+	<artifactId>trip</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>shop</name>
 	<description>Shop Project Spring Boot</description>
@@ -158,10 +158,6 @@
 			<artifactId>converter-gson</artifactId>
 			<version>2.11.0</version>
 		</dependency>
-
-
-
-
 
 
 	</dependencies>
