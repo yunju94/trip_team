@@ -174,7 +174,9 @@ display: flex;
             <img th:src="@{/css/images/menuline.png}" height="50"></svg>
         </ul>
 
-        <ul class="nav6">
+         <img th:src="@{/css/images/menuline.png}" height="50"></svg>
+        <ul class="nav">
+
             <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
         </ul>
 
@@ -188,6 +190,7 @@ display: flex;
          </ul>
 
 
+
          <ul class="nav8"  sec:authorize="isAuthenticated()">
              <span class="navbar-text" th:text="${#authentication.name} + '님 반갑습니다'"></span>
          </ul>
@@ -196,6 +199,7 @@ display: flex;
          <ul class="nav9" sec:authorize = "isAuthenticated()">
              <a class="nav-link" href="/members/logout">로그아웃</a>
          </ul>
+
 
 
     </div>
