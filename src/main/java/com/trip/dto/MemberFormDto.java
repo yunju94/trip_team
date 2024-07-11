@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Length;
 public class MemberFormDto {
 
     private Long id; //코드
+    private String detailAddress; // 상세주소
+    private String postcode; // 우편번호
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String name;
