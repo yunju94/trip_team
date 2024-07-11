@@ -27,8 +27,10 @@ public class SecurityConfig {
         System.out.println("A");
         http.authorizeRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error").permitAll()
-                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**", "/mypage/**","/domestic",
-                        "/overseas","/questions","/writeForm","/view/**","/comments","/map").permitAll()
+
+                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**",
+                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments","/map").permitAll()
+
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(formLogin -> formLogin
