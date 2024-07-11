@@ -5,6 +5,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
+import com.trip.entity.Order;
 import com.trip.service.PaymentService;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,11 @@ public class PaymentController {
 
 
     @GetMapping("/payment/{id}")
-    public String paymentPage(@PathVariable(name = "id", required = false) Long id,
-                              Model model) {
+    public String paymentPage(@PathVariable(name = "id", required = false) Long id, Model model) {
+        System.out.println(id);
 
         RequestPayDto requestDto = paymentService.findRequestDto(id);
+
         model.addAttribute("requestDto", requestDto);
         return "order/payment";
     }

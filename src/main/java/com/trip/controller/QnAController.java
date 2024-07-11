@@ -86,6 +86,13 @@ public class QnAController {
                         "<br>"+
                         "3. (개인) 이메일 계정";
             case 6:
+                return "인천공항의 경우 <strong><span style='color:red;'>면세점 영업 시간은 아침 7시부터 오후 9시까지</span></strong>입니다."+"<br>"
+                        +"<br>"
+                        +"다만, 매장에 따라 오픈시간에 차이가 있고, <strong><span style='color:red;'>24시간 운영을 하는 곳</span></strong>도 있습니다."+"<br>"
+                        +"<br>"
+                        +"보다 자세한 안내는 인천공항 홈페이지를 참고 부탁드리겠습니다.";
+
+            case 7:
                 return "여행사에서 항공권, 숙박, 식사, 교통 등을 미리 지정하고 관광 일정을 계획하여"+"<br>" +
                         "여행하는 것을 <span style='color:red; font-weight:bold;'>패키지여행</span>이라고 합니다."+"<br>"+
                         "<br>"+
@@ -95,6 +102,20 @@ public class QnAController {
                         "<span style='color:red;'>또한 여행에 대한 사전 준비가 부족하더라도</span> 인솔자나 가이드가 동행하여" +"<br>"+
                         "여행지 정보, 의사소통 문제 등의 <span style='color:red; font-weight:bold;'>도움</span>을 받을 수 있어" +
                         "안전하고 편리하다는 장점이 있습니다.";
+            case 8:
+                return "2007.01.01부터 <strong><span style='color:red;'>24세 이하 자에 대한 국외여행 허가제도가 폐지되어 24세가 되는 해 12월 말까지는</span></strong>" + "<br>"+
+                        "<br>"+
+                        "별도의 허가 절차 없이 국외여행이 가능합니다."+"<br>"+
+                        "<br>"+
+                        "다만, <strong><span style='color:red;'>24세 이하 자라 하더라도 공익근무요원 등으로 대채복무중인 사람은</span></strong> " +
+                        "국외여행 허가를 받아야 합니다."+"<br>"+
+                        "<br>"+
+                        "또한, <strong><span style='color:red;'>25세 이후까지 계속 국외에 체류하고자 할 경우</span></strong>에는 25세가 되는 해 1월 15일까지 " +"<br>"+
+                        "여행목적에 따른 구비서류를 갖추어 <strong><span style='color:red;'>병무청장의 국외여행 기간 연장 허가를 받아야 합니다.</span></strong>";
+            case 9:
+                return "아래 있는 링크로 가시면 자세하게 나와있습니다."+"<br>"+
+                        "<br>"+
+                        "<a href=\"http://localhost/map\">탑승 장소 안내 바로가기</a>";
             default:
                 return "해당 질문에 대한 답변이 준비되어 있지 않습니다.";
         }

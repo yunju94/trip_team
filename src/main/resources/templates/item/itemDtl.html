@@ -49,8 +49,8 @@
                     dataType: "json",
                     cache: false,
                     success: function (result, status) {
-                          alert("주문이 완료 되었습니다.");
-                          location.href='/';
+                          alert("결제를 진행합니다..");
+                            location.href = '/payment/' + result;
                     },
                     error : function(jqXHR, status, error){
                           if(jqXHR.status == '401'){
@@ -175,7 +175,7 @@
             <div th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}" class="text-right">
                 <button type="button" class="btn btn-light border border-primary btn-lg"
                         onclick="addCart()">찜♡</button>
-                <button type="button" class="btn btn-primary btn-lg" onclick="/order()" >예약하기</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="order()" >예약하기</button>
             </div>
             <div th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                  class="text-right">

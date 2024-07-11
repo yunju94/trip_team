@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    String apiKey = "0241557301001773";
-    String secretKey = "DN9CDxdGNMIXyaftNXgeBdLB071AfkdmVzOoSpJ4adxfR9Ru4M212IDJCyUYkFzIRICW5WiX6LMyHGQ3";
+    String apiKey = "6670820564805133";
+    String secretKey = "Wghm8njzidJI4XhfBuxRDb3cXVlVXqJwz7xMd7VXpJvDlM2pLgdjNJzvKGQU60T2QhZC2msAWZloOqBc";
 
     @Bean
     public IamportClient iamportClient() {
