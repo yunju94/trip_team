@@ -2,15 +2,14 @@ package com.trip.controller;
 
 
 import com.trip.constant.Role;
-import com.trip.dto.ItemFormDto;
-import com.trip.dto.OrderDto;
-import com.trip.dto.OrderHistDto;
-import com.trip.dto.OrderItemDto;
+import com.trip.dto.*;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
 import com.trip.service.ItemService;
+import com.trip.service.MemberService;
 import com.trip.service.OrderService;
+import com.trip.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +34,12 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ItemService itemService;
+    private  final PaymentService paymentService;
+
+    //포트원
+    private final MemberService memberService;
+    //private final OrderService orderService;
+
 
     @PostMapping(value = "/order")
     public @ResponseBody
@@ -43,20 +49,26 @@ public class OrderController {
         //stringBuilder a;
         //a.append("abc")
         //a.append("def")
+
         if (bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             for (FieldError fieldError : fieldErrors){
                 sb.append(fieldError.getDefaultMessage());
             }
+            System.out.println(bindingResult.hasErrors());
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
+
         //로그인 정보 -> sprinf security
         //principal.gerName() (현재 로그인된 정보)
         String email = principal.getName();
         Long orderId;
-        try{
-            orderId = orderService.order(orderDto, email);
+            try{
+
+                orderId = orderService.order(orderDto, email);
+
+
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 

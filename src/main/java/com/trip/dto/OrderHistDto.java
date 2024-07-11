@@ -15,7 +15,9 @@ import java.util.List;
 public class OrderHistDto {
     private Long orderId; //주문 번호
     private String orderDate; //주문 시간
+
     private OrderStatus orderStatus;//주문 상태
+
     private List<OrderItemDto> orderItemDtoList = new ArrayList<>();
     //오더 아이템 리스트(가격, 인원)
     //상품 이름
@@ -26,6 +28,7 @@ public class OrderHistDto {
         this.orderDate = order.getOrderDate()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.orderStatus = order.getOrderStatus();
+
 
  }
     public void addOrderItemDto(OrderItemDto orderItemDto){

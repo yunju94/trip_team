@@ -1,5 +1,6 @@
 package com.trip.service;
 
+import com.trip.constant.PaymentStatus;
 import com.trip.dto.OrderDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.dto.OrderItemDto;
@@ -30,6 +31,7 @@ public class OrderService {
     private  final ItemRepository itemRepository;
 
     private  final MemberRepository memberRepository;
+    private  final PaymentRepository paymentRepository;
 
     @Transactional(readOnly = true)
     public Page<OrderHistDto> orderlist(String email, Pageable pageable) {
@@ -103,18 +105,52 @@ public class OrderService {
         return order;
     }
     public Long order(OrderDto orderDto, String email){
+
+
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(email);
 
-        List<OrderItem> orderItemList = new ArrayList<>();
-        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
-        orderItemList.add(orderItem);
+        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());//orderPrice생성
+        orderItemList.add(orderItem);//오더 아이템을 오더 리스트에 넣음.
 
-        Order order = Order.createOrder(member, orderItemList);
+        Payment payment = new Payment();
+
+        Order order = Order.createOrder(member, orderItemList, payment);
+
+        payment.setPaymentUid(order.getOrderUid());
+        payment.setPrice(order.getPrice());
+        payment.setStatus(PaymentStatus.OK);
+        paymentRepository.save(payment);
+
+
+
         orderRepository.save(order);
+
+
+
+
+
         return  order.getId();
     }
+
+    public Optional<Order> getOrder(Long id){
+        Optional<Order> order = orderRepository.findById(id);
+        return order;
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 }
