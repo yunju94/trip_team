@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CreatePageDone</title>
+    <title>게시글 작성</title>
     <style>
-        h2 {
-            font-weight: border;
-        }
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
 
         .form-container {
@@ -27,36 +24,31 @@
             width: 100%;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+        h2 {
+            font-size: 24px;
             color: #333;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .form-input {
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
             box-sizing: border-box;
+            margin-bottom: 15px;
         }
 
-        .form-input:focus {
-            border-color: #009879;
-            outline: none;
-        }
-
-        .button-group {
-            text-align: right;
-        }
-
-        .button {
+        input[type="submit"] {
             background-color: #009879;
             color: white;
             border: none;
@@ -64,66 +56,32 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-left: 10px;
             transition: background-color 0.3s;
         }
 
-        .button:hover {
+        input[type="submit"]:hover {
             background-color: #007a63;
         }
     </style>
-    <script>
-        function goToListForm() {
-            window.location.href = "questions";
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function(event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-
-        const formData = new FormData(form);
-        // CSRF 토큰 추가
-        formData.append("_csrf", document.getElementsByName("_csrf")[0].value);
-
-        fetch("write", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = "questions";
-            } else {
-                alert("Error: " + data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-    });
-});
-    </script>
 </head>
 <body>
 <div class="form-container">
-    <form>
-        <div class="form-group">
-            <label for="writer" class="form-label">작성자</label>
-            <input type="text" id="writer" name="writer" class="form-input" required>
+    <h2>문의 작성</h2>
+    <form th:action="@{/writeForm}" th:object="${questionsDto}" method="post">
+        <div>
+            <label for="writer">작성자:</label>
+            <input type="text" id="writer" name="writer" th:field="*{writer}" required>
         </div>
-        <div class="form-group">
-            <label for="title" class="form-label">제목</label>
-            <input type="text" id="title" name="title" class="form-input" required>
+        <div>
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" th:field="*{title}" required>
         </div>
-        <div class="form-group">
-            <label for="content" class="form-label">내용</label>
-            <textarea id="content" name="content" class="form-input" rows="5" required></textarea>
+        <div>
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" th:field="*{content}" rows="5" required></textarea>
         </div>
-        <div class="button-group">
-            <input type="submit" value="입력" class="button">
-            <input type="button" value="목록으로" class="button" onclick="goToListForm()">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <div>
+            <input type="submit" value="입력">
         </div>
     </form>
 </div>

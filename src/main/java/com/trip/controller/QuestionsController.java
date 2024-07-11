@@ -1,39 +1,56 @@
 package com.trip.controller;
 
+import com.trip.dto.CommentDto;
 import com.trip.dto.QuestionsDto;
+import com.trip.entity.Comment;
+import com.trip.entity.Questions;
+import com.trip.service.CommentService;
 import com.trip.service.QuestionsService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class QuestionsController {
     @Autowired
     private QuestionsService questionsService;
-    @GetMapping(value = "/questions")
-    public String questionsList() {
+    @Autowired
+    private CommentService commentService;
+
+    @GetMapping("/questions")
+    public String questionsList(Model model) {
+        List<Questions> questionsList = questionsService.getAllQuestions();
+        model.addAttribute("questionsList", questionsList);
         return "questions/questions";
     }
-    @GetMapping(value = "/writeForm")
-    public String writeForm(){
+
+    @GetMapping("/writeForm")
+    public String writeForm(Model model) {
+        model.addAttribute("questionsDto", new QuestionsDto());
         return "questions/writeForm";
     }
-    @PostMapping("/write")
-    @ResponseBody
-    public ResponseEntity<String> write(@RequestBody QuestionsDto questionsDto) {
-        try {
-            questionsService.save(questionsDto);
-            return ResponseEntity.ok("글이 성공적으로 등록되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("글 등록에 실패했습니다.");
-        }
-    }
 
+    @PostMapping("/writeForm")
+    public String write(QuestionsDto questionsDto) {
+        questionsService.save(questionsDto);
+        return "redirect:/questions";
+    }
+    @GetMapping("/view")
+    public String viewQuestion(@RequestParam("id") Long id, Model model) {
+        Questions question = questionsService.getQuestionById(id);
+        List<Comment> comments = commentService.getCommentsByQuestionId(id);
+        model.addAttribute("question", question);
+        model.addAttribute("comments", comments);
+        model.addAttribute("commentDto", new CommentDto());
+        return "questions/view";
+    }
 }

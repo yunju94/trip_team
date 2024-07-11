@@ -20,11 +20,12 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-
     @Column(unique = true)
     private String email;
     private String password;
     private String address;
+    private String postcode;
+    private String detailAddress;
     private String tel;
 
     @Enumerated(EnumType.STRING)
@@ -37,11 +38,14 @@ public class Member extends BaseEntity {
         member.setEmail(memberFormDto.getEmail());
         member.setAddress(memberFormDto.getAddress());
         member.setTel(memberFormDto.getTel());
+        member.setPostcode(memberFormDto.getPostcode());
+        member.setDetailAddress(memberFormDto.getDetailAddress());
         String password = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(password);
         member.setRole(Role.ADMIN);
         return member;
     }
+
 
     public void updatemember(MemberFormDto memberFormDto){
         this.name = memberFormDto.getName();
