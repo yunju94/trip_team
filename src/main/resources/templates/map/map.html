@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>버스 탑승지</title>
-
 </head>
 <h2>인천 버스 탑승지</h2>
 <body>
@@ -30,7 +29,7 @@ var marker = new kakao.maps.Marker({
 marker.setMap(map);
 
 // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-var iwContent = '<div style="padding:5px;">인천 탑승지 상록 스테이션 타워</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+var iwContent = '<div style="padding:5px;">상록 스테이션 타워</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
 // 인포윈도우를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({
@@ -53,49 +52,49 @@ kakao.maps.event.addListener(marker, 'mouseout', function() {
     // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
     // marker.setMap(null);
 </script>
-<h2>인천광역시 부평구 경원대로 1366 상록 스테이션 타워 앞</h2>
+<p>인천광역시 부평구 경원대로 1366 상록 스테이션 타워 앞</p>
 <hr>
 <hr>
 <h2>서울 버스 탑승지</h2>
 <div id="map2" style="width:350px;height:350px;"></div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b67a36ab7e4134e8f182a8b7ee5dfbfa"></script>
 <script>
-    var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div
+    var mapContainer2 = document.getElementById('map2'),
     mapOption2 = {
-        center: new kakao.maps.LatLng(37.555894, 126.971866), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(37.555894, 126.971866),
         level: 3 // 지도의 확대 레벨
     };
 
-var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
+var map2 = new kakao.maps.Map(mapContainer2, mapOption2);
 
-// 마커를 표시할 위치입니다
+
 var position2 =  new kakao.maps.LatLng(37.555894, 126.971866);
 
-// 마커를 생성합니다
+
 var marker2 = new kakao.maps.Marker({
   position: position2
 });
 
-// 마커를 지도에 표시합니다.
+
 marker2.setMap(map2);
 
-// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-var iwContent2 = '<div style="padding:5px;">서울 탑승지 문화역서울284</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
-// 인포윈도우를 생성합니다
+var iwContent2 = '<div style="padding:5px;">문화역서울284</div>';
+
+
 var infowindow2 = new kakao.maps.InfoWindow({
     content : iwContent2
 });
 
-// 마커에 마우스오버 이벤트를 등록합니다
+
 kakao.maps.event.addListener(marker2, 'mouseover', function() {
-  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+
     infowindow2.open(map2, marker2);
 });
 
-// 마커에 마우스아웃 이벤트를 등록합니다
+
 kakao.maps.event.addListener(marker2, 'mouseout', function() {
-    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+
     infowindow2.close();
 });
 
@@ -103,8 +102,206 @@ kakao.maps.event.addListener(marker2, 'mouseout', function() {
     // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
     // marker.setMap(null);
 </script>
-<h2>서울 중구 통일로 1 문화역서울284</h2>
+<p>서울 중구 통일로 1 문화역서울284</p>
 <hr>
 <hr>
+<h2>부산 버스 탑승지</h2>
+<div id="map3" style="width:350px;height:350px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b67a36ab7e4134e8f182a8b7ee5dfbfa"></script>
+<script>
+    var mapContainer3 = document.getElementById('map3'),
+    mapOption3 = {
+        center: new kakao.maps.LatLng(35.114522, 129.040143),
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map3 = new kakao.maps.Map(mapContainer3, mapOption3);
+
+
+var position3 =  new kakao.maps.LatLng(35.114522, 129.040143);
+
+
+var marker3 = new kakao.maps.Marker({
+  position: position3
+});
+
+
+marker3.setMap(map3);
+
+
+var iwContent3 = '<div style="padding:5px;">스타벅스 부산라마다점</div>';
+
+
+var infowindow3 = new kakao.maps.InfoWindow({
+    content : iwContent3
+});
+
+
+kakao.maps.event.addListener(marker3, 'mouseover', function() {
+
+    infowindow3.open(map3, marker3);
+});
+
+
+kakao.maps.event.addListener(marker3, 'mouseout', function() {
+
+    infowindow3.close();
+});
+
+
+    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+    // marker.setMap(null);
+</script>
+<p>부산 동구 중앙대로196번길 10</p>
+<hr>
+<hr>
+<h2>양양 버스 탑승지</h2>
+<div id="map4" style="width:350px;height:350px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b67a36ab7e4134e8f182a8b7ee5dfbfa"></script>
+<script>
+    var mapContainer4 = document.getElementById('map4'),
+    mapOption4 = {
+        center: new kakao.maps.LatLng(38.084793, 128.630208),
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map4 = new kakao.maps.Map(mapContainer4, mapOption4);
+
+
+var position4 =  new kakao.maps.LatLng(38.084793, 128.630208);
+
+
+var marker4 = new kakao.maps.Marker({
+  position: position4
+});
+
+
+marker4.setMap(map4);
+
+
+var iwContent4 = '<div style="padding:5px;">양양종합여객터미널</div>';
+
+
+var infowindow4 = new kakao.maps.InfoWindow({
+    content : iwContent4
+});
+
+
+kakao.maps.event.addListener(marker4, 'mouseover', function() {
+
+    infowindow4.open(map4, marker4);
+});
+
+
+kakao.maps.event.addListener(marker4, 'mouseout', function() {
+
+    infowindow4.close();
+});
+
+
+    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+    // marker.setMap(null);
+</script>
+<p>강원 양양군 양양읍 동해대로 2700</p>
+<hr>
+<hr>
+<h2>제주 버스 탑승지</h2>
+<div id="map5" style="width:350px;height:350px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b67a36ab7e4134e8f182a8b7ee5dfbfa"></script>
+<script>
+    var mapContainer5 = document.getElementById('map5'),
+    mapOption5 = {
+        center: new kakao.maps.LatLng(33.249065, 126.509538),
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map5 = new kakao.maps.Map(mapContainer5, mapOption5);
+
+
+var position5 =  new kakao.maps.LatLng(33.249065, 126.509538);
+
+
+var marker5 = new kakao.maps.Marker({
+  position: position5
+});
+
+
+marker5.setMap(map5);
+
+
+var iwContent5 = '<div style="padding:5px;">이마트 서귀포점</div>';
+
+
+var infowindow5 = new kakao.maps.InfoWindow({
+    content : iwContent5
+});
+
+
+kakao.maps.event.addListener(marker5, 'mouseover', function() {
+
+    infowindow5.open(map5, marker5);
+});
+
+
+kakao.maps.event.addListener(marker5, 'mouseout', function() {
+
+    infowindow5.close();
+});
+
+
+    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+    // marker.setMap(null);
+</script>
+<p>제주 서귀포시 일주동로 9209</p>
+<hr>
+<hr>
+<h2>대전 버스 탑승지</h2>
+<div id="map6" style="width:350px;height:350px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b67a36ab7e4134e8f182a8b7ee5dfbfa"></script>
+<script>
+    var mapContainer6 = document.getElementById('map6'),
+    mapOption6 = {
+        center: new kakao.maps.LatLng(36.332924, 127.435650),
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map6 = new kakao.maps.Map(mapContainer6, mapOption6);
+
+
+var position6 =  new kakao.maps.LatLng(36.332924, 127.435650);
+
+
+var marker6 = new kakao.maps.Marker({
+  position: position6
+});
+
+
+marker6.setMap(map6);
+
+
+var iwContent6 = '<div style="padding:5px;">대전역</div>';
+
+
+var infowindow6 = new kakao.maps.InfoWindow({
+    content : iwContent6
+});
+
+
+kakao.maps.event.addListener(marker6, 'mouseover', function() {
+
+    infowindow6.open(map6, marker6);
+});
+
+
+kakao.maps.event.addListener(marker6, 'mouseout', function() {
+
+    infowindow6.close();
+});
+
+
+    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+    // marker.setMap(null);
+</script>
+<p>대전 동구 중앙로 215</p>
 </body>
 </html>
