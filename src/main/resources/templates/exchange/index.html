@@ -66,49 +66,72 @@
 
         <script>
             // 그래프 설정
+          var now = new Date();
 
-      var xValues = [1, 2, 3, 4, 5, 6];
-      var yValues1 = [0.000726, 0.000725, 0.000725, 0.000726, 0.000725, 0.000725];
-      var yValues2 = [0.042294, 0.042294, 0.042281, 0.042281, 0.04228, 0.042272];
-      var yValues3 = [0.117318, 0.117276, 0.117282, 0.117285, 0.117266, 0.117247];
-      var yValues4 = [18.450118, 18.440486, 18.441954, 18.444366, 18.443717, 18.4393];
-      var yValues5 = [0.003402, 0.003401, 0.003401, 0.003401, 0.003401, 0.0034];
+          // 7일 전 날짜 계산
+          var minusWeek = new Date(now);
+          minusWeek.setDate(now.getDate() -2); //2일 전으로 변경
 
-      new Chart(document.getElementById("myChart"), {
-          type: "line",
-          data: {
-              labels: xValues,
-              datasets: [{
-                  data: yValues1,
-                  label: "필리핀",
-                  borderColor: "red",
-                  fill: false
-              }, {
-                  data: yValues2,
-                  label: "일본",
-                  borderColor: "green",
-                  fill: false
-              }, {
-                  data: yValues3,
-                  label: "미국",
-                  borderColor: "black",
-                  fill: false
-              },{
-                  data: yValues4,
-                  label: "베트남",
-                  borderColor: "yellow",
-                  fill: false
-              },{
-                  data: yValues5,
-                  label: "말레이시아",
-                  borderColor: "blue",
-                  fill: false
-              }]
-          },
-          options: {
-              legend: { display: false }
+          // 날짜 배열 초기화
+          var xValues = [];
+
+          // 3일 간의 날짜 배열 생성
+          for (var date = new Date(minusWeek); date <= now; date.setDate(date.getDate() + 1)) {
+              var formattedDate = date.toISOString().slice(0,10); // "YYYY-MM-DD" 형식으로 포맷팅
+              xValues.push(formattedDate); // 포맷팅된 날짜를 배열에 추가
           }
-      });
+
+          // 서버에서 데이터를 받아오는 반복문
+            var yValues1_1=  [ [[${yValues1}]] ];
+            var yValues1=yValues1_1.pop(0);
+
+            var yValues2_1=  [ [[${yValues2}]] ];
+            var yValues2=yValues2_1.pop(0);
+
+          var yValues3_1 = [ [[${yValues3}]] ];
+           var yValues3=yValues3_1.pop(0);
+
+          var yValues4_1 = [ [[${yValues4}]] ];
+          var yValues4=yValues4_1.pop(0);
+
+          var yValues5_1 = [ [[${yValues5}]] ];
+           var yValues5=yValues5_1.pop(0);
+
+          new Chart(document.getElementById("myChart"), {
+              type: "line",
+              data: {
+                  labels: xValues,
+                  datasets: [{
+                      data: yValues1,
+                      label: "필리핀",
+                      borderColor: "red",
+                      fill: false
+                  }, {
+                      data: yValues2,
+                      label: "일본",
+                      borderColor: "green",
+                      fill: false
+                  }, {
+                      data: yValues3,
+                      label: "미국",
+                      borderColor: "black",
+                      fill: false
+                  }, {
+                      data: yValues4,
+                      label: "베트남",
+                      borderColor: "yellow",
+                      fill: false
+                  }, {
+                      data: yValues5,
+                      label: "말레이시아",
+                      borderColor: "blue",
+                      fill: false
+                  }]
+              },
+              options: {
+                  legend: { display: false }
+              }
+          });
 
         </script>
         <!-- 환율 계산기 -->
@@ -117,8 +140,8 @@
         </div>
 
         <div class="col-md-6 exchange-input">
-            <div><label>송금 국가:</label> <span>한국(KRW)</span></div>
-            <div><label>수취 국가:</label>
+            <div><label><span>한국(KRW)</span></label> </div>
+            <div><label> 국가:</label>
                 <select name="receive_country" class="custom-select col-sm-6" id="receive_country" onchange="getExchangeRates()">
                     <option selected value="dft">국가 선택</option>
                     <option value="PHP" id="PHP">필리핀(PHP)</option>

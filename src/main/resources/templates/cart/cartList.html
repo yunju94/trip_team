@@ -70,12 +70,16 @@
         function order() {
               var token = $("meta[name='_csrf']").attr("content");
               var header = $("meta[name='_csrf_header']").attr("content");
+              var cartId= $("#cartId").text()
+              var count = $("#cartCount").text()
 
-              var url = "/cart/order";
+
+              var url = "/cart/" + cartId + "/order";
               var paramData = {
-                    cartId: $("#cartId").val(),
-                    count: $("#cartCount").val()
+                    cartId: cartId,
+                    count: count
               }
+
 
               var param = JSON.stringify(paramData);
 
@@ -85,16 +89,19 @@
                     contentType: "application/json",
                     data: param,
                     beforeSend: function (xhr) {
+                        console.log("3")
                           // 데이터 전송하기 전에 헤더에 csrf 값을 설정
                           xhr.setRequestHeader(header, token);
                     },
                     dataType: "json",
                     cache: false,
                     success: function (result, status) {
+                           console.log("4")
                           alert("결제를 진행합니다..");
                             location.href = '/payment/' + result;
                     },
                     error : function(jqXHR, status, error){
+                        console.log("5")
                           if(jqXHR.status == '401'){
                                 alert('로그인 후 이용해주세요');
                                 location.href='/members/login';
@@ -189,7 +196,7 @@
                 <h3 class="tit">예약 내역</h3>
             </div>
             <div>
-                <table>
+                <table class="table table-striped" style="width:800px;">
                     <thead>
                     <tr>
                         <th>주문번호</th>
@@ -205,24 +212,27 @@
                     <tr th:each="cart : ${cartDetailItem}">
                         <td th:text="${cart.id}" id="cartId"></td><!-- id 번호 -->
                         <td th:text="${cart.itemNm}" id="cartItemNm"></td><!-- 상품명 -->
-                        <td th:text="${cart.startDate}" id="cartStartDate"></td><!-- 출발일 -->
+                        <td th:text="${cart.startDate}" id=" cartStartDate"></td><!-- 출발일 -->
                         <td th:text="${cart.count}" id="cartCount"></td><!-- 인원 -->
-                        <td th:text="${cart.price * cart.count}" id="cartTotalPrice"></td><!-- 총가격 -->
-                        <td><button type="button"  th:data-id="${cart.id}" onclick="order()" >예약</button></td>
-                        <td><button type="button"  th:data-id="${cart.id}" onclick="deleteItemList(this)" >삭제</button></td>
-
+                        <td th:text="${cart.price * cart.count}" id="cartTotal"></td><!-- 총가격 -->
+                        <td><button type="button" th:data-id="${cart.id}" onclick="order()" class="btn btn-primary btn-sm">예약</button></td>
+                        <td><button type="button" th:data-id="${cart.id}" onclick="deleteItemList(this)" class="btn btn-danger btn-sm">삭제</button></td>
                     </tr>
                     </tbody>
                 </table>
-                <h3>이런 여행은 어떠신가요?♥</h3>
-                <div class="con">
+                <h3 style="margin-top: 20px;">이런 여행은 어떠신가요?♥</h3>
+                <div class="slider">
+                    <div class="sliderDiv">
+                        <img th:src="@{/css/images/jeju_1.jpg}" class="img-fluid rounded">
+                    </div>
                     <div>
-                        <div class="slider">
-                            <div class="sliderDiv"><img th:src="@{/css/images/jeju_1.jpg}"></div>
-                            <div><img th:src="@{/css/images/jeju_2.jpg}"></div>
-                            <div><img th:src="@{/css/images/jeju_3.jpg}"></div>
-                            <div><img th:src="@{/css/images/jeju_4.jpg}"></div>
-                        </div>
+                        <img th:src="@{/css/images/jeju_2.jpg}" class="img-fluid rounded">
+                    </div>
+                    <div>
+                        <img th:src="@{/css/images/jeju_3.jpg}" class="img-fluid rounded">
+                    </div>
+                    <div>
+                        <img th:src="@{/css/images/jeju_4.jpg}" class="img-fluid rounded">
                     </div>
                 </div>
             </div>

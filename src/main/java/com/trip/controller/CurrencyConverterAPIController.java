@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 
 @Controller
@@ -24,8 +26,25 @@ public class CurrencyConverterAPIController {
     private  final ExchangeNatureService exchangeNatureService;
     private final DecimalFormat decimalFormat = new DecimalFormat("#,##0.0000");
 
+    private  final  CurrencyConverterService currencyConverterService;
+
     @GetMapping(value = "/list")
-    public  String excahangeList(){
+    public  String excahangeList(Model model){
+
+
+        List<Double> yValues1 =  currencyConverterService.getPHPDB();
+        System.out.println("000000000000000000000000000000000000000000");
+        System.out.println("yValues1: "+yValues1);
+        List<Double> yValues2 =  currencyConverterService.getJPYDB();
+        List<Double> yValues3 =  currencyConverterService.getUSDDB();
+        List<Double> yValues4 =  currencyConverterService.getVNDDB();
+        List<Double> yValues5 =  currencyConverterService.getMYRDB();
+        model.addAttribute("yValues1", yValues1);
+        model.addAttribute("yValues2", yValues2);
+        model.addAttribute("yValues3", yValues3);
+        model.addAttribute("yValues4", yValues4);
+        model.addAttribute("yValues5", yValues5);
+
         return "exchange/index";
     }
 

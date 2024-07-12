@@ -6,6 +6,7 @@ import com.siot.IamportRestClient.response.Payment;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
 import com.trip.entity.Order;
+import com.trip.service.OrderService;
 import com.trip.service.PaymentService;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final OrderService orderService;
 
 
     @GetMapping("/payment/{id}")
@@ -47,8 +49,14 @@ public class PaymentController {
         return "order/success-payment";
     }
 
-    @GetMapping("/fail-payment")
-    public String failPaymentPage() {
+    @GetMapping("/fail-payment/{orderUid}")
+    public String failPaymentPage(@PathVariable("orderUid") String orderUid) {
+                                            //파라미터 값이 없으면 null값으로
+
+        Order order =orderService.orderUidOrderCancle(orderUid);
+
+
+
         return "order/fail-payment";
     }
 }
