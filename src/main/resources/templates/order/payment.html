@@ -67,7 +67,7 @@
                     } else {
                         //alert("success? "+ rsp.success+ ", 결제에 실패하였습니다. 에러 내용: " + JSON.stringify(rsp));
                         alert('결제 실패!' + rsp);
-                        window.location.href = "/fail-payment";
+                        window.location.href = "/fail-payment/"+ orderUid;
                     }
                 });
         }

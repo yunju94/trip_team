@@ -65,9 +65,7 @@ public class OrderController {
         String email = principal.getName();
         Long orderId;
             try{
-
                 orderId = orderService.order(orderDto, email);
-
 
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

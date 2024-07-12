@@ -36,5 +36,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             " where o.orderUid = :orderUid")
     Optional<Order> findOrderAndPayment(String orderUid);
 
-
+    Order findByOrderUid(String orderUid);
 }

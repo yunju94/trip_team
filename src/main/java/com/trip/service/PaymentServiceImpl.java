@@ -4,6 +4,7 @@ import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
+import com.trip.constant.OrderStatus;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
 import com.trip.entity.Order;
@@ -16,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Optional;
 
+import static com.trip.constant.PaymentStatus.CANCEL;
 import static com.trip.constant.PaymentStatus.OK;
 
 @Service
@@ -92,5 +95,18 @@ public class PaymentServiceImpl implements PaymentService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    @Override
+    public  void paymentStatuCancle(Long orderid){
+      Optional<Order> order =  orderRepository.findById(orderid);
+
+      Payment payment = paymentRepository.getReferenceById(order.get().getPayment().getId());
+
+      order.get().setOrderStatus(OrderStatus.CANCEL);
+      order.get().getOrderItems().getFirst().getItem().addStock(1);
+      payment.setStatus(CANCEL);
+
     }
 }

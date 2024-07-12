@@ -2,6 +2,8 @@ package com.trip.service;
 
 import com.trip.dto.CartDetailDto;
 import com.trip.dto.CartItemDto;
+import com.trip.dto.CartOrderDto;
+import com.trip.dto.OrderDto;
 import com.trip.entity.Cart;
 import com.trip.entity.CartItem;
 import com.trip.entity.Item;
@@ -20,6 +22,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -104,6 +107,30 @@ public class CartService {
         }
 
 
+    }
+
+    public Long orderCartItem(CartOrderDto cartOrderDto, String email){
+        //주문 dto list 객체 생성
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        //주문 리스트에 있는 목록을 카트 아이템 객체로 추출.
+        //주문 dto에 카트 아이템 정보를 담고, 위에 선언된 주문 dto list에 추가한다.
+
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityExistsException::new);
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+
+
+        // 주문 dtolist랑 현재 로그인 된 email을 매개 변수로 넣어서 주문
+        Long orderId = orderService.order(orderDto, email);
+
+        //카트에 있는 아이템이 주문 되니까 해당 아이템을 모두 삭제한다.
+
+
+            cartItemRepository.delete(cartItem);
+
+        return orderId;
     }
 
 

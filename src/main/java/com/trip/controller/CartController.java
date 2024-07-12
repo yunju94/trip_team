@@ -1,9 +1,10 @@
 package com.trip.controller;
 
 import com.trip.dto.*;
-import com.trip.entity.CartItem;
-import com.trip.entity.Order;
+import com.trip.entity.*;
 import com.trip.service.CartService;
+import com.trip.service.ItemService;
+import com.trip.service.MemberService;
 import com.trip.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,8 @@ public class CartController {
 
     private  final CartService cartService;
     private  final OrderService orderService;
-
+    private  final ItemService itemService;
+    private  final MemberService memberService;
 
     @GetMapping(value = "/cart")
     public String main(Principal principal, Model model) {
@@ -84,32 +86,25 @@ public class CartController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/cart/order")
-//    public @ResponseBody
-//    ResponseEntity order(@PathVariable ("cartId") Long cartId, BindingResult bindingResult
-//            , Principal principal){
-//
-//        if (bindingResult.hasErrors()){
-//            StringBuilder sb = new StringBuilder();
-//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//            for (FieldError fieldError : fieldErrors){
-//                sb.append(fieldError.getDefaultMessage());
-//            }
-//            System.out.println(bindingResult.hasErrors());
-//            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
-//        }
-//        String email = principal.getName();
-//        Long orderId;
-//        try{
-//            System.out.println("111111111122222222222223333333");
-//            orderId = orderService.orderIdAndDto(cartId, email);
-//            System.out.println("44444444444444455555555555566666666666");
-//        }catch (Exception e){
-//            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return  new ResponseEntity<Long>(orderId, HttpStatus.OK);
-//    }
+    @PostMapping(value = "/cart/{cartId}/order")
+    public @ResponseBody
+    ResponseEntity order(@PathVariable("cartId") Long cartItemId, Principal principal){
+
+
+            if (!cartService.validateCartItem(cartItemId, principal.getName())){
+                return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            }
+        CartOrderDto cartorderDto = new CartOrderDto();
+            cartorderDto.setCartItemId(cartItemId);
+        Long orderId;
+        try{
+            orderId = cartService.orderCartItem(cartorderDto, principal.getName());
+        }catch (Exception e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return  new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    }
 
 
 }
