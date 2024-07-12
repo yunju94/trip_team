@@ -4,6 +4,7 @@
       layout:decorate="~{layouts/layout1}">
 
 <th:block layout:fragment="script">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script th:inline="javascript">
         $(document).ready(function(){
           var errorMessage = [[${errorMessage}]];
@@ -11,6 +12,24 @@
              alert(errorMessage);
          }
         });
+         function daumPost(){
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+                        document.getElementById('postcode').value = data.zonecode
+                        document.getElementById('address').value = addr
+                        document.getElementById('detailAddress').focus()
+                    }
+                }).open();
+            }
 
     </script>
 </th:block>
@@ -85,7 +104,10 @@
 
                 <div class="form-group">
                     <label th:for="address">주소</label>
-                    <input type="text" th:field="${memberFormDto.address}" class="form-control" placeholder="주소를 입력해주세요.">
+                    <input type="text" id="postcode" th:field="*{postcode}" placeholder="우편번호" readonly="readonly">
+                    <input type="button" onclick="daumPost()" value="우편번호 찾기"><br>
+                    <input type="text" id="address" th:field="*{address}" placeholder="주소"><br>
+                    <input type="text" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소">
                     <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError">Incorrect date</p>
                 </div>
                 <div class="form-group">

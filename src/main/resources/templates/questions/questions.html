@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 목록</title>
+    <title>게시글 목록 - 무한 스크롤</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -22,6 +22,9 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
+            height: 90vh;
+            overflow-y: auto;
+            position: relative; /* 중요: 스크롤 높이 계산을 위해 필요 */
         }
 
         h2 {
@@ -56,34 +59,16 @@
             background-color: #f1f1f1;
         }
 
-        .gradient-button {
-            background-color: #009879;
-            border: none;
-            color: white;
-            padding: 10px 20px;
+        .loader {
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-            display: block;
-            width: 120px;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        .gradient-button:hover {
-            background-color: #007a63;
+            margin-top: 20px;
+            display: none; /* 초기에는 로더 숨김 */
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h2>문의 내역</h2>
-    <a th:href="@{/writeForm}" class="gradient-button">글쓰기</a>
+<div class="container" id="container">
+    <h2>게시글 목록</h2>
     <table>
         <thead>
         <tr>
@@ -92,18 +77,78 @@
             <th>작성자</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="question : ${questionsList}">
-            <td th:text="${question.id}">번호</td>
+        <tbody id="questionsList">
+        <!-- 초기 데이터 로드 -->
+        <!-- Thymeleaf 반복문을 사용하여 초기 20개의 게시글 생성 -->
+        <tr th:each="i : ${#numbers.sequence(1, 20)}">
+            <td th:text="${i}">번호</td>
             <td>
-                <a th:href="@{/view(id=${question.id})}" th:text="${question.title}">제목</a>
+                <a th:href="@{'/view?id=' + ${i}}" th:text="'제목 ' + ${i}">제목</a>
             </td>
-            <td th:text="${question.writer}">작성자</td>
+            <td th:text="'작성자 ' + ${i}">작성자</td>
         </tr>
         </tbody>
     </table>
-    <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
-    <button onclick="window.location.href='/questions'">1:1 문의</button>
+    <div class="loader" id="loader">
+        <img src="https://loading.io/spinners/flickr/lg.-advanced-loader.gif" alt="로딩 중...">
+    </div>
 </div>
+
+<script>
+    let currentPage = 1; // 초기 페이지 번호 (첫 페이지)
+    const itemsPerPage = 10; // 한 번에 로드할 아이템 수
+    let currentMaxNumber = 20; // 현재까지 로드된 마지막 번호
+
+    const container = document.getElementById('container');
+    const loader = document.getElementById('loader');
+    const questionsList = document.getElementById('questionsList');
+
+    // 초기 데이터는 이미 로드되어 있으므로 다음 페이지부터 로드
+    currentPage++;
+
+    // 스크롤 이벤트 감지
+    container.addEventListener('scroll', () => {
+        if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+            // 스크롤바가 맨 아래에 도달했을 때 다음 페이지 로드
+            loadNextPage();
+        }
+    });
+
+    // 초기 페이지의 데이터 로드 함수 (임시로 setTimeout을 사용하여 시뮬레이션)
+    function loadNextPage() {
+        loader.style.display = 'block'; // 로더 표시
+
+        setTimeout(() => {
+            const start = currentMaxNumber + 1;
+            const end = currentMaxNumber + itemsPerPage;
+
+            for (let i = start; i <= end; i++) {
+                const row = document.createElement('tr');
+
+                const idCell = document.createElement('td');
+                idCell.textContent = i;
+                row.appendChild(idCell);
+
+                const titleCell = document.createElement('td');
+                const titleLink = document.createElement('a');
+                titleLink.href = `#`; // 실제 링크는 여기서 처리
+                titleLink.textContent = `제목 ${i}`;
+                titleCell.appendChild(titleLink);
+                row.appendChild(titleCell);
+
+                const writerCell = document.createElement('td');
+                writerCell.textContent = `작성자 ${i}`;
+                row.appendChild(writerCell);
+
+                questionsList.appendChild(row);
+            }
+
+            loader.style.display = 'none'; // 로더 숨김
+            currentMaxNumber = end; // 현재까지 로드된 마지막 번호 업데이트
+            currentPage++; // 다음 페이지 번호 증가
+        }, 1000); // 예시로 1초 지연 후 데이터 로드
+    }
+</script>
+
 </body>
 </html>
