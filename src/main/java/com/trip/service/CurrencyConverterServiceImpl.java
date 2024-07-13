@@ -35,7 +35,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         List<Double> PHP = new ArrayList<>();
         LocalDate date = LocalDate.now();
         List<String> str = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str= exchangeNatureRepository.findByPHP(currentDate);
@@ -54,7 +54,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         LocalDate date = LocalDate.now();
         List<String> str = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str=exchangeNatureRepository.findByJPY(currentDate);
@@ -71,7 +71,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         List<Double> USD = new ArrayList<>();
         LocalDate date = LocalDate.now();
         List<String> str = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str= exchangeNatureRepository.findByUSD(currentDate);
@@ -88,7 +88,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         List<Double> VND = new ArrayList<>();
         LocalDate date = LocalDate.now();
         List<String> str = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str=exchangeNatureRepository.findByVND(currentDate);
@@ -105,7 +105,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         List<Double> MYR = new ArrayList<>();
         LocalDate date = LocalDate.now();
         List<String> str = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             LocalDate currentDate = date.minusDays(i);
             System.out.println(currentDate);
             Double value = 0.0;
