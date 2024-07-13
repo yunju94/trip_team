@@ -33,7 +33,6 @@ public class CurrencyConverterAPIController {
 
 
         List<Double> yValues1 =  currencyConverterService.getPHPDB();
-        System.out.println("000000000000000000000000000000000000000000");
         System.out.println("yValues1: "+yValues1);
         List<Double> yValues2 =  currencyConverterService.getJPYDB();
         List<Double> yValues3 =  currencyConverterService.getUSDDB();
