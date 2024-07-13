@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,10 @@ public class MileageService {
             throw new IllegalArgumentException("Member not found for id: " + memberId);
         }
 
+    }
+
+    public List<Mileage>  membertoMileage(Long memberId){
+
+        return mileageRepository.findByMemberId(memberId);
     }
 }
