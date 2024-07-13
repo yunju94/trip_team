@@ -58,11 +58,9 @@
             align-items: center;
         }
         header {
-            background-color: #343a40;
-            color: white;
-            padding: 1em 0;
             width: 100%;
-            text-align: center;
+            background-color: #ffff;
+
         }
         main {
             max-width: 800px;
@@ -73,10 +71,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        h1 {
-            color: #343a40;
-            margin-bottom: 1em;
-        }
+
         .question {
             margin: 1em 0;
             padding: 1em;
@@ -100,8 +95,8 @@
         }
        .sidebar {
     position: fixed;
-    top: 155px;  /* 상단으로 고정 */
-    left: 400px;
+    top: 285px;  /* 상단으로 고정 */
+    left: 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -124,86 +119,54 @@
     background-color: #495057;
 }
     </style>
-</head>
-<body>
-<header>
-    <h1>Q&A - 자주 묻는 질문</h1>
-</header>
-<aside class="sidebar">
-    <button onclick="window.location.href='/qna'">자주찾는질문</button>
-    <button onclick="window.location.href='/questions'">1:1문의</button>
-</aside>
-<main>
-    <section class="question" data-question-id="1">
-        <h2>차량에 몇 명이나 탑승하나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="2">
-        <h2>★ 버스 좌석은 어떻게 지정되나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="3">
-        <h2>예약 된 패키지 상품 조회는 어떻게 하나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="4">
-        <h2>여행자보험은 포함인가요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="5">
-        <h2>홈페이지 회원가입 시, 어떤 혜택을 받을 수 있나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="6">
-        <h2>공항 면세점 이용시간은 어떻게 되나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="7">
-        <h2>패키지 여행이란 무엇인가요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="8">
-        <h2>군대를 다녀오지 않았습니다. 해외여행 갈 수 있나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <section class="question" data-question-id="9">
-        <h2>여행을 가기위해 버스는 어디서 탑승해야 되나요?</h2>
-        <div class="answer"></div>
-    </section>
-    <!-- 추가 질문/답변을 여기에 추가하세요 -->
-</main>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.question').click(function() {
-            var questionId = $(this).data('question-id');
-            var answerDiv = $(this).find('.answer');
+</th:block>
 
-            if (answerDiv.is(':visible')) {
-                answerDiv.slideUp();
-            } else {
-                if (answerDiv.text().trim() === '') {
-                    $.ajax({
-                        url: '/getAnswer',
-                        type: 'GET',
-                        data: { id: questionId },
-                        success: function(response) {
-                            answerDiv.html(response.answer);
-                            answerDiv.slideDown();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.error("AJAX Error: " + textStatus + ": " + errorThrown);
-                            console.error("Response Text: " + jqXHR.responseText);
-                            answerDiv.html('답변을 가져오는 중 오류가 발생했습니다.');
-                            answerDiv.slideDown();
-                        }
-                    });
-                } else {
-                    answerDiv.slideDown();
-                }
-            }
-        });
-    });
-</script>
-</body>
+<div layout:fragment="content">
+    <body>
+
+    <aside class="sidebar">
+        <button onclick="window.location.href='/qna'">자주찾는질문</button>
+        <button onclick="window.location.href='/questions'">1:1문의</button>
+    </aside>
+    <main>
+        <section class="question" data-question-id="1">
+            <h2>차량에 몇 명이나 탑승하나요?</h2>
+            <div class="answer">5명</div>
+        </section>
+        <section class="question" data-question-id="2">
+            <h2>★ 버스 좌석은 어떻게 지정되나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="3">
+            <h2>예약 된 패키지 상품 조회는 어떻게 하나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="4">
+            <h2>여행자보험은 포함인가요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="5">
+            <h2>홈페이지 회원가입 시, 어떤 혜택을 받을 수 있나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="6">
+            <h2>공항 면세점 이용시간은 어떻게 되나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="7">
+            <h2>패키지 여행이란 무엇인가요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="8">
+            <h2>군대를 다녀오지 않았습니다. 해외여행 갈 수 있나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <section class="question" data-question-id="9">
+            <h2>여행을 가기위해 버스는 어디서 탑승해야 되나요?</h2>
+            <div class="answer"></div>
+        </section>
+        <!-- 추가 질문/답변을 여기에 추가하세요 -->
+    </main>
+    </body>
+</div>
 </html>
