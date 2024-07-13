@@ -11,11 +11,26 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
+
+        $(document).ready(function() {
+
+           var totalCount = 0;
+       for(Mileage mileage : ${mileage}){
+           totalCount += mileage.point;
+       }
+
+       ('#totalCount').text(totalCount)
+
+      });
+
+
+
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
+        /* 좌측 사이드 */
         div {
     display: block;
     unicode-bidi: isolate;
@@ -39,6 +54,30 @@
        width:100px;
        height:100px;
     }
+
+ /* ------------------------------------*/
+
+
+         /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* 테이블 헤더 스타일 */
+        th {
+            background-color: #f2f2f2;
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* 테이블 셀 스타일 */
+        td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
 
     </style>
@@ -71,7 +110,46 @@
 
                 </ul>
             </div>
-
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3>등록 포인트 내역</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>사용내역</th>
+                        <th>포인트</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="mileage : ${mileage}">
+                    <tr th:if="${mileage.point > 0}">
+                        <td th:text="${mileage.content}"></td>
+                        <td th:text="${mileage.point}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3>소멸 포인트 내역</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>사용내역</th>
+                        <th>포인트</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="mileage : ${mileage}">
+                    <tr th:unless="${mileage.point > 0}">
+                        <td th:text="${mileage.content}"></td>
+                        <td th:text="${mileage.point}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3>총 잔여 포인트</h3>
+                <span id="totalCount"></span>
+            </div>
         </div>
     </div>
 </div>

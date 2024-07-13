@@ -6,6 +6,7 @@ import com.trip.dto.MemberFormDto;
 import com.trip.dto.MileageDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.entity.Member;
+import com.trip.entity.Mileage;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
 import com.trip.service.MemberService;
@@ -82,6 +83,8 @@ public class MypageController {
         String email = principal.getName();
         Member member = memberService.memberload(email);
         if (member.getRole()==Role.USER){//멤버 정보가 유저일 경우
+           List<Mileage> mileage =mileageService.membertoMileage(member.getId());
+           model.addAttribute("mileage", mileage);
             return "mypage/userMileage";
         }
         return "mypage/AdminMileage";//멤버 정보가 관리자인 경우
@@ -119,21 +122,12 @@ public class MypageController {
     @GetMapping(value = "/mileageOK/{memberId}/{content}/{point}")
     public String mileageSendUSER(@PathVariable("memberId") Long memberId,
                         @PathVariable("content") String content,
-                        @PathVariable("point") int point,
-                        Model model) {
-        System.out.println(memberId);
-        System.out.println(content);
-        System.out.println(point);
-
+                        @PathVariable("point") int point) {
         MileageDto mileageDto = new MileageDto();
         mileageDto.setContent(content);
         mileageDto.setPoint(point);
         mileageService.mileageMembersend(mileageDto, memberId);
-
-
-
         // 여기서 필요한 로직을 추가하여 모델에 데이터를 담아서 View로 전달할 수 있습니다.
-
         return "redirect:/"; // 실제 View의
     }
 
