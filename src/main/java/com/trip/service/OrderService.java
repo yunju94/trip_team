@@ -139,12 +139,9 @@ public class OrderService {
     public Long orderIdgetOrder(OrderDto orderDto, String email){
         Member member = memberRepository.findByEmail(email);
 
-        System.out.println(orderDto);
-
-        System.out.println(orderDto.getItemId());
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-        System.out.println(item);
+
 
         List<OrderItem> orderItemList = new ArrayList<>();
         OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());//orderPrice생성
@@ -157,6 +154,7 @@ public class OrderService {
         payment.setPaymentUid(order.getOrderUid());
         payment.setPrice(order.getPrice());
         payment.setStatus(PaymentStatus.OK);
+
         paymentRepository.save(payment);
         orderRepository.save(order);
 

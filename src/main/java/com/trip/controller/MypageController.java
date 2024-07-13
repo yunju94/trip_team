@@ -1,12 +1,15 @@
 package com.trip.controller;
 
+import com.trip.constant.Role;
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.MemberFormDto;
+import com.trip.dto.MileageDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
 import com.trip.entity.OrderItem;
 import com.trip.service.MemberService;
+import com.trip.service.MileageService;
 import com.trip.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,15 +17,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,6 +34,7 @@ import java.util.Optional;
 public class MypageController {
     private final OrderService orderService;
     private  final MemberService memberService;
+    private  final MileageService mileageService;
 
     @GetMapping(value = "/mypage")
     public String mypageOpen( Principal principal, Model model){
@@ -69,5 +74,69 @@ public class MypageController {
         return "mypage/updateInfo";
 
     }
+
+
+    @GetMapping(value = "/mileage")
+    public String mileageOpen( Principal principal, Model model){
+        //오더 아이디를 받는다. 개인정보를 받는다. 오더 아이디로 저장된 오더 정보를 불러온다.
+        String email = principal.getName();
+        Member member = memberService.memberload(email);
+        if (member.getRole()==Role.USER){//멤버 정보가 유저일 경우
+            return "mypage/userMileage";
+        }
+        return "mypage/AdminMileage";//멤버 정보가 관리자인 경우
+    }
+    @GetMapping("/Popup.asp")
+    public String Popup(@RequestParam("memberId") Long memberId,
+                        @RequestParam("memberName") String memberName,
+                        Model model) {
+
+        List<Member> member = memberService.findMemberSearch(memberId, memberName);
+
+        model.addAttribute("memberlist", member);
+
+        // 여기서 필요한 로직을 추가하여 모델에 데이터를 담아서 View로 전달할 수 있습니다.
+
+        return "mypage/Popup"; // 실제 View의
+    }
+
+    @PostMapping(value = "/mileage/{memberId}/search")
+    public @ResponseBody ResponseEntity mileageSearchMember(@PathVariable("memberId") Long id, Model model){
+        String name= "";
+
+        try{
+            Optional<Member> member = memberService.findMember(id);
+
+            name  = member.get().getName();
+
+        }catch (Exception e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<String>(name, HttpStatus.OK);
+
+    }
+    @GetMapping(value = "/mileageOK/{memberId}/{content}/{point}")
+    public String mileageSendUSER(@PathVariable("memberId") Long memberId,
+                        @PathVariable("content") String content,
+                        @PathVariable("point") int point,
+                        Model model) {
+        System.out.println(memberId);
+        System.out.println(content);
+        System.out.println(point);
+
+        MileageDto mileageDto = new MileageDto();
+        mileageDto.setContent(content);
+        mileageDto.setPoint(point);
+        mileageService.mileageMembersend(mileageDto, memberId);
+
+
+
+        // 여기서 필요한 로직을 추가하여 모델에 데이터를 담아서 View로 전달할 수 있습니다.
+
+        return "redirect:/"; // 실제 View의
+    }
+
+
 
 }

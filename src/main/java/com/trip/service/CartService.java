@@ -121,13 +121,10 @@ public class CartService {
             orderDto.setItemId(cartItem.getItem().getId());
             orderDto.setCount(cartItem.getCount());
 
-
         // 주문 dtolist랑 현재 로그인 된 email을 매개 변수로 넣어서 주문
         Long orderId = orderService.order(orderDto, email);
 
         //카트에 있는 아이템이 주문 되니까 해당 아이템을 모두 삭제한다.
-
-
             cartItemRepository.delete(cartItem);
 
         return orderId;

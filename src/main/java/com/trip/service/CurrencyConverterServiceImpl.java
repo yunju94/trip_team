@@ -39,9 +39,10 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str= exchangeNatureRepository.findByPHP(currentDate);
-            if (str!=null) {
+            if (!str.isEmpty()) {
                 value = Double.valueOf(str.getFirst());
             }
+            System.out.println(value);
             PHP.add(value);
         }
         return PHP;
@@ -57,7 +58,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str=exchangeNatureRepository.findByJPY(currentDate);
-            if (str!=null) {
+            if (!str.isEmpty()) {
                 value = Double.valueOf(str.getFirst());
             }
             JPY.add(value);
@@ -74,7 +75,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str= exchangeNatureRepository.findByUSD(currentDate);
-            if (str!=null) {
+            if (!str.isEmpty()) {
                 value = Double.valueOf(str.getFirst());
             }
             USD.add(value);
@@ -91,7 +92,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             LocalDate currentDate = date.minusDays(i);
             Double value = 0.0;
             str=exchangeNatureRepository.findByVND(currentDate);
-            if (str!=null) {
+            if (!str.isEmpty()) {
                 value = Double.valueOf(str.getFirst());
             }
             VND.add(value);
@@ -110,7 +111,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             Double value = 0.0;
             str=exchangeNatureRepository.findByMYR(currentDate);
             System.out.println(str);
-            if (str!=null) {
+            if (!str.isEmpty()) {
                 value = Double.valueOf(str.getFirst());
             }
             MYR.add(value);
