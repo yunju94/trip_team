@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+    <title>1:1문의</title>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+        /* 좌측 사이드 */
+        div {
+    display: block;
+    unicode-bidi: isolate;
+    }
+    hr{
+        width: 100px;
+    }
+    .mypage{
+        float: left;
+        margin-right: 20px;
+    }
+    .orderlist{
+        float: left;
+        width: 500px;
+    }
+    .tit {
+    display: table-cell;
+    vertical-align: middle;
+     }
+    img{
+       width:100px;
+       height:100px;
+    }
+
+ /* ------------------------------------*/
+
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+    <div>
+        <div class="mypage">
+            <h3>마이페이지</h3>
+            <div>
+                <ul style="list-style: none">
+                    <hr style="border: 1px solid rgb(34, 34, 34);">
+                    <li ><a href="/orders">예약내역</a></li>
+                    <hr>
+                    <li><a href="/cart">찜</a></li>
+                    <hr>
+                    <li><a href="/mileage">마일리지</a></li>
+                    <hr>
+                    <li><a>쿠폰함</a></li>
+                    <hr>
+                    <li><a href="/userQuestion"><strong>1:1문의</strong></a></li>
+                    <hr>
+                    <li><a href="/qna">자주 찾는 질문</a></li>
+                    <hr>
+                    <li><a>My 여행 후기</a></li>
+                    <hr>
+                    <li><a href="/updateInfo">개인정보 수정</a></li>
+                    <hr style="border: 1px solid rgb(34, 34, 34);">
+
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div th:each="question, questionIndex : ${questionsList}">
+                <h2 th:text="${question.title}">제목</h2>
+                <div class="post-info">
+                    <p><strong>작성자:</strong> <span th:text="${question.writer}">작성자</span></p>
+                    <p><strong>내용:</strong></p>
+                    <p th:text="${question.content}">내용</p>
+                </div>
+                <div class="comments">
+                    <h3>댓글</h3>
+                    <div th:each="comment : ${commentsList[questionIndex.index]}">
+                        <div class="comment">
+                            <p><strong th:text="${comment.writer}">작성자</strong></p>
+                            <p th:text="${comment.content}">댓글 내용</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>
