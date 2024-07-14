@@ -40,7 +40,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             Double value = 0.0;
             str= exchangeNatureRepository.findByPHP(currentDate);
             if (!str.isEmpty()) {
-                value = Double.valueOf(str.getFirst());
+                value = Double.valueOf(str.getLast());
             }
             System.out.println(value);
             PHP.add(value);
@@ -59,7 +59,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             Double value = 0.0;
             str=exchangeNatureRepository.findByJPY(currentDate);
             if (!str.isEmpty()) {
-                value = Double.valueOf(str.getFirst());
+                value = Double.valueOf(str.getLast());
             }
             JPY.add(value);
         }
@@ -76,7 +76,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             Double value = 0.0;
             str= exchangeNatureRepository.findByUSD(currentDate);
             if (!str.isEmpty()) {
-                value = Double.valueOf(str.getFirst());
+                value = Double.valueOf(str.getLast());
             }
             USD.add(value);
         }
@@ -93,7 +93,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             Double value = 0.0;
             str=exchangeNatureRepository.findByVND(currentDate);
             if (!str.isEmpty()) {
-                value = Double.valueOf(str.getFirst());
+                value = Double.valueOf(str.getLast());
             }
             VND.add(value);
         }
@@ -112,7 +112,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
             str=exchangeNatureRepository.findByMYR(currentDate);
             System.out.println(str);
             if (!str.isEmpty()) {
-                value = Double.valueOf(str.getFirst());
+                value = Double.valueOf(str.getLast());
             }
             MYR.add(value);
         }
