@@ -70,7 +70,7 @@
     <form th:action="@{/writeForm}" th:object="${questionsDto}" method="post">
         <div>
             <label for="writer">작성자:</label>
-            <input type="text" id="writer" name="writer" th:field="*{writer}" required>
+            <input type="text" id="writer" name="writer" th:field="*{writer}" required readonly>
         </div>
         <div>
             <label for="title">제목:</label>

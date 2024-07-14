@@ -74,7 +74,7 @@
             $('#MYRChart').hide();
 
             // 주기적으로 환율 정보 업데이트
-            setInterval(function() {
+
                 var paramData = {
                     PHP: $('#PHP').val(),
                     JPY: $('#JPY').val(),
@@ -99,7 +99,7 @@
                         }
                     }
                 });
-            }, 60000);
+
 
             // Enter 키 이벤트 처리
             $('#send_amount').keypress(function (e) {
@@ -248,7 +248,7 @@
 
           // 7일 전 날짜 계산
           var minusWeek = new Date(now);
-          minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+          minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
           // 날짜 배열 초기화
           var xValues = [];
@@ -322,7 +322,7 @@
 
          // 7일 전 날짜 계산
          var minusWeek = new Date(now);
-         minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+         minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
          // 날짜 배열 초기화
          var xValues = [];
@@ -366,7 +366,7 @@
 
          // 7일 전 날짜 계산
          var minusWeek = new Date(now);
-         minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+         minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
          // 날짜 배열 초기화
          var xValues = [];
@@ -412,7 +412,7 @@
 
          // 7일 전 날짜 계산
          var minusWeek = new Date(now);
-         minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+         minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
          // 날짜 배열 초기화
          var xValues = [];
@@ -455,7 +455,7 @@
 
          // 7일 전 날짜 계산
          var minusWeek = new Date(now);
-         minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+         minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
          // 날짜 배열 초기화
          var xValues = [];
@@ -500,7 +500,7 @@
 
          // 7일 전 날짜 계산
          var minusWeek = new Date(now);
-         minusWeek.setDate(now.getDate() -3); //2일 전으로 변경
+         minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
 
          // 날짜 배열 초기화
          var xValues = [];

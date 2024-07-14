@@ -31,4 +31,5 @@ public class CommentService {
     public List<Comment> getCommentsByQuestionId(Long questionId) {
         return commentRepository.findByQuestionId(questionId);
     }
+
 }

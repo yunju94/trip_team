@@ -50,7 +50,7 @@ public class ItemController {
         }
 
         try {
-            System.out.println(itemFormDto.getStartDate());
+            System.out.println(itemFormDto);
             itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage",
@@ -134,15 +134,18 @@ public class ItemController {
 
 
     @GetMapping(value = "/admin/item/update/{itemId}")
-    public String itemUpgrade(@PathVariable("itemId")Long itemId, Model model){
-        try {
+    public  String itemUpdate(@PathVariable("itemId")Long itemId, Model model){
+        try{
             ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
-            model.addAttribute("itemFormDto",itemFormDto);
-        }catch (EntityNotFoundException e) {
-            model.addAttribute("errorMessage","존재하지 않는 상품입니다.");
-            model.addAttribute("itemFormDto",new ItemFormDto());
-            return "item/itemForm";
+            model.addAttribute("itemFormDto", itemFormDto);
+
+        }catch (EntityNotFoundException e){
+            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            model.addAttribute("itemFormDto", new ItemFormDto());
+            return  "item/itemForm";
         }
         return "item/itemForm";
     }
+
+
 }

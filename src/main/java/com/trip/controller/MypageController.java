@@ -5,13 +5,8 @@ import com.trip.dto.ItemFormDto;
 import com.trip.dto.MemberFormDto;
 import com.trip.dto.MileageDto;
 import com.trip.dto.OrderHistDto;
-import com.trip.entity.Member;
-import com.trip.entity.Mileage;
-import com.trip.entity.Order;
-import com.trip.entity.OrderItem;
-import com.trip.service.MemberService;
-import com.trip.service.MileageService;
-import com.trip.service.OrderService;
+import com.trip.entity.*;
+import com.trip.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +32,8 @@ public class MypageController {
     private final OrderService orderService;
     private  final MemberService memberService;
     private  final MileageService mileageService;
+    private  final QuestionsService questionsService;
+    private  final CommentService commentService;
 
     @GetMapping(value = "/mypage")
     public String mypageOpen( Principal principal, Model model){
@@ -133,4 +131,23 @@ public class MypageController {
 
 
 
+    @GetMapping(value = "/userQuestion")
+    public String userQuestion( Principal principal, Model model){
+        //오더 아이디를 받는다. 개인정보를 받는다. 오더 아이디로 저장된 오더 정보를 불러온다.
+        String email = principal.getName();
+        Member member = memberService.memberload(email);
+
+        List<Questions> questionsList = questionsService.userQuestionMember(member.getName());
+
+        List<Comment> comments = new ArrayList<>();
+        List<List<Comment>> commen = new ArrayList<>();
+        for (int i = 0 ; i< questionsList.size(); i++){
+            comments = commentService.getCommentsByQuestionId(questionsList.get(i).getId());
+            commen.add(comments);
+
+        }
+        model.addAttribute("question", questionsList);
+        model.addAttribute("comments", commen);
+        return "mypage/userQuestion";//멤버 정보가 관리자인 경우
+    }
 }

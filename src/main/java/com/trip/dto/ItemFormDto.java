@@ -36,7 +36,7 @@ public class ItemFormDto {
 
     private ItemSellStatus itemSellStatus;
 
-    private Nature Nature;
+    private Nature nature;
 
     private Category category;
 
