@@ -52,6 +52,8 @@ public class Member extends BaseEntity {
         this.email = memberFormDto.getEmail();
         this.address = memberFormDto.getAddress();
         this.tel = memberFormDto.getTel();
+        this.postcode = memberFormDto.getPostcode();
+        this.detailAddress = memberFormDto.getDetailAddress();
 
 
     }

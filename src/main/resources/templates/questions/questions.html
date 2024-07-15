@@ -78,6 +78,39 @@
         .gradient-button:hover {
             background-color: #007a63;
         }
+        .pagination {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 5px;
+    font-size: 14px;
+}
+
+.pagination li a {
+    color: #009879;
+    padding: 8px 12px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination li.active a {
+    background-color: #009879;
+    color: white;
+}
+
+.pagination li a:hover {
+    background-color: #007a63;
+    color: white;
+}
+
+.pagination li.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    color: #ccc;
+}
     </style>
 </head>
 <body>
@@ -102,6 +135,26 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${totalPages > 1}" style="text-align: center;">
+        <ul class="pagination">
+            <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=0)}">처음</a>
+            </li>
+            <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${currentPage - 1})}">이전</a>
+            </li>
+            <li th:each="pageIdx : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${currentPage == pageIdx} ? 'active' : ''">
+                <a th:href="@{/questions(page=${pageIdx})}" th:text="${pageIdx + 1}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${currentPage + 1})}">다음</a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${totalPages - 1})}">마지막</a>
+            </li>
+        </ul>
+    </div>
     <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
     <button onclick="window.location.href='/questions'">1:1 문의</button>
 </div>
