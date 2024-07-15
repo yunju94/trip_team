@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(){
+
+        });
+
+        function update(id){
+
+        location.href='/event/update/'+id
+        }
+
+        function deleted(id){
+        console.log(id)
+        location.href='/event/delete/'+id
+        }
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+        .imgdiv>img{
+        width:700px;
+
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div>
+
+        <div class="imgdiv" th:if="${event != null and not #strings.isEmpty(event.content)}">
+            <img th:src="${event.content}">
+            <img th:src="${event.content1}">
+            <img th:src="${event.content2}">
+            <img th:src="${event.content3}">
+
+        </div>
+        <!-- 기본값으로 이벤트 이미지를 출력하는 경우 -->
+        <div class="imgdiv" th:if="${#strings.isEmpty(event.content)}">
+            <div th:each="eventImg : ${event.eventImgs}" class="text-center">
+                <img th:src="${eventImg.imgUrl}" >
+            </div>
+        </div>
+
+
+    </div>
+
+    <div>
+        <button type="button" th:value="${event.id}" onclick="update(this.value)"> 수정하기</button>
+    </div>
+
+    <div>
+        <button type="button" th:value="${event.id}" onclick="deleted(this.value)"> 삭제하기</button>
+    </div>
+
+
+</div>
+
+</html>

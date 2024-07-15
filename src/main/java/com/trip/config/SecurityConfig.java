@@ -29,7 +29,10 @@ public class SecurityConfig {
 
 
                 .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**",
-                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments","/map","/verification/**").permitAll()
+
+                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments",
+                        "/map", "/event", "/map","/verification/**").permitAll()
+
 
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")

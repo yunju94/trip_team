@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
 </head>
 <th:block layout:fragment="css">
+
 <style>
 
 
@@ -22,7 +23,7 @@
                  main {
 
              position: fixed; /* 고정 */
-                top: 26.4%; /* 이동 */
+                top: 30%; /* 이동 */
                 max-width: 800px;
                 left:23%;
 
@@ -36,7 +37,7 @@
             .sidebar {
 
         position: fixed; /* 상단으로 고정 */
-                top: 37%; /* 화면 중앙으로 이동 */
+                top: 40.7%; /* 화면 중앙으로 이동 */
                 left: 16%;
                 transform: translateY(-50%);
                 display: flex;
@@ -95,16 +96,20 @@
       line-height:50px;
         letter-spacing: 0px;
         }
+        th{
+         border-bottom: 1px solid 		#d9d9d9;
+        }
+        td{
+ background-color: 	#ffffff;
+        }
 
       .cc{
 
       position: fixed; /* 고정 */
       height: 300px; /* 이동 */
       width: 1200px;
-      top:353px;
+      top:150px;
         margin-left:-55px;
-
-        border-bottom: 1px solid 		#d9d9d9;
         color:transparent;
         }
 
@@ -130,10 +135,15 @@
             .gradient-button:hover{
              background-color: #495057;
             }
-
+h4{
+ position: fixed; /* 상단으로 고정 */
+                top: 28%; /* 화면 중앙으로 이동 */
+                left: 47.5%;
+    }
 
 
 </style>
+
 </th:block>
 
 <body>
@@ -156,12 +166,13 @@
                     <th>제목</th>
                     <th>작성자</th>
                 </tr>
+
                 </thead>
 
                 <tbody>
                 <div class="cc">
         <tr th:each="question : ${questionsList}">
-            <th> <td th:text="${question.id}">번호</td></th>
+            <td th:text="${question.id}">번호</td>
             <td>
                 <a th:href="@{/view(id=${question.id})}" th:text="${question.title}">제목</a>
             </td>
@@ -172,6 +183,7 @@
                 </tbody>
 
             </table>
+
         <a th:href="@{/writeForm}" class="gradient-button">글쓰기</a>
         </div>
 
@@ -201,9 +213,6 @@
             </li>
         </ul>
     </div>
-    <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
-    <button onclick="window.location.href='/questions'">1:1 문의</button>
-
 </div>
 </body>
 </html>
