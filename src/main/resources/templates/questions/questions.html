@@ -1,109 +1,181 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
 <head>
     <meta charset="UTF-8">
-    <title>게시글 목록</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
-            width: 100%;
-        }
-
-        h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #009879;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .gradient-button {
-            background-color: #009879;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-            display: block;
-            width: 120px;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        .gradient-button:hover {
-            background-color: #007a63;
-        }
-    </style>
 </head>
+<th:block layout:fragment="css">
+<style>
+
+
+    body {
+
+                background-color: #ffff;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+                 main {
+
+             position: fixed; /* 고정 */
+                top: 26.4%; /* 이동 */
+                max-width: 800px;
+                left:23%;
+
+                background:  #ffff;
+                margin: 2em;
+                padding:28px;
+            }
+
+
+
+            .sidebar {
+
+        position: fixed; /* 상단으로 고정 */
+                top: 37%; /* 화면 중앙으로 이동 */
+                left: 16%;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                z-index: 1000; /* 필요시 설정 */
+      }
+      header {
+
+                width: 100%;
+                background-color: #ffff;
+
+            }
+            h4{
+              margin-top:-10px;
+                margin-left:17px;
+            }
+
+      .sidebar button {
+
+        width: 120px;
+        padding: 0.8em;
+        margin: 0.2em 0;
+        border: none;
+        border-radius: 5px;
+        background-color: #343a40;
+        color: white;
+        cursor: pointer;
+        font-size: 0.8em;
+        transition: background-color 0.3s ease;
+      }
+
+      .sidebar button:hover {
+        background-color: #495057;
+      }
+
+        table{
+
+            text-align: center;
+        position: relative;
+            padding: 10px;
+          border-top: 1px solid 		#696969;
+          border-bottom: 1px solid 		#d9d9d9;
+              color: #333;
+                  background-color:	#f7f7f7;
+                  letter-spacing: 2px;
+        font-size: 15px;
+        font-weight: 600;
+         width: 1200px;
+         left:-55px;
+            cursor: pointer;
+
+            }
+      tr{
+
+      line-height:50px;
+        letter-spacing: 0px;
+        }
+
+      .cc{
+
+      position: fixed; /* 고정 */
+      height: 300px; /* 이동 */
+      width: 1200px;
+      top:353px;
+        margin-left:-55px;
+
+        border-bottom: 1px solid 		#d9d9d9;
+        color:transparent;
+        }
+        .gradient-button{
+
+          position: absolute;
+       background-color: #0B669E;
+              color: white;
+                top: 385px;
+                 width:120px;
+                 height:50px;
+                 right:-370px;
+                border: none;
+                border-radius:5px;
+                cursor: pointer;
+                text-align:center;
+                text-decoration: none;
+               padding: 0.8em;
+        margin: 0.2em 0;
+                 transition: background-color 0.3s ease;
+                 align-items: center; /* 수직 가운데 정렬을 위한 방법 2 */
+            }
+            .gradient-button:hover{
+             background-color: #495057;
+            }
+
+
+
+</style>
+</th:block>
+
 <body>
-<div class="container">
-    <h2>문의 내역</h2>
-    <a th:href="@{/writeForm}" class="gradient-button">글쓰기</a>
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-        </tr>
-        </thead>
-        <tbody>
+<div layout:fragment="content">
+
+    <h4>문의 내역</h4>
+
+    <aside class="sidebar">
+        <button onclick="window.location.href='/qna'">자주찾는질문</button>
+        <button onclick="window.location.href='/questions'">1:1문의</button>
+    </aside>
+
+
+    <main>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <div class="cc">
         <tr th:each="question : ${questionsList}">
-            <td th:text="${question.id}">번호</td>
+            <th> <td th:text="${question.id}">번호</td></th>
             <td>
                 <a th:href="@{/view(id=${question.id})}" th:text="${question.title}">제목</a>
             </td>
             <td th:text="${question.writer}">작성자</td>
         </tr>
-        </tbody>
-    </table>
-    <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
-    <button onclick="window.location.href='/questions'">1:1 문의</button>
+                </div>
+                </tbody>
+
+            </table>
+        <a th:href="@{/writeForm}" class="gradient-button">글쓰기</a>
+        </div>
+
+
+</main>
+
 </div>
 </body>
 </html>
