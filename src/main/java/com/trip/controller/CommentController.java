@@ -18,4 +18,5 @@ public class CommentController {
         commentService.save(commentDto);
         return "redirect:/view?id=" + commentDto.getQuestionId();
     }
+
 }

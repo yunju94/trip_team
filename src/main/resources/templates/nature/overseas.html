@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 <body>
 <div layout:fragment="content">
-    해외 패키지 입니다.
+
     <div th:each="item : ${items}">
         <div th:if="${item.nature == T(com.trip.constant.Nature).OVERSEAS}">
             <div class="card">
