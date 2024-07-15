@@ -4,7 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.trip.entity.Member;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+import java.util.List;
+
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
     Member findByEmail(String email);
     Member findByTel(String tel);
+
 }

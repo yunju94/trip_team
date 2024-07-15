@@ -22,16 +22,19 @@
           }
 
           .dropdown {
-margin-left: 1010px;
-              margin-top: 48px;
+display: absolute;
+top:45px;
+             left:1037px;
 
           }
 
+
           .nav { /* 로그인 */
-           color: #0b5394;
+
+          color: #0b5394;
               list-style-type: none;
-              margin-top: -40px;
-               margin-left: 1400px;
+           margin-top: -42px;
+             margin-left: 1633px;
           }
 
           .logo {
@@ -106,12 +109,11 @@ display: flex;
               margin-top: 20px;
              margin-left: 190px;
             }
-             .nav9{ /* 로그아웃 */
-             color:		#0b5394;
-             display: flex;
+        .nav9{ /* 로그아웃 */
+             color: #0b5394;
               list-style-type: none;
-              margin-top: -41px;
-             margin-left: -232px;
+              margin-top: -44px;
+             margin-left: -100px;
             }
 
              .nav10{
@@ -143,7 +145,7 @@ display: flex;
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/orders">예약 내역</a></li>
                 <li><a class="dropdown-item" href="/cart">찜 내역</a></li>
-                <li><a class="dropdown-item" href="#">1:1문의</a></li>
+                <li><a class="dropdown-item" href="/userQuestion">1:1문의</a></li>
                 <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
             </ul>
         </div>
@@ -174,9 +176,7 @@ display: flex;
             <img th:src="@{/css/images/menuline.png}" height="50"></svg>
         </ul>
 
-         <img th:src="@{/css/images/menuline.png}" height="50"></svg>
-        <ul class="nav">
-
+        <ul class="nav6">
             <li><a href="#" class="nav-link px-2 link-secondary">이벤트</a></li>
         </ul>
 
@@ -184,11 +184,15 @@ display: flex;
             <li><a href="/qna" class="nav-link px-2 link-secondary">Q&A</a></li>
         </ul>
 
+        <ul class="nav10">
+            <li><a href="/api/list" class="nav-link px-2 link-secondary">환율 계산</a></li>
+        </ul>
+
+
         <ul class="nav7">
              <li><a href="/admin/item/new" class="nav-link px-2 link-secondary">패키지 작성</a></li>
              <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
          </ul>
-
 
 
          <ul class="nav8"  sec:authorize="isAuthenticated()">
@@ -199,7 +203,6 @@ display: flex;
          <ul class="nav9" sec:authorize = "isAuthenticated()">
              <a class="nav-link" href="/members/logout">로그아웃</a>
          </ul>
-
 
 
     </div>

@@ -6,6 +6,7 @@ import com.trip.repository.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -34,5 +35,9 @@ public class QuestionsService {
     // 특정 게시글 조회 메서드
     public Questions getQuestionById(Long id) {
         return questionsRepository.findById(id).orElse(null);
+    }
+
+    public List<Questions> userQuestionMember(String name){
+        return  questionsRepository.findByWriter(name);
     }
 }

@@ -3,7 +3,9 @@ package com.trip.controller;
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.entity.Item;
+import com.trip.entity.Member;
 import com.trip.service.ItemService;
+import com.trip.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private  final MemberService memberService;
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto",new ItemFormDto());
@@ -46,7 +50,7 @@ public class ItemController {
         }
 
         try {
-            System.out.println(itemFormDto.getStartDate());
+            System.out.println(itemFormDto);
             itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage",
@@ -118,9 +122,30 @@ public class ItemController {
 
     }
     @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(Model model, @PathVariable("itemId")Long itemId){
+    public String itemDtl(Model model, @PathVariable("itemId")Long itemId, Principal principal){
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item",itemFormDto);
+
+        Member member =memberService.memberload(principal.getName());
+        model.addAttribute("member", member);
         return "item/itemDtl";
     }
+
+
+
+    @GetMapping(value = "/admin/item/update/{itemId}")
+    public  String itemUpdate(@PathVariable("itemId")Long itemId, Model model){
+        try{
+            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+            model.addAttribute("itemFormDto", itemFormDto);
+
+        }catch (EntityNotFoundException e){
+            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            model.addAttribute("itemFormDto", new ItemFormDto());
+            return  "item/itemForm";
+        }
+        return "item/itemForm";
+    }
+
+
 }

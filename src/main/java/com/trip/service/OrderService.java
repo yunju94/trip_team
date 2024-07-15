@@ -1,5 +1,6 @@
 package com.trip.service;
 
+import com.trip.constant.OrderStatus;
 import com.trip.constant.PaymentStatus;
 import com.trip.dto.OrderDto;
 import com.trip.dto.OrderHistDto;
@@ -32,6 +33,8 @@ public class OrderService {
 
     private  final MemberRepository memberRepository;
     private  final PaymentRepository paymentRepository;
+    private  final CartRepository cartRepository;
+    private  final  CartItemRepository cartItemRepository;
 
     @Transactional(readOnly = true)
     public Page<OrderHistDto> orderlist(String email, Pageable pageable) {
@@ -105,18 +108,14 @@ public class OrderService {
         return order;
     }
     public Long order(OrderDto orderDto, String email){
-
-
         Member member = memberRepository.findByEmail(email);
         List<OrderItem> orderItemList = new ArrayList<>();
 
-
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-
+        System.out.println(item);
         OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());//orderPrice생성
         orderItemList.add(orderItem);//오더 아이템을 오더 리스트에 넣음.
-
         Payment payment = new Payment();
 
         Order order = Order.createOrder(member, orderItemList, payment);
@@ -125,14 +124,7 @@ public class OrderService {
         payment.setPrice(order.getPrice());
         payment.setStatus(PaymentStatus.OK);
         paymentRepository.save(payment);
-
-
-
         orderRepository.save(order);
-
-
-
-
 
         return  order.getId();
     }
@@ -143,6 +135,41 @@ public class OrderService {
 
     }
 
+
+    public Long orderIdgetOrder(OrderDto orderDto, String email){
+        Member member = memberRepository.findByEmail(email);
+
+        Item item = itemRepository.findById(orderDto.getItemId())
+                .orElseThrow(EntityNotFoundException::new);
+
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());//orderPrice생성
+        orderItemList.add(orderItem);//오더 아이템을 오더 리스트에 넣음.
+
+        Payment payment = new Payment();
+        Order order = new Order();
+        order = Order.createOrder(member, orderItemList, payment);
+
+        payment.setPaymentUid(order.getOrderUid());
+        payment.setPrice(order.getPrice());
+        payment.setStatus(PaymentStatus.OK);
+
+        paymentRepository.save(payment);
+        orderRepository.save(order);
+
+        return  order.getId();
+    }
+
+    public  Order  orderUidOrderCancle(String orderUid){
+
+        Order order=orderRepository.findByOrderUid(orderUid);
+        order.orderCancel();
+        Optional<Payment> payment = paymentRepository.findById(order.getPayment().getId());
+        payment.get().setStatus(PaymentStatus.CANCEL);
+
+        return order;
+    }
 
 
 
