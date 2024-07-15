@@ -107,6 +107,7 @@
         border-bottom: 1px solid 		#d9d9d9;
         color:transparent;
         }
+
         .gradient-button{
 
           position: absolute;
@@ -166,6 +167,7 @@
             </td>
             <td th:text="${question.writer}">작성자</td>
         </tr>
+
                 </div>
                 </tbody>
 
@@ -175,6 +177,32 @@
 
 
 </main>
+
+
+        </tbody>
+    </table>
+    <div th:if="${totalPages > 1}" style="text-align: center;">
+        <ul class="pagination">
+            <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=0)}">처음</a>
+            </li>
+            <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${currentPage - 1})}">이전</a>
+            </li>
+            <li th:each="pageIdx : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${currentPage == pageIdx} ? 'active' : ''">
+                <a th:href="@{/questions(page=${pageIdx})}" th:text="${pageIdx + 1}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${currentPage + 1})}">다음</a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                <a th:href="@{/questions(page=${totalPages - 1})}">마지막</a>
+            </li>
+        </ul>
+    </div>
+    <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
+    <button onclick="window.location.href='/questions'">1:1 문의</button>
 
 </div>
 </body>

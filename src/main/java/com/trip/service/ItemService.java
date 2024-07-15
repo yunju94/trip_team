@@ -94,7 +94,6 @@ public class ItemService {
 
     public List<Item> getItemAll(){
         return itemRepository.findAll();
-
     }
 
     public  OrderItem itemName(String itemNm){
