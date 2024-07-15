@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
 </head>
 <th:block layout:fragment="css">
+
 <style>
 
 
@@ -134,6 +135,7 @@
 
 
 </style>
+
 </th:block>
 
 <body>
@@ -160,6 +162,7 @@
 
                 <tbody>
                 <div class="cc">
+
         <tr th:each="question : ${questionsList}">
             <th> <td th:text="${question.id}">번호</td></th>
             <td>
@@ -172,6 +175,7 @@
                 </tbody>
 
             </table>
+
         <a th:href="@{/writeForm}" class="gradient-button">글쓰기</a>
         </div>
 
@@ -203,6 +207,7 @@
     </div>
     <button onclick="window.location.href='/qna'">자주 찾는 질문</button>
     <button onclick="window.location.href='/questions'">1:1 문의</button>
+
 
 </div>
 </body>
