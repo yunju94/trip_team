@@ -158,7 +158,51 @@ border: none; /* 기본 선 제거 */
 
                 </ul>
             </div>
+
+            <div class="orderlist">
+                <div>
+                    <h3 class="tit">예약 내역</h3>
+                </div>
+                <div>
+                   <table th:each="order, status : ${orderlist}">
+                                <tr>
+                                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
+                                    <td th:text="${order.orderId}"></td><!--주문번호-->
+                                </tr>
+                                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                                    <td rowspan="3" >
+                                        <div>
+                                            <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">
+                                        </div>
+                                    </td><!--이미지-->
+                                    <td  th:text="${orderItem.itemNm}">
+                                    </td><!--상품명-->
+                                </tr>
+                                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                                    <td  th:text="${orderItem.count}">
+
+                                    </td><!--인원-->
+                                </tr>
+                                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                                    <td th:text="${orderItem.orderPrice}"></td><!--가격-->
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <button th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}" type="button" th:value="${order.orderId}" onclick="orderCancel(this.value)" >주문 취소</button>
+                                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                                    </td>
+                                    <td>
+                                        <button type="button" th:value="${order.orderId}" th:onclick="|location.href='/order/detail/${order.orderId}'|">주문 상세보기</button>
+                                    </td>
+
+                                </tr>
+
+                    </table>
+                </div>
+            </div>
+
         </div>
+
 
 
         <div>

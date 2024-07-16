@@ -5,6 +5,7 @@ import com.trip.dto.ItemFormDto;
 import com.trip.entity.Member;
 import com.trip.entity.event;
 import com.trip.service.EventService;
+import com.trip.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class EventController {
 
     private  final EventService eventService;
+    private final MemberService memberService;
     @GetMapping(value = "/event")
     public String eventMain(Model model){
         List<event> events=eventService.AllSearch();
@@ -54,9 +56,12 @@ public class EventController {
     }
 
     @GetMapping(value ="/event/{id}")
-    public  String eventIdSearch(@PathVariable("id") Long eventId, Model model){
+    public  String eventIdSearch(@PathVariable("id") Long eventId, Model model, Principal principal){
         Optional<event> eventOptional  = eventService.seachEvent(eventId);
         model.addAttribute("event", eventOptional.orElse(null));
+
+        Member member = memberService.memberload(principal.getName());
+        model.addAttribute("member", member);
         return "event/EventDtl";
     }
     @GetMapping(value ="/event/update/{id}")

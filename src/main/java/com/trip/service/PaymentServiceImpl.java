@@ -53,8 +53,15 @@ public class PaymentServiceImpl implements PaymentService {
     public IamportResponse<com.siot.IamportRestClient.response.Payment> paymentByCallback(PaymentCallbackRequest request) {
 
         try {
+
+            System.out.println(request);
+            System.out.println("reqiestklafj;ldjak;lkfl;ka;");
             // 결제 단건 조회(아임포트)
             IamportResponse<com.siot.IamportRestClient.response.Payment> iamportResponse = iamportClient.paymentByImpUid(request.getPaymentUid());
+
+
+            System.out.println(request);
+            System.out.println("reqiestdsadfsgssgsfl;ka;");
             // 주문내역 조회
             Order order = orderRepository.findOrderAndPayment(request.getOrderUid())
                     .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
@@ -109,4 +116,5 @@ public class PaymentServiceImpl implements PaymentService {
       payment.setStatus(CANCEL);
 
     }
+
 }

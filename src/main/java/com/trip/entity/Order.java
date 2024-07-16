@@ -1,6 +1,7 @@
 package com.trip.entity;
 
 import com.trip.constant.OrderStatus;
+import com.trip.dto.RequestPayDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -84,5 +85,10 @@ public class Order extends BaseEntity{//예약서
     public  void addOrderItem(OrderItem orderItem){
         orderItems.add(orderItem);
         orderItem.setOrder(this);
+    }
+
+    public void  updateOrders(int amount){
+        this.price =amount;
+
     }
 }
