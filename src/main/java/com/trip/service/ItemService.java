@@ -1,6 +1,7 @@
 package com.trip.service;
 
 
+import com.trip.constant.Nature;
 import com.trip.dto.*;
 import com.trip.entity.*;
 import com.trip.repository.ItemImgRepository;
@@ -10,6 +11,7 @@ import com.trip.repository.OrderItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class ItemService {
     private final ItemImgService itemImgService;
     private  final ItemImgRepository itemImgRepository;
     private final OrderItemRepository orderItemRepository;
+
+
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList)
             throws Exception{
@@ -104,7 +108,17 @@ public class ItemService {
 
 
     }
-
-
-
+    public void deleteItems(List<Long> itemIds) {
+        for (Long itemId : itemIds) {
+            itemRepository.deleteById(itemId);
+        }
+    }
+    public List<Item> getItems(int nextPageLimit, int limit) {
+        int offset = nextPageLimit - limit;
+        return itemRepository.findItemsWithLimit(offset, limit);
+    }
+    public List<Item> getOverseasItems(int nextPageLimit, int limit) {
+        int offset = nextPageLimit - limit;
+        return itemRepository.findItemsByNature(Nature.OVERSEAS);
+    }
 }

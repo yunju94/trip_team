@@ -4,6 +4,7 @@ package com.trip.dto;
 import com.trip.constant.Category;
 import com.trip.constant.ItemSellStatus;
 import com.trip.constant.Nature;
+import com.trip.constant.Region;
 import com.trip.entity.Item;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,9 +37,11 @@ public class ItemFormDto {
 
     private ItemSellStatus itemSellStatus;
 
-    private Nature Nature;
+    private Nature nature;
 
     private Category category;
+
+    private Region region;
 
     @NotNull(message = "출발날짜는 필수 입력 값입니다.")
     private LocalDate startDate;

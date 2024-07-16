@@ -3,7 +3,9 @@ package com.trip.controller;
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.entity.Item;
+import com.trip.entity.Member;
 import com.trip.service.ItemService;
+import com.trip.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private final MemberService memberService;
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto",new ItemFormDto());
@@ -93,7 +97,7 @@ public class ItemController {
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
     @GetMapping(value = {"/admin/items", "/admin/items/page"})
     public String itemManage(ItemSearchDto itemSearchDto, Optional<Integer> page,
-                             Model model){
+                             Model model, Principal principal){
         // page.isPresent() -> page 값이 있는지 확인
         // 값 있을 시 page.get() , 값 없을 시 0
         // 한 페이지에 개수 -> 5개
@@ -105,6 +109,8 @@ public class ItemController {
         model.addAttribute("itemSearchDto",itemSearchDto);
         model.addAttribute("maxPage",5);
         System.out.println(itemSearchDto.getPlaceSearch());
+        Member member =memberService.memberload(principal.getName());
+        model.addAttribute("member", member);
         if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
                 itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("양양")||
                 itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("제주도")){
@@ -118,9 +124,23 @@ public class ItemController {
 
     }
     @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(Model model, @PathVariable("itemId")Long itemId){
+    public String itemDtl(Model model, @PathVariable("itemId")Long itemId, Principal principal){
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item",itemFormDto);
+
+        Member member =memberService.memberload(principal.getName());
+        model.addAttribute("member", member);
         return "item/itemDtl";
+    }
+    @PostMapping("/admin/items/delete")
+    public String deleteItems(@RequestParam(name = "selectedItems", required = false) List<Long> selectedItems) {
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            try {
+                itemService.deleteItems(selectedItems);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "redirect:/";
     }
 }
