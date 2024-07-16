@@ -1,5 +1,6 @@
 package com.trip.repository;
 
+import com.trip.constant.Nature;
 import com.trip.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +28,14 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 
     Optional<Item> findById(Long ItemId);
 
+    @Query(value = "SELECT * FROM Item ORDER BY item_id ASC LIMIT :limit OFFSET :offset", nativeQuery = true)
+    List<Item> findItemsWithLimit(@Param("offset") int offset, @Param("limit") int limit);
 
-
+    List<Item> findByNature(Nature nature);
+    @Query("SELECT i FROM Item i WHERE i.nature = :nature")  // 커스텀 쿼리 예시
+    List<Item> findItemsByNature(@Param("nature") Nature nature);
 }
+
+
+
+

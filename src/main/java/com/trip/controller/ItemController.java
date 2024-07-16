@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
-    private  final MemberService memberService;
+    private final MemberService memberService;
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto",new ItemFormDto());
@@ -50,7 +50,7 @@ public class ItemController {
         }
 
         try {
-            System.out.println(itemFormDto);
+            System.out.println(itemFormDto.getStartDate());
             itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage",
@@ -131,22 +131,15 @@ public class ItemController {
         model.addAttribute("member", member);
         return "item/itemDtl";
     }
-
-
-
-    @GetMapping(value = "/admin/item/update/{itemId}")
-    public  String itemUpdate(@PathVariable("itemId")Long itemId, Model model){
-        try{
-            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
-            model.addAttribute("itemFormDto", itemFormDto);
-
-        }catch (EntityNotFoundException e){
-            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
-            model.addAttribute("itemFormDto", new ItemFormDto());
-            return  "item/itemForm";
+    @PostMapping("/admin/items/delete")
+    public String deleteItems(@RequestParam(name = "selectedItems", required = false) List<Long> selectedItems) {
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            try {
+                itemService.deleteItems(selectedItems);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return "item/itemForm";
+        return "redirect:/";
     }
-
-
 }
