@@ -14,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 
     <!-- Thymeleaf 스크립트와 CSS -->
@@ -143,6 +142,7 @@
             margin-left: 0px;
             margin-right: -300px;
             width: 1498px;
+            height: 740px;
             position: relative;
          height: 5000px;
         }
@@ -240,6 +240,7 @@ margin-left:60px;
 /* 여기 부터 */
        .form-group {
     margin-bottom: 5px;
+
 }
 
 
@@ -263,7 +264,7 @@ top:304px;
        /* 내부 여백 */
   display: flex;
   cursor: pointer;
-   margin-left:32px;
+   margin-left:30px;
     position: absolute;
     background-color:       #ffffff;
     width: 300px;
@@ -395,7 +396,7 @@ top:360px;
 .startline{
 border: 0.5px solid;
 margin-top:-63px;
-margin-left:30px;
+margin-left:28px;
  margin-bottom: 20px;
 width:303px;
 height:43px;
@@ -408,7 +409,7 @@ height:43px;
 
         width: 297px;
         height:42px;
-        margin-left:-30px;
+        margin-left:-31px;
 }
 input[type="search"] {
     padding: 10px;
@@ -444,12 +445,12 @@ color:white;
     line-height: 54px;
     font-size: 17px;
     padding: 0 35px;
-    margin-left:32px;
+    margin-left:28px;
         background-color: #333;
     border: 1px solid #333;
     margin-top: 30px;
     display: block;
-    width: 300px;
+    width: 301px;
         color: #fff;
 
         }
@@ -476,41 +477,6 @@ wight:500px;
   text-align: center;
 }
 
-
-           .package-container {
-        display: flex;
-        flex-wrap: nowrap; /* flex 아이템이 한 줄에 모두 표시되도록 함 */
-        overflow-x: auto; /* 넘치는 컨텐츠에 대한 가로 스크롤을 표시함 */
-        scrollbar-width: none; /* 스크롤바를 숨김 */
-        -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바를 숨김 */
-    }
-
-    .package1 {
-        flex: 0 0 auto; /* flex 아이템의 크기가 자동으로 조절되도록 설정 */
-        margin-right: 10px; /* 각 패키지 사이의 간격 조정 */
-    }
-
-    .package1:last-child {
-        margin-right: 0; /* 마지막 패키지의 오른쪽 마진을 제거하여 간격 조정 */
-    }
-
-          .package-container {
-        display: flex;
-        flex-wrap: nowrap; /* flex 아이템이 한 줄에 모두 표시되도록 함 */
-        overflow-x: auto; /* 넘치는 컨텐츠에 대한 가로 스크롤을 표시함 */
-        scrollbar-width: none; /* 스크롤바를 숨김 */
-        -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바를 숨김 */
-    }
-
-    .package1 {
-        flex: 0 0 auto; /* flex 아이템의 크기가 자동으로 조절되도록 설정 */
-        margin-right: 10px; /* 각 패키지 사이의 간격 조정 */
-    }
-
-    .package1:last-child {
-        margin-right: 0; /* 마지막 패키지의 오른쪽 마진을 제거하여 간격 조정 */
-    }
-
     </style>
 
 </head>
@@ -518,64 +484,6 @@ wight:500px;
 <body>
 <div layout:fragment="content">
     <div class="all">
-
-    <div class="main">
-        <div class="main2">
-            <div class="slider">
-                <div><a href="/event/303"><img th:src="@{/css/images/jeju.jpg}"></a></div>
-                <div><img th:src="@{/css/images/puket.jpg}"></div>
-                <div><a href="/event/2"><img th:src="@{/css/images/eu.jpg}" ></a></div>
-                <div><a href="/event/302"><img th:src="@{/css/images/dongnam.jpg}"></a></div>
-            </div>
-            <!-- ======================여기까지 슬라이더================================ -->
-            <div class="textBox">
-                <form th:action="@{/admin/items/}" method="get" role="form" th:object="${itemSearchDto}">
-
-
-                    <p class="ment">
-                        고객님,
-                        <br>
-                        <strong>어떤 여행을 꿈꾸시나요?</strong></p>
-                    <div>
-                        <div class="form-group">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                            </svg>
-                            <!-- 여행지 -->
-                            <input type="text" name="placeSearch" id="placeSearch" placeholder="어디로 떠나세요?">
-
-                            <div class="placeDiv" name="placeDiv" id="placeDiv">
-                                <div class="Box1">
-                                    <ul class="a1">
-                                        <li class="Domestic"><a class="nav-link px-2 link-secondary"
-                                                                id="Domestic">국내</a></li>
-                                        <div name="DomesticMenu" id="DomesticMenu">
-                                            <button type="button" name="placeIncheon" id="placeIncheon" value="INCHEON">인천</button>
-                                            <button type="button" name="placeSeoul" id="placeSeoul" value="SEOUL">서울</button>
-                                            <button type="button" name="placeDeajeon" id="placeDeajeon" value="DAEJEON">대전</button>
-                                            <button type="button" name="placeYangyang" id="placeYangyang" value="YANGYANG">양양</button>
-                                            <button type="button" name="placeBusan" id="placeBusan" value="BUSAN">부산</button>
-                                            <button type="button" name="placeJeju" id="placeJeju" value="JEJU">제주도</button>
-                                        </div>
-                                    </ul>
-                                </div>
-
-                                <div class="Box2">
-                                    <ul class="a2">
-                                        <li class="Overseas"><a class="nav-link px-2 link-secondary"
-                                                                id="Overseas">해외</a></li>
-                                        <div name="OverseasMenu" id="OverseasMenu">
-                                            <button type="button" name="placeAme" id="placeAme" value="USA">미국</button>
-                                            <button type="button" name="placePhi" id="placePhi" value="PHILIPPINES">필리핀</button>
-                                            <button type="button" name="placeVie" id="placeVie" value="NHA_TRANG">베트남</button>
-                                            <button type="button" name="placeKot" id="placeKot" value="KOTA_KINABALU">코타키나발루
-                                            </button>
-                                            <button type="button" name="placeJap" id="placeJap" value="JAPAN">일본</button>
-                                            <button type="button" name="placeHaw" id="placeHaw" value="HAWAII">하와이</button>
-                                        </div>
-                                    </ul>
-
         <div class="main">
             <div class="main2">
                 <div class="slider">
@@ -586,7 +494,7 @@ wight:500px;
                 </div>
                 <!-- ======================여기까지 슬라이더================================ -->
                 <div class="textBox">
-                    <form method="get" role="form" th:action="@{/admin/items/}">
+                    <form th:action="@{/admin/items/}" method="get" role="form">
 
 
                         <p class="ment">
@@ -595,34 +503,31 @@ wight:500px;
                             <strong>어떤 여행을 꿈꾸시나요?</strong></p>
                         <div>
                             <div class="form-group">
-                                <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16"
-                                     width="16" xmlns="http://www.w3.org/2000/svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                                 </svg>
                                 <!-- 여행지 -->
-                                <input id="placeSearch" name="placeSearch" placeholder="어디로 떠나세요?" type="text">
+                                <input type="text" name="placeSearch" id="placeSearch" placeholder="어디로 떠나세요?">
 
-                                <div class="placeDiv" id="placeDiv" name="placeDiv">
+                                <div class="placeDiv" name="placeDiv" id="placeDiv">
                                     <div class="Box1">
                                         <ul class="a1">
                                             <li class="Domestic"><a class="nav-link px-2 link-secondary"
                                                                     id="Domestic">국내</a></li>
-                                            <div id="DomesticMenu" name="DomesticMenu">
-                                                <button id="placeIncheon" name="placeIncheon" type="button" value="인천">
-                                                    인천
+                                            <div name="DomesticMenu" id="DomesticMenu">
+                                                <button type="button" name="placeIncheon" id="placeIncheon" value="인천">인천
                                                 </button>
-                                                <button id="placeSeoul" name="placeSeoul" type="button" value="서울">서울
+                                                <button type="button" name="placeSeoul" id="placeSeoul" value="서울">서울
                                                 </button>
-                                                <button id="placeDeajeon" name="placeDeajeon" type="button" value="대전">
-                                                    대전
+                                                <button type="button" name="placeDeajeon" id="placeDeajeon" value="대전">대전
                                                 </button>
-                                                <button id="placeYangyang" name="placeYangyang" type="button"
-                                                        value="양양">
+                                                <button type="button" name="placeYangyang" id="placeYangyang" value="양양">
                                                     양양
                                                 </button>
-                                                <button id="placeBusan" name="placeBusan" type="button" value="부산">부산
+                                                <button type="button" name="placeBusan" id="placeBusan" value="부산">부산
                                                 </button>
-                                                <button id="placeJeju" name="placeJeju" type="button" value="제주도">제주도
+                                                <button type="button" name="placeJeju" id="placeJeju" value="제주도">제주도
                                                 </button>
                                             </div>
                                         </ul>
@@ -632,125 +537,117 @@ wight:500px;
                                         <ul class="a2">
                                             <li class="Overseas"><a class="nav-link px-2 link-secondary"
                                                                     id="Overseas">해외</a></li>
-                                            <div id="OverseasMenu" name="OverseasMenu">
-                                                <button id="placeAme" name="placeAme" type="button" value="미국">미국
+                                            <div name="OverseasMenu" id="OverseasMenu">
+                                                <button type="button" name="placeAme" id="placeAme" value="미국">미국</button>
+                                                <button type="button" name="placePhi" id="placePhi" value="필리핀">필리핀</button>
+                                                <button type="button" name="placeVie" id="placeVie" value="베트남">베트남</button>
+                                                <button type="button" name="placeKot" id="placeKot" value="코타키나발루">코타키나발루
                                                 </button>
-                                                <button id="placePhi" name="placePhi" type="button" value="필리핀">필리핀
-                                                </button>
-                                                <button id="placeVie" name="placeVie" type="button" value="베트남">베트남
-                                                </button>
-                                                <button id="placeKot" name="placeKot" type="button" value="코타키나발루">
-                                                    코타키나발루
-                                                </button>
-                                                <button id="placeJap" name="placeJap" type="button" value="일본">일본
-                                                </button>
-                                                <button id="placeHaw" name="placeHaw" type="button" value="하와이">하와이
-                                                </button>
+                                                <button type="button" name="placeJap" id="placeJap" value="일본">일본</button>
+                                                <button type="button" name="placeHaw" id="placeHaw" value="하와이">하와이</button>
                                             </div>
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- ======================여기까지 어디로 떠나세요 국내해외================================ -->
+                            <!-- ======================여기까지 어디로 떠나세요 국내해외================================ -->
 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-rocket-takeoff" viewBox="0 0 16 16">
-                            <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
-                            <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.232 2.08-.188.244.023.435.06.57.093q.1.026.16.045c.184.06.279.13.351.295l.029.073a3.5 3.5 0 0 1 .157.721c.055.485.051 1.178-.159 2.065m-4.828 7.475.04-.04-.107 1.081a1.54 1.54 0 0 1-.44.913l-1.298 1.3.054-.38c.072-.506-.034-.993-.172-1.418a9 9 0 0 0-.164-.45c.738-.065 1.462-.38 2.087-1.006M5.205 5c-.625.626-.94 1.351-1.004 2.09a9 9 0 0 0-.45-.164c-.424-.138-.91-.244-1.416-.172l-.38.054 1.3-1.3c.245-.246.566-.401.91-.44l1.08-.107zm9.406-3.961c-.38-.034-.967-.027-1.746.163-1.558.38-3.917 1.496-6.937 4.521-.62.62-.799 1.34-.687 2.051.107.676.483 1.362 1.048 1.928.564.565 1.25.941 1.924 1.049.71.112 1.429-.067 2.048-.688 3.079-3.083 4.192-5.444 4.556-6.987.183-.771.18-1.345.138-1.713a3 3 0 0 0-.045-.283 3 3 0 0 0-.3-.041Z"/>
-                            <path d="M7.009 12.139a7.6 7.6 0 0 1-1.804-1.352A7.6 7.6 0 0 1 3.794 8.86c-1.102.992-1.965 5.054-1.839 5.18.125.126 3.936-.896 5.054-1.902Z"/>
-                        </svg>
-                        <!-- 출발지 -->
-
-                        <input type="search" name="startPlace" id="startPlace" placeholder="출발할 도시를 고르세요">
-
-                        <div class="startline" name="startMenu" id="startMenu">
-
-                            <ul class="startCity">
-                                <button type="button" name="Incheon" id="startIncheon">인천</button>
-                                <button type="button" name="Busan" id="startBusan">부산</button>
-                                <button type="button" name="Deagu" id="startDeagu">대구</button>
-                                <button type="button" name="Chungju" id="startChungju">충주</button>
-                                <button type="button" name="Gwangju" id="startGwangju">광주</button>
-                                <button type="button" name="Yangyang" id="startYangyang">양양</button>
-                                <button type="button" name="Jeju" id="startJeju">제주도</button>
-                            </ul>
-                        </div>
-                        <!-- ======================여기까지 어디로 떠나세요?================================ -->
-
-                        <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-hourglass-split" viewBox="0 0 16 16">
-                                <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                 class="bi bi-rocket-takeoff" viewBox="0 0 16 16">
+                                <path d="M9.752 6.193c.599.6 1.73.437 2.528-.362s.96-1.932.362-2.531c-.599-.6-1.73-.438-2.528.361-.798.8-.96 1.933-.362 2.532"/>
+                                <path d="M15.811 3.312c-.363 1.534-1.334 3.626-3.64 6.218l-.24 2.408a2.56 2.56 0 0 1-.732 1.526L8.817 15.85a.51.51 0 0 1-.867-.434l.27-1.899c.04-.28-.013-.593-.131-.956a9 9 0 0 0-.249-.657l-.082-.202c-.815-.197-1.578-.662-2.191-1.277-.614-.615-1.079-1.379-1.275-2.195l-.203-.083a10 10 0 0 0-.655-.248c-.363-.119-.675-.172-.955-.132l-1.896.27A.51.51 0 0 1 .15 7.17l2.382-2.386c.41-.41.947-.67 1.524-.734h.006l2.4-.238C9.005 1.55 11.087.582 12.623.208c.89-.217 1.59-.232 2.08-.188.244.023.435.06.57.093q.1.026.16.045c.184.06.279.13.351.295l.029.073a3.5 3.5 0 0 1 .157.721c.055.485.051 1.178-.159 2.065m-4.828 7.475.04-.04-.107 1.081a1.54 1.54 0 0 1-.44.913l-1.298 1.3.054-.38c.072-.506-.034-.993-.172-1.418a9 9 0 0 0-.164-.45c.738-.065 1.462-.38 2.087-1.006M5.205 5c-.625.626-.94 1.351-1.004 2.09a9 9 0 0 0-.45-.164c-.424-.138-.91-.244-1.416-.172l-.38.054 1.3-1.3c.245-.246.566-.401.91-.44l1.08-.107zm9.406-3.961c-.38-.034-.967-.027-1.746.163-1.558.38-3.917 1.496-6.937 4.521-.62.62-.799 1.34-.687 2.051.107.676.483 1.362 1.048 1.928.564.565 1.25.941 1.924 1.049.71.112 1.429-.067 2.048-.688 3.079-3.083 4.192-5.444 4.556-6.987.183-.771.18-1.345.138-1.713a3 3 0 0 0-.045-.283 3 3 0 0 0-.3-.041Z"/>
+                                <path d="M7.009 12.139a7.6 7.6 0 0 1-1.804-1.352A7.6 7.6 0 0 1 3.794 8.86c-1.102.992-1.965 5.054-1.839 5.18.125.126 3.936-.896 5.054-1.902Z"/>
                             </svg>
-                            <!-- 날짜 -->
-                            <input type="text" name="datefilter" id="datefilter" value="">
+                            <!-- 출발지 -->
+
+                            <input type="search" name="startPlace" id="startPlace" placeholder="출발할 도시를 고르세요">
+
+                            <div class="startline" name="startMenu" id="startMenu">
+
+                                <ul class="startCity">
+                                    <button type="button" name="Incheon" id="startIncheon">인천</button>
+                                    <button type="button" name="Busan" id="startBusan">부산</button>
+                                    <button type="button" name="Deagu" id="startDeagu">대구</button>
+                                    <button type="button" name="Chungju" id="startChungju">충주</button>
+                                    <button type="button" name="Gwangju" id="startGwangju">광주</button>
+                                    <button type="button" name="Yangyang" id="startYangyang">양양</button>
+                                    <button type="button" name="Jeju" id="startJeju">제주도</button>
+                                </ul>
+                            </div>
+                            <!-- ======================여기까지 어디로 떠나세요?================================ -->
+
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                    <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                </svg>
+                                <!-- 날짜 -->
+                                <input type="text" name="datefilter" id="datefilter" value="">
+                            </div>
+                            <div>
+                                <button class="searchB" type="submit" id="searchBtn">검색</button>
+                            </div>
                         </div>
-                        <div>
-                            <button class="searchB" type="submit" id="searchBtn">검색</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- ======================여기까지 함================================ -->
+        <!-- ======================여기까지 함================================ -->
 
-    <div class="">
-        <div class="container">
-            <div class="package">국내 패키지 여행</div>
+        <div class="">
+            <div class="container">
+                <div class="package">국내 패키지 여행</div>
 
+                <th:block th:each="item: ${items.getContent()}">
+                    <div class="package1">
+                        <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+                            <div>
+                                <a th:href="'/item/' + ${item.id}" class="text-dark">
+                                    <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
+                                         width="300">
+                                </a>
+                            </div>
+
+                            <div>
+                                <a>[[${item.itemNm}]]</a><!--상품명-->
+                            </div>
+
+                            <div>
+                                <a>[[${item.price}]]원</a><!--가격-->
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+
+            <div class="package">해외 패키지 여행</div>
             <th:block th:each="item: ${items.getContent()}">
-                <div class="package1">
-                    <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+                <div class="">
+                    <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+
                         <div>
                             <a th:href="'/item/' + ${item.id}" class="text-dark">
                                 <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
                                      width="300">
                             </a>
                         </div>
-
                         <div>
                             <a>[[${item.itemNm}]]</a><!--상품명-->
                         </div>
-
                         <div>
                             <a>[[${item.price}]]원</a><!--가격-->
                         </div>
                     </div>
+
                 </div>
+
             </th:block>
+
+
         </div>
-
-
-        <div class="package">해외 패키지 여행</div>
-        <th:block th:each="item: ${items.getContent()}">
-            <div class="">
-                <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-
-                    <div>
-                        <a th:href="'/item/' + ${item.id}" class="text-dark">
-                            <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
-                                 width="300">
-                        </a>
-                    </div>
-                    <div>
-                        <a>[[${item.itemNm}]]</a><!--상품명-->
-                    </div>
-                    <div>
-                        <a>[[${item.price}]]원</a><!--가격-->
-                    </div>
-                </div>
-
-            </div>
-
-        </th:block>
-
-
     </div>
-</div>
 </div>
 </body>
 
