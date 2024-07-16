@@ -4,10 +4,7 @@ package com.trip.service;
 import com.trip.constant.Nature;
 import com.trip.dto.*;
 import com.trip.entity.*;
-import com.trip.repository.ItemImgRepository;
-import com.trip.repository.ItemRepository;
-import com.trip.repository.MemberRepository;
-import com.trip.repository.OrderItemRepository;
+import com.trip.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +28,8 @@ public class ItemService {
     private final ItemImgService itemImgService;
     private  final ItemImgRepository itemImgRepository;
     private final OrderItemRepository orderItemRepository;
+    private final  MemberRepository memberRepository;
+    private  final OrderRepository orderRepository;
 
 
 
@@ -101,9 +100,14 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public  Optional<OrderItem> getmemberId(Long cartid){
-        Optional<Item> item = itemRepository.findById(cartid);
-        Optional<OrderItem> orderItem = orderItemRepository.findById(item.get().getId());
+    public  OrderItem itemName(String itemNm){
+
+        List<Item> item = itemRepository.findByItemNm(itemNm);
+        System.out.println(item.getFirst().getId());
+
+
+        OrderItem orderItem = orderItemRepository.findByItemId(item.getFirst().getId());
+
         return orderItem;
 
 

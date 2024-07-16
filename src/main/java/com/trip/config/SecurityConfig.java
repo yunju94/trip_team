@@ -24,11 +24,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //로그인에 관여
-        System.out.println("A");
         http.authorizeRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error").permitAll()
-                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**", "/mypage/**","/domestic",
-                        "/overseas","/questions","/writeForm","/view/**","/comments","/map","/verification/**").permitAll()
+
+
+                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**",
+                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments","/map","/verification/**").permitAll()
+
+
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(formLogin -> formLogin
@@ -48,7 +51,6 @@ public class SecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 );
 
-        System.out.println("b");
         return http.build();
     }
 

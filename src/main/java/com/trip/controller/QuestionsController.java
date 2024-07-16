@@ -68,6 +68,7 @@ public class QuestionsController {
         questionsService.save(questionsDto);
         return "redirect:/questions";
     }
+
     @GetMapping(value ="/view")
     public String viewQuestion(@RequestParam("id") Long id, Model model, Principal principal) {
         Member member = memberService.memberload(principal.getName());
@@ -84,6 +85,7 @@ public class QuestionsController {
     @GetMapping(value ="/view/{id}")
     public String viewQuestionId(@PathVariable("id") Long id, Model model, Principal principal) {
         Member member = memberService.memberload(principal.getName());
+
         Questions question = questionsService.getQuestionById(id);
         List<Comment> comments = commentService.getCommentsByQuestionId(id);
         CommentDto commentDto = new CommentDto();

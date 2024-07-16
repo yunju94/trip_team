@@ -10,4 +10,7 @@ public interface PaymentService {
     RequestPayDto findRequestDto(Long id);
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
+
+    void  paymentStatuCancle(Long orderId);
+
 }

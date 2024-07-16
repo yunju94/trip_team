@@ -97,7 +97,7 @@ public class ItemController {
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
     @GetMapping(value = {"/admin/items", "/admin/items/page"})
     public String itemManage(ItemSearchDto itemSearchDto, Optional<Integer> page,
-                             Model model, Principal principal){
+                             Model model){
         // page.isPresent() -> page 값이 있는지 확인
         // 값 있을 시 page.get() , 값 없을 시 0
         // 한 페이지에 개수 -> 5개
@@ -109,8 +109,6 @@ public class ItemController {
         model.addAttribute("itemSearchDto",itemSearchDto);
         model.addAttribute("maxPage",5);
         System.out.println(itemSearchDto.getPlaceSearch());
-        Member member =memberService.memberload(principal.getName());
-        model.addAttribute("member", member);
         if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
                 itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("양양")||
                 itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("제주도")){

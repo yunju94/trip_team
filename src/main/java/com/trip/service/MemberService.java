@@ -1,8 +1,6 @@
 package com.trip.service;
 
-import com.trip.dto.ItemFormDto;
 import com.trip.dto.MemberFormDto;
-import com.trip.entity.Item;
 import com.trip.entity.Member;
 import com.trip.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,12 +9,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -63,5 +60,13 @@ public class MemberService implements UserDetailsService {
 
     }
 
+    public  List<Member> findMemberSearch(Long memberId, String memberName){
+        return memberRepository.memberSearch(memberId, memberName);
+    }
+
+    public Optional<Member> findMember(Long id){
+        return memberRepository.findById(id);
+
+    }
 
 }

@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -35,36 +39,24 @@
                 },
                 function(rsp) {
                     if (rsp.success) {
-                        alert('call back!!: ' + JSON.stringify(rsp));
+                       // alert('call back!!: ' + JSON.stringify(rsp));
                         // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
                         // jQuery로 HTTP 요청
                         $.ajax({
                             url: "/payment",
                             method: "POST",
                             headers: {"Content-Type": "application/json"},
-                            data: JSON.stringify({
+                              data: JSON.stringify({
                                 "payment_uid": rsp.imp_uid,      // 결제 고유번호
                                 "order_uid": rsp.merchant_uid   // 주문번호
-                            }),
+                            })
+                        }).done(function (response) {
+                            console.log(response);
+                            // 가맹점 서버 결제 API 성공시 로직
+                            //alert('Please, Check your payment result page!!' + rsp);
+                            alert('결제 완료!');
+                            window.location.href = "/success-payment";
 
-                             beforeSend: function (xhr) {
-                          // 데이터 전송하기 전에 헤더에 csrf 값을 설정
-                          xhr.setRequestHeader(header, token);
-                             },
-                              dataType: "json",
-                              cache: false,
-                              success: function (result, status) {
-                                    alert("결제를 진행합니다..");
-                                     location.href ='/';
-                              },
-                               error : function(jqXHR, status, error){
-                                    if(jqXHR.status == '401'){
-                                           alert('로그인 후 이용해주세요');
-                                            location.href='/members/login';
-                                    }else{
-                                           alert(jqXHR.responseText);
-                                   }
-                                  }
                         }).done(function (response) {
                             console.log(response);
                             // 가맹점 서버 결제 API 성공시 로직
@@ -73,18 +65,55 @@
                             window.location.href = "/success-payment";
                         })
                     } else {
-                        alert("success? "+ rsp.success+ ", 결제에 실패하였습니다. 에러 내용: " + JSON.stringify(rsp));
+                        //alert("success? "+ rsp.success+ ", 결제에 실패하였습니다. 에러 내용: " + JSON.stringify(rsp));
                         alert('결제 실패!' + rsp);
-                        window.location.href = "/fail-payment";
+                        window.location.href = "/fail-payment/"+ orderUid;
                     }
                 });
         }
     </script>
 </head>
 <body>
+<div layout:fragment="content">
 <h1>결제 페이지</h1>
+    <div>
+        <div>
+            <table>
+                <tr>
+                    <th>주문 번호: </th>
+                    <td th:text="${requestDto.orderUid}"></td>
+                </tr>
+
+                <tr>
+                    <th>상품명: </th>
+                    <td th:text="${requestDto.itemName}"></td>
+                </tr>
+
+                <tr>
+                    <th>구매자: </th>
+                    <td th:text="${requestDto.buyerName}"></td>
+                </tr>
+
+                <tr>
+                    <th>이메일: </th>
+                    <td th:text="${requestDto.buyerEmail}"></td>
+                </tr>
+
+                <tr>
+                    <th>주소: </th>
+                    <td th:text="${requestDto.buyerAddress}"></td>
+                </tr>
+
+                <tr>
+                    <th>결제 금액: </th>
+                    <td th:text="${requestDto.paymentPrice}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 <button th:with="requestDto = ${requestDto}" onclick="requestPay()">
     결제하기
 </button>
+</div>
 </body>
 </html>
