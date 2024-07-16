@@ -11,6 +11,11 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
+        function view(id){
+
+        location.href="/view/"+ id;
+
+        }
 
 
 
@@ -42,6 +47,14 @@
     img{
        width:100px;
        height:100px;
+    }
+
+      /* 문의 내용 */
+    .write{
+        width: 500px;
+        border: 1px solid #ccc;
+        margin: 0 auto;
+
     }
 
  /* ------------------------------------*/
@@ -79,21 +92,22 @@
             </div>
         </div>
         <div>
-            <div th:each="question, questionIndex : ${questionsList}">
+            <div class="write" th:each="question, questionIndex : ${question}">
+                <div  th:data-id="${question.id}" onclick="view(this.getAttribute('data-id'))">
+
                 <h2 th:text="${question.title}">제목</h2>
                 <div class="post-info">
-                    <p><strong>작성자:</strong> <span th:text="${question.writer}">작성자</span></p>
                     <p><strong>내용:</strong></p>
                     <p th:text="${question.content}">내용</p>
                 </div>
                 <div class="comments">
-                    <h3>댓글</h3>
-                    <div th:each="comment : ${commentsList[questionIndex.index]}">
+
+                    <div th:each="comment : ${comments[questionIndex.index]}">
                         <div class="comment">
-                            <p><strong th:text="${comment.writer}">작성자</strong></p>
-                            <p th:text="${comment.content}">댓글 내용</p>
+                            <p th:text="'┗'+${comment.content}">댓글 내용</p>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

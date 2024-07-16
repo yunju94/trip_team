@@ -102,6 +102,7 @@ if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
 </head>
 <body>
 <div layout:fragment="content">
+
     <form th:action="@{/admin/items/delete}" method="post">
         <table class="image-table">
             <tbody id="data-list">
@@ -116,6 +117,7 @@ if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
             </tr>
     </form>
     </table>
+
 </div>
 </body>
 </html>

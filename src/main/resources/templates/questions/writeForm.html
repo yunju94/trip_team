@@ -1,77 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 <head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta charset="UTF-8">
-    <title>게시글 작성</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
 
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-        }
-
-        h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-        }
-
-        input[type="submit"] {
-            background-color: #009879;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #007a63;
-        }
-    </style>
 </head>
-<body>
+
+<th:block layout:fragment="css">
+    <style>
+
+        body {
+               font-family: Arial, sans-serif;
+               background-color: #ffff;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+           }
+           header {
+               width: 100%;
+               background-color: #ffff;
+
+           }
+            h4{
+          position: fixed; /* 상단으로 고정 */
+                    top: 27%; /* 화면 중앙으로 이동 */
+                    left: 47.5%;
+        }
+        main {
+            position: fixed; /* 고정 */
+               top: 30.2%; /* 이동 */
+               max-width: 800px;
+               left:23%;
+
+               background:  #ffffff;
+               margin: 2em;
+               padding:28px;
+           }
+          .sidebar {
+      position: fixed; /* 상단으로 고정 */
+                   top: 40.7%; /* 화면 중앙으로 이동 */
+               left: 16%;
+               transform: translateY(-50%);
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               z-index: 1000; /* 필요시 설정 */
+    }
+
+    .sidebar button {
+       width: 120px;
+       padding: 0.8em;
+       margin: 0.2em 0;
+       border: none;
+       border-radius: 5px;
+       background-color: #343a40;
+       color: white;
+       cursor: pointer;
+       font-size: 0.8em;
+       transition: background-color 0.3s ease;
+    }
+
+    .sidebar button:hover {
+       background-color: #495057;
+    }
+            .form-container{
+            }
+
+            .writerBox{
+             position: fixed; /* 상단으로 고정 */
+              display: flex;
+                    top: 35%; /* 화면 중앙으로 이동 */
+                    left: 47.5%;
+              width: 300px;
+              height:30px;
+            }
+
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <body>
+    <h4>1:1 문의하기</h4>
+
+    <aside class="sidebar">
+        <button onclick="window.location.href='/qna'">자주찾는질문</button>
+        <button onclick="window.location.href='/questions'">1:1문의</button>
+    </aside>
+
+    <main>
 <div class="form-container">
-    <h2>문의 작성</h2>
     <form th:action="@{/writeForm}" th:object="${questionsDto}" method="post">
-        <div>
+        <div class="writerBox">
             <label for="writer">작성자:</label>
             <input type="text" id="writer" name="writer" th:field="*{writer}" required readonly>
         </div>
+
         <div>
             <label for="title">제목:</label>
             <input type="text" id="title" name="title" th:field="*{title}" required>
@@ -85,5 +114,8 @@
         </div>
     </form>
 </div>
-</body>
+
+    </main>
+    </body>
+</div>
 </html>

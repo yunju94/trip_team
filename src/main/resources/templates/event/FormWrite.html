@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(){
+
+        });
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div>
+        <h3>패키지 등록</h3>
+        <form role="form" class="container" method="post" enctype="multipart/form-data" th:object="${EventFormDto}">
+            <input type="hidden" th:field="*{id}">
+        <p>링크</p>
+            <div>
+                <input type="text" th:field="${EventFormDto.content}" class="imageFile form-control" >
+                <input type="text" th:field="${EventFormDto.content1}" class="imageFile form-control" >
+                <input type="text" th:field="${EventFormDto.content2}" class="imageFile form-control" >
+                <input type="text" th:field="${EventFormDto.content3}" class="imageFile form-control" >
+            </div>
+
+
+        <p>사진</p>
+            <div th:if="${#lists.isEmpty(EventFormDto.eventImgDtoList)}">
+                <div class="row" th:each="num: ${#numbers.sequence(1,5)}">
+                    <div class="input-group mb3">
+                        <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>
+                        <input type="file" class="imageFile form-control" name="eventImgFile">
+                    </div>
+                </div>
+            </div>
+
+
+            <div th:if="${not #lists.isEmpty(EventFormDto.eventImgDtoList)}">
+                <div class="row" th:each="eventImgDto, status: ${EventFormDto.eventImgDtoList}">
+                    <div class="input-group mb3">
+                        <label class="image input-group-text" th:text="${not #strings.isEmpty(eventImgDto.oriImgName)} ?
+                                ${eventImgDto.oriImgName} : '상품이미지 ' + ${status.index + 1}"></label>
+                        <input type="file" class="imageFile form-control" name="eventImgFile">
+                        <input type="hidden" name="eventImgIds" th:value="${eventImgDto.id}">
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div th:if="${#strings.isEmpty(EventFormDto.id)}" style="text-align:center">
+                <button th:formaction="@{/event/new/write}" type="submit" class="btn btn-primary">저장</button>
+            </div>
+            <div th:unless="${#strings.isEmpty(EventFormDto.id)}" style="text-align:center">
+                <button th:formaction="@{'/event/update/' + ${EventFormDto.id}}" type="submit" class="btn btn-primary">수정</button>
+            </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        </form>
+    </div>
+</div>
+
+</html>
