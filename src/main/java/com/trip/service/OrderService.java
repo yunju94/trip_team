@@ -5,6 +5,7 @@ import com.trip.constant.PaymentStatus;
 import com.trip.dto.OrderDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.dto.OrderItemDto;
+import com.trip.dto.RequestPayDto;
 import com.trip.entity.*;
 import com.trip.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -163,12 +164,19 @@ public class OrderService {
 
     public  Order  orderUidOrderCancle(String orderUid){
 
+        System.out.println(orderUid);
         Order order=orderRepository.findByOrderUid(orderUid);
+
         order.orderCancel();
-        Optional<Payment> payment = paymentRepository.findById(order.getPayment().getId());
-        payment.get().setStatus(PaymentStatus.CANCEL);
+        Payment payment = paymentRepository.findById(order.getPayment().getId()).orElseThrow();
+        payment.setStatus(PaymentStatus.CANCEL);
 
         return order;
+    }
+
+    public  void  updateOrder(int amount , Order order){
+       order.updateOrders(amount);
+
     }
 
 

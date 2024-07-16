@@ -475,6 +475,41 @@ wight:500px;
   text-align: center;
 }
 
+
+           .package-container {
+        display: flex;
+        flex-wrap: nowrap; /* flex 아이템이 한 줄에 모두 표시되도록 함 */
+        overflow-x: auto; /* 넘치는 컨텐츠에 대한 가로 스크롤을 표시함 */
+        scrollbar-width: none; /* 스크롤바를 숨김 */
+        -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바를 숨김 */
+    }
+
+    .package1 {
+        flex: 0 0 auto; /* flex 아이템의 크기가 자동으로 조절되도록 설정 */
+        margin-right: 10px; /* 각 패키지 사이의 간격 조정 */
+    }
+
+    .package1:last-child {
+        margin-right: 0; /* 마지막 패키지의 오른쪽 마진을 제거하여 간격 조정 */
+    }
+
+          .package-container {
+        display: flex;
+        flex-wrap: nowrap; /* flex 아이템이 한 줄에 모두 표시되도록 함 */
+        overflow-x: auto; /* 넘치는 컨텐츠에 대한 가로 스크롤을 표시함 */
+        scrollbar-width: none; /* 스크롤바를 숨김 */
+        -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바를 숨김 */
+    }
+
+    .package1 {
+        flex: 0 0 auto; /* flex 아이템의 크기가 자동으로 조절되도록 설정 */
+        margin-right: 10px; /* 각 패키지 사이의 간격 조정 */
+    }
+
+    .package1:last-child {
+        margin-right: 0; /* 마지막 패키지의 오른쪽 마진을 제거하여 간격 조정 */
+    }
+
     </style>
 
 </head>
@@ -485,10 +520,10 @@ wight:500px;
     <div class="main">
         <div class="main2">
             <div class="slider">
-                <div><img th:src="@{/css/images/jeju.jpg}"></div>
+                <div><a href="/event/303"><img th:src="@{/css/images/jeju.jpg}"></a></div>
                 <div><img th:src="@{/css/images/puket.jpg}"></div>
                 <div><a href="/event/2"><img th:src="@{/css/images/eu.jpg}" ></a></div>
-                <div><img th:src="@{/css/images/dongnam.jpg}"></div>
+                <div><a href="/event/302"><img th:src="@{/css/images/dongnam.jpg}"></a></div>
             </div>
             <!-- ======================여기까지 슬라이더================================ -->
             <div class="textBox">
@@ -590,31 +625,35 @@ wight:500px;
         <div class="container">
             <div class="package">국내 패키지 여행</div>
 
-            <th:block th:each="item: ${items.getContent()}">
-                <div class="package1">
-                    <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-                        <div>
-                            <a th:href="'/item/' + ${item.id}" class="text-dark">
-                                <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
-                                     width="300">
-                            </a>
-                        </div>
+            <div class="package-container">
+                <th:block th:each="item : ${items.getContent().subList(0, 5)}">
+                    <div class="package1">
+                        <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+                            <div>
+                                <a th:href="'/item/' + ${item.id}" class="text-dark">
+                                    <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
+                                         width="300">
+                                </a>
+                            </div>
 
-                        <div>
-                            <a>[[${item.itemNm}]]</a><!--상품명-->
-                        </div>
+                            <div>
+                                <a th:href="'/item/' + ${item.id}" class="text-dark" th:text="${item.itemNm}">상품명</a>
+                            </div>
 
-                        <div>
-                            <a>[[${item.price}]]원</a><!--가격-->
+                            <div>
+                                <a th:text="'[[' + ${item.price} + ']]원'">가격</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </th:block>
+                </th:block>
+            </div>
+
         </div>
 
 
         <div class="package">해외 패키지 여행</div>
-        <th:block th:each="item: ${items.getContent()}">
+        <div class="package-container">
+        <th:block th:each="item: ${items.getContent().subList(0, 5)}">
             <div class="">
                 <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
 
@@ -635,6 +674,7 @@ wight:500px;
             </div>
 
         </th:block>
+        </div>
 
 
     </div>

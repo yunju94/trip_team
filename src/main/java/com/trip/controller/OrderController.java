@@ -117,7 +117,7 @@ public class OrderController {
         //오더 아이디를 받는다. 개인정보를 받는다. 오더 아이디로 저장된 오더 정보를 불러온다.
         Optional<Order> order = orderService.orderdetail(orderId);
 
-        List<OrderHistDto> OrderHistDto = orderService.order(principal.getName());
+
         Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
         ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
 
@@ -128,9 +128,10 @@ public class OrderController {
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
 
 
-        model.addAttribute("OrderHistDto", OrderHistDto);
 
+        model.addAttribute("order", order);
         model.addAttribute("item", itemFormDto);
+
 
         return "mypage/orderdetail";
     }

@@ -30,49 +30,44 @@
 
 <div layout:fragment="content">
     <table>
-        <div th:each="order : ${OrderHistDto}">
+        <div>
             <tr >
-                <td>주문시간</td>
-                <td th:text="${order.orderDate}"></td><!--주문 시간-->
-            <tr >
-             </tr>
-                <td>주문 번호</td>
-                <td th:text="${order.orderId}"></td><!--주문번호-->
-            </tr>
-            <tr th:each="orderItem : ${order.orderItemDtoList}">
-                <td colspan="2" >
-                    <div>
-                        <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">
-                    </div>
-                </td><!--이미지-->
-            </tr>
-            <tr th:each="orderItem : ${order.orderItemDtoList}">
-                <td>상품명</td>
-                <td th:text="${orderItem.itemNm}">
-                </td><!--상품명-->
-            </tr>
-            <tr >
-                <td>여행지</td>
-                <td th:text="${item.Category}"></td><!--여행지-->
-            </tr>
-            <tr th:each="orderItem : ${order.orderItemDtoList}">
-                <td>참여 인원</td>
-                <td  th:text="${orderItem.count}">
+                <td colspan="2"><img th:src="${item.ItemImgDtoList[0].ImgUrl}" style="width:400px;height:300px;"></td>
+                <!--상품명-->
 
-                </td><!--인원-->
-            </tr>
+            <tr >
+            <tr >
+                <td style="width:120px;">상품명</td>
+                <td th:text="${item.itemNm}"></td><!--상품명-->
+            <tr >
+
+
+            <tr >
+                <td>국내외</td>
+                <td>[[${item.nature.displayName}]]</td><!--해당 나라-->
+            <tr >
+            <tr >
+                <td>해당 지역</td>
+                <td>[[${item.category.displayName}]]</td><!--해당 지역-->
+            <tr >
             <tr >
                 <td>출발일</td>
-                <td th:text="${item.startDate}"></td><!--출발일-->
-            </tr>
+                <td  th:text="${item.startDate}"></td><!--출발일-->
+            <tr >
             <tr >
                 <td>도착일</td>
-                <td  th:text="${item.endDate}"></td><!--도착일-->
-
-            <tr th:each="orderItem : ${order.orderItemDtoList}">
+                <td  th:text="${item.endDate}"></td><!--출발일-->
+            <tr >
+            <tr >
                 <td>가격</td>
-                <td th:text="${orderItem.orderPrice}"></td><!--가격-->
-            </tr>
+                <td th:text="${item.price}"></td><!--가격-->
+            <tr >
+            <tr >
+                <td>상세 설명</td>
+                <td th:text="${item.itemDetail}"></td><!--상세 설명-->
+            <tr >
+
+
 
 
         </div>

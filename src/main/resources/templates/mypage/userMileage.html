@@ -15,11 +15,14 @@
         $(document).ready(function() {
 
            var totalCount = 0;
-       for(Mileage mileage : ${mileage}){
-           totalCount += mileage.point;
-       }
+           var mileageData = [[${mileage}]]
 
-       ('#totalCount').text(totalCount)
+          for (var i = 0; i < mileageData.length; i++) {
+        totalCount += mileageData[i].point; // mileageData가 'point' 속성을 가진 객체들의 배열로 가정합니다
+    }
+    console.log(totalCount)
+
+       $('#totalCount').text(totalCount+"P")
 
       });
 
@@ -139,7 +142,7 @@
                     </tr>
                     </thead>
                     <tbody th:each="mileage : ${mileage}">
-                    <tr th:unless="${mileage.point > 0}">
+                    <tr th:unless="${mileage.point >= 0}">
                         <td th:text="${mileage.content}"></td>
                         <td th:text="${mileage.point}"></td>
                     </tr>
@@ -148,7 +151,7 @@
             </div>
             <div>
                 <h3>총 잔여 포인트</h3>
-                <span id="totalCount"></span>
+                <span  id="totalCount"  style="font-size: larger; color: red;"></span>
             </div>
         </div>
     </div>

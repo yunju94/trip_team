@@ -4,6 +4,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
+import com.trip.entity.Order;
 
 public interface PaymentService {
     // 결제 요청 데이터 조회
@@ -12,5 +13,6 @@ public interface PaymentService {
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
 
     void  paymentStatuCancle(Long orderId);
+
 
 }
