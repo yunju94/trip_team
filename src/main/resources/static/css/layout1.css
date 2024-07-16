@@ -1,4 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 html{
+ font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
     position: relative;
     min-height: 100%;
     margin: 0;
@@ -6,7 +11,10 @@ html{
 
 
 .footer {
-
+ font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
     position: absolute;
     left: 0;
     right: 0;
@@ -16,6 +24,10 @@ html{
     text-align: center;
 }
 .content{
+ font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
     margin-bottom: 100px;
     margin-top: 50px;
     margin-left: 200px;

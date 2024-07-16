@@ -625,35 +625,31 @@ wight:500px;
         <div class="container">
             <div class="package">국내 패키지 여행</div>
 
-            <div class="package-container">
-                <th:block th:each="item : ${items.getContent().subList(0, 5)}">
-                    <div class="package1">
-                        <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
-                            <div>
-                                <a th:href="'/item/' + ${item.id}" class="text-dark">
-                                    <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
-                                         width="300">
-                                </a>
-                            </div>
+            <th:block th:each="item: ${items.getContent()}">
+                <div class="package1">
+                    <div th:if="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
+                        <div>
+                            <a th:href="'/item/' + ${item.id}" class="text-dark">
+                                <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="300"
+                                     width="300">
+                            </a>
+                        </div>
 
-                            <div>
-                                <a th:href="'/item/' + ${item.id}" class="text-dark" th:text="${item.itemNm}">상품명</a>
-                            </div>
+                        <div>
+                            <a>[[${item.itemNm}]]</a><!--상품명-->
+                        </div>
 
-                            <div>
-                                <a th:text="'[[' + ${item.price} + ']]원'">가격</a>
-                            </div>
+                        <div>
+                            <a>[[${item.price}]]원</a><!--가격-->
                         </div>
                     </div>
-                </th:block>
-            </div>
-
+                </div>
+            </th:block>
         </div>
 
 
         <div class="package">해외 패키지 여행</div>
-        <div class="package-container">
-        <th:block th:each="item: ${items.getContent().subList(0, 5)}">
+        <th:block th:each="item: ${items.getContent()}">
             <div class="">
                 <div th:unless="${item.nature == T(com.trip.constant.Nature).DOMESTIC}">
 
@@ -674,7 +670,6 @@ wight:500px;
             </div>
 
         </th:block>
-        </div>
 
 
     </div>

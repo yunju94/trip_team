@@ -30,7 +30,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #ffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -43,37 +43,65 @@
 
         }
         main {
+         position: fixed; /* 고정 */
+            top: 26.1%; /* 이동 */
             max-width: 800px;
-            width: 100%;
+            left:23%;
+
             background:  #ffffff;
             margin: 2em;
-            padding: 2em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            padding:28px;
         }
+         h4{
+         margin-top:-10px;
+   margin-left:20px;
+    }
+        .topline{
+          position: fixed;
+
+            top: 32.7%;
+            left:23.3%;
+        border-top: 1.5px solid	#696969;
+         width: 1200px;
+        }
+        li{
+       list-style-type: none;
+}
+
  .question {
+
+position: relative;
+  border-bottom: 1.2px solid	#d3d3d3;
+     width: 1200px;
+
+     left:-55px;
         cursor: pointer;
-        margin-bottom: 10px;
-        background-color: #f0f0f0;
-        padding: 10px;
+
+
+        background-color: transparent;
+        padding: 15px;
     }
     .answer {
+position: relative;
+text-align:left;
         display: none;
-        padding: 10px;
-        background-color: #e0e0e0;
+        left:-10px;
+        top:10px;
+        padding: 9px;
+
+        background-color: transparent;
     }
-        .question h2 {
-            margin: 0;
-            color: #343a40;
-        }
+
 
        .sidebar {
-    position: fixed;
-    top: 285px;  /* 상단으로 고정 */
-    left: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: fixed; /* 상단으로 고정 */
+            top: 37%; /* 화면 중앙으로 이동 */
+            left: 16%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000; /* 필요시 설정 */
 }
 
 .sidebar button {
@@ -92,11 +120,13 @@
 .sidebar button:hover {
     background-color: #495057;
 }
+
     </style>
 </th:block>
 
 <div layout:fragment="content">
     <body>
+    <h4>자주 찾는 질문</h4>
 
     <aside class="sidebar">
         <button onclick="window.location.href='/qna'">자주찾는질문</button>
@@ -104,49 +134,74 @@
     </aside>
 
     <main>
+        <div class="topline"></div>
         <div class="question" data-question-id="1">
+            <img th:src="@{/css/images/Q.png}" height="30">
             차량에 몇 명이나 탑승하나요?
             <div class="answer">
-                5명
+                <img th:src="@{/css/images/A.png}" height="32">
+                고객님의 쾌적한 여행을 위해 45인승 관관버스 차량 기준 1인 2좌석 제도를 실행하고 있습니다.<br>
+               <ul>
+                   <li>   (45인승 관광버스기준 최소 12명, 최대 21명 탑승)</li>
+                   <li> ※리무진(우등버스)의 경우 1인 1좌석 제공</li>
+                   <li> ※상품에 따라 탑승 인원이 상이 할 수 있습니다.</li>
+               </ul>
+
+            </div>
+        </div>
+        <div class="question" data-question-id="2">
+            <img th:src="@{/css/images/Q.png}" height="30">
+            취소 및 환불 절차는 어떻게 진행되나요?
+            <div class="answer">
+                <img th:src="@{/css/images/A.png}" height="32">
+                1:1 문의하기로 접수해 주시면 확인 후 답변 드리겠습니다.
+
+            </div>
+        </div>
+
+        <div class="question" data-question-id="3">
+            <img th:src="@{/css/images/Q.png}" height="30">
+          인원 추가요금은 어떻게 되나요?
+            <div class="answer">
+                <img th:src="@{/css/images/A.png}" height="32">
+                인원 추가 요금은 숙소 별로 상이하며, 추가 비용을 지불하더라도 입실 가능한 최대 인원 규정이 있으므로 반드시 해당 규정을 준수하셔야 합니다.
+            </div>
+        </div>
+
+        <div class="question" data-question-id="4">
+            <img th:src="@{/css/images/Q.png}" height="30">
+         국내숙박 예약 시 현금영수증 발행 가능한가요?
+            <div class="answer">
+                <img th:src="@{/css/images/A.png}" height="32">
+                국내숙박은 현금결제가 불가하여 지불하신 요금에 대한 현금영수증 발행이 불가합니다.
+            </div>
+        </div>
+
+        <div class="question" data-question-id="5">
+            <img th:src="@{/css/images/Q.png}" height="30">
+            정보 입력 후 예약시도 했는데 예약이 실패했다고 뜹니다. 어떻게 하나요?
+            <div class="answer">
+                <img th:src="@{/css/images/A.png}" height="32">
+                다른 예약자가 먼저 결제를 완료하여 좌석이 소진됐거나, 항공권 요금이 변동 된 경우 예약이 실패할 수 있습니다.
+
+                 <ul><li> 예약 시 오류가 발생한다면 홈페이지 새로고침 후 일정을 다시 조회하여 잔여석이 확인되는 스케줄로 재 예약 바랍니다.</li></ul>
+
+            </div>
+        </div>
+
+        <div class="question" data-question-id="6">
+            <img th:src="@{/css/images/Q.png}" height="30">
+          버스는 어디서 탑승해야 되나요?
+            <div class="answer">
+                <img th:src="@{/css/images/A.png}" height="32">
+               아래 있는 링크로 가시면 자세한 위치가 나와있습니다.
+
+                <ul><li>  <a href="http://localhost/map">탑승 장소 안내 바로가기</a> </li></ul>
+
             </div>
         </div>
 
 
-
-        <section class="" data-question-id="2">
-            <h2>★ 버스 좌석은 어떻게 지정되나요?</h2>
-            <div class="answer"></div>
-        </section>
-
-        <section class="" data-question-id="3">
-            <h2>예약 된 패키지 상품 조회는 어떻게 하나요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="4">
-            <h2>여행자보험은 포함인가요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="5">
-            <h2>홈페이지 회원가입 시, 어떤 혜택을 받을 수 있나요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="6">
-            <h2>공항 면세점 이용시간은 어떻게 되나요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="7">
-            <h2>패키지 여행이란 무엇인가요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="8">
-            <h2>군대를 다녀오지 않았습니다. 해외여행 갈 수 있나요?</h2>
-            <div class="answer"></div>
-        </section>
-        <section class="" data-question-id="9">
-            <h2>여행을 가기위해 버스는 어디서 탑승해야 되나요?</h2>
-            <div class="answer"></div>
-        </section>
-        <!-- 추가 질문/답변을 여기에 추가하세요 -->
     </main>
     </body>
 </div>
