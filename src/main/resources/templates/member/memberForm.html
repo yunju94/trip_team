@@ -20,132 +20,278 @@
                         document.getElementById('address').value = addr
                         document.getElementById('detailAddress').focus()
                     }
+                }).open();
+            }
+            //문자인증 스크립트
+ $('#send').click(function() {
+                var to = $('#to').val();
+            });
 
-                    document.getElementById('postcode').value = data.zonecode
-                    document.getElementById('address').value = addr
-                    document.getElementById('detailAddress').focus()
+            function sendVerificationCode() {
+                var phoneNumber = document.getElementById('tel').value;
+                var telError = document.getElementById('telError');
+                if (!phoneNumber) {
+                    telError.style.display = 'block';
+                    return;
+                } else {
+                    telError.style.display = 'none';
                 }
-            }).open();
-        }
-    </script>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+                // CSRF 토큰 가져오기 (만약 Spring Security를 사용하고 있다면)
+                var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                var csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-                main{
+                $.ajax({
+                    url: '/verification/sendVerificationCode',
+                    type: 'POST',
+                    data: { phoneNumber: phoneNumber },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(response) {
+                        alert(response); // 서버에서 오는 메시지 ("인증번호가 전송되었습니다.")
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        alert('인증번호 전송에 실패했습니다.');
+                    }
+                });
+            }
+
+            function verifyCode() {
+                var phoneNumber = document.getElementById('tel').value;
+                var verificationCode = document.getElementById('verificationCode').value;
+
+                // CSRF 토큰 가져오기 (만약 Spring Security를 사용하고 있다면)
+                var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                var csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+                $.ajax({
+                    url: '/verification/verifyCode',
+                    type: 'POST',
+                    data: {
+                        phoneNumber: phoneNumber,
+                        verificationCode: verificationCode
+                    },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(response) {
+                        document.getElementById('verificationMessage').innerText = response; // 서버에서 오는 메시지 ("확인되셨습니다." 또는 "올바른 인증번호를 입력 해 주세요.")
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        alert('인증번호 확인에 실패했습니다.');
+                    }
+                });
+            }
+        </script>
+
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+           main{
  font-family: "Noto Sans KR", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-                 position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -60%);
-            width: 500px;
-            padding: 2rem;
-                }
-                .logoline{
-                 position: absolute;
-                 left:-693px;
-                  top: -50px;
-                   width: 1919px;
-                   height:35px;
-                 border-bottom: 0.5px solid #efefef;
-        }
-        .logo{
-         position: absolute;
-          top:-55px;
-        left:400px;
-        }
-        .headerinfo{
-         position: absolute;
-         top:-30px;
-        left:940px;
-        }
+            position: absolute;
+       top: 46%;
+       left: 50%;
+       transform: translate(-50%, -60%);
+       width: 500px;
+       padding: 2rem;
+           }
+           .logoline{
+            position: absolute;
+            left:-693px;
+             top: -50px;
+              width: 1919px;
+              height:35px;
+            border-bottom: 0.5px solid #efefef;
+   }
+   .logo{
+    position: absolute;
+     top:-55px;
+   left:400px;
+   }
+   .headerinfo{
+    position: absolute;
+    top:-30px;
+   left:940px;
+   }
 
-                .form-group {
-                display: table;
-            width: 94%;
-            height: 10px;
-             padding-top: 20px ;
-           padding-bottom: 2px ;
-            border-bottom: 1px solid #000;
-                    margin-bottom: 20px;
-                      margin-left: 37px;
-                }
-                .form-group label {
-              font-size: 15px;
-                     width: 20%;
-                    line-height: 30px;
-                    color: #000;
-                    font-weight: bold;
-                    display: table-cell; /* label을 테이블 셀로 설정하여 왼쪽 정렬 */
-                }
-                .form-group input[type="text"],
-                .form-group input[type="password"] {
+           .form-group {
 
-                 font-size: 15px;
-            line-height: 30px;
-            color: #000;
-            display: block;
+           display: table;
+       width: 94%;
+       height: 10px;
+        padding-top: 20px ;
+      padding-bottom: 2px ;
+        border-bottom: 0.3px solid #dcdcdc;
 
-            height: 20px;
-            padding: 0 15px 0 5px;
-            box-sizing: border-box;
-            border: 0;
-            outline: 0;
-            background: none;
-                }
-               .form-group label{
-                margin-top:2px;
-                }
-                 .form-group input[type="button"]{
-                  position: absolute;
-                    background-color:		#efefef;
-                    color: #666666;
-                    top: 257px;
-                     width:120px;
-                    border: none;
-                    cursor: pointer;
-                    text-decoration: none;
-                 }
-
-                .btn-primary {
-                 position: absolute;
-                    background-color:	#3d85c6;
-                    color: white;
-                    border: none;
-                    border-radius:10px;
-                    padding: 9px 205px;
-                    width:470px;
-                    height:50px;
-                    text-decoration: none;
-                    font-size: 15px;
-                    top: 470px;
-                  left: 70px;
-                    cursor: pointer;
-                }
-                .fieldError {
-                 position: absolute;
+               margin-bottom: 20px;
                  margin-left: 37px;
-                       font-size: 13px;
-                       line-height: 20px;
-                       color: #dc941b;
-                       margin-top: -17px;
-                }
-                #address{
+           }
 
-                 margin-left:130px;
-        width:200px;
-                 margin-top: -5px;
-                 margin-bottom: -18px;
-                }
-                #detailAddress{
-                  position: absolute;
-                 top: 300px;
-                }
-    </style>
+           .form-group label {
 
+         font-size: 15px;
+                width: 20%;
+               line-height: 30px;
+               color: #000;
+               font-weight: bold;
+               display: table-cell; /* label을 테이블 셀로 설정하여 왼쪽 정렬 */
+           }
+           .form-group input[type="text"],
+           .form-group input[type="password"] {
+            font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+           margin-top:5px;
+            font-size: 14px;
+       line-height: 30px;
+       color: #000;
+       display: block;
+       height: 20px;
+       padding: 5px 15px 5px 5px;
+       box-sizing: border-box;
+       border: 0;
+       outline: 0;
+       background: none;
+
+           }
+
+            .form-group input[type="button"]{/* 우편번호찾기 버튼*/
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+             position: absolute;
+               color: #666666;
+               top: 300px;
+                width:120px;
+                 margin-left:220px;
+               border: none;
+               cursor: pointer;
+               text-decoration: none;
+            }
+  #address{* 우편번호 누르면 나오는 주소*/
+   font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
+   width:200px;
+   margin-left:43px;
+   margin-top:-20px;
+
+           }
+           #detailAddress{/* 상세주소 입력 글자*/
+
+  font-style: normal;
+             position: absolute;
+            top: 315px;
+           }
+
+             .form-group button[type="button"]{/* 메일, 전화 인증번호 동시 이동 */
+              font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+             position: absolute;
+               color: #666666;
+                width:120px;
+               border: none;
+               cursor: pointer;
+               text-decoration: none;
+            }
+
+            #e_2{/* 인증 메일 보내기 버튼*/
+            margin-left:220px;
+             margin-top:-20.5px;
+            }
+
+            #codecheck{/* 인증코드 입력 글씨 */
+             margin-left:1px;
+             font-size:11.5px;
+           }
+             #codecheck::placeholder {/* 인증코드 입력 글씨 색상 변경 */
+            color:#3D85C6;
+            }
+
+            #c_2{/* 인증 코드 확인 버튼*/
+             background: none;
+              font-size:11.5px;
+             color:#3D85C6;
+             margin-left:220px;
+             margin-top:-19px;
+            }
+
+            #col{/* 전화번호 인증 번호 발송 버튼*/
+             position: absolute;
+               color: #666666;
+               top: 387px;
+                width:120px;
+                 margin-left:220px;
+               border: none;
+               cursor: pointer;
+               text-decoration: none;
+            }
+
+            #colcol{/* 전화번호 인증 번호 확인 버튼*/
+            position: absolute;
+background: none;
+              font-size:11.5px;
+             color:#3D85C6;
+             margin-left:220px;
+             margin-top:-10px;
+
+            }
+               #verificationCode{/* 전화번호 인증번호 입력 글자*/
+         margin-left:5px;
+          margin-top:10px;
+  margin-bottom:-12px;
+             font-size:11.5px;
+           }
+                #verificationCode::placeholder{/* 전화번호 인증번호 입력 글자색깔*/
+              color:#3D85C6;
+           }
+
+
+
+
+           .btn-primary {
+            font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+            position: absolute;
+               background-color:   #3d85c6;
+               color: white;
+               border: none;
+               border-radius:10px;
+               padding: 9px 205px;
+               width:470px;
+               height:50px;
+               text-decoration: none;
+               font-size: 15px;
+               top: 530px;
+             left: 69px;
+               cursor: pointer;
+           }
+           .fieldError {
+            position: absolute;
+            margin-left: 37px;
+                  font-size: 13px;
+                  line-height: 20px;
+                  color: #dc941b;
+                  margin-top: -17px;
+           }
+
+        </style>
     </div>
 </head>
 <body>
@@ -168,8 +314,20 @@
         <div class="form-group">
             <label th:for="email">이메일 주소</label>
             <input type="text" th:field="*{email}" placeholder="이메일 입력">
+            <button class="btn" id="e_2" onclick="mailSend()" type="button">인증 메일 보내기</button>
+
+            <input class="form-control" id="codecheck" placeholder="인증 코드 입력" type="text">
+            <button class="btn-mail" id="c_2" onclick="codeCheck()" type="button">인증 코드 확인</button>
+            <!-------------------------------이메일인증----------------------------------------->
+
         </div>
         <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError"></p>
+
+        <!--이메일인증--->
+
+
+
+
 
         <div class="form-group">
             <label th:for="password">비밀번호</label>
@@ -187,9 +345,17 @@
         </div>
         <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError"></p>
 
+
         <div class="form-group">
             <label th:for="tel">전화번호</label>
-            <input type="text" th:field="*{tel}" placeholder="010 1234 1234">
+            <input id="colcheck" placeholder="010 1234 1234" th:field="*{tel}" type="text">
+            <!-------------------------------전화 인증----------------------------------------->
+            <button id="col" onclick="sendVerificationCode()" type="button">인증번호 발송</button>
+            <input id="verificationCode" placeholder="인증번호 입력" type="text">
+            <button id="colcol" onclick="verifyCode()" type="button">인증 번호 확인</button>
+            <p id="verificationMessage"></p>
+        </div>
+
         </div>
         <p th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="fieldError"></p>
 
