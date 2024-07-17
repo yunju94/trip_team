@@ -59,79 +59,214 @@
     <style>
 
         body {
-               font-family: Arial, sans-serif;
-               background-color: #ffff;
-               margin: 0;
-               padding: 0;
-               display: flex;
-               flex-direction: column;
-               align-items: center;
-           }
-        header {
-                width: 100%;
-                background-color: #ffff;
+                   font-family: Arial, sans-serif;
+                   background-color: #ffff;
+                   margin: 0;
+                   padding: 0;
+                   display: flex;
+                   flex-direction: column;
+                   align-items: center;
 
-            }
-     main {
-             position: fixed; /* 고정 */
-                top: 30.2%; /* 이동 */
-                max-width: 800px;
-                left:23%;
+               }
 
-                background:  #ffffff;
-                margin: 2em;
-                padding:28px;
+            header {
+                    width: 100%;
+                    background-color: #ffff;
+
+                }
+         main {
+
+                    top: 30.2%; /* 이동 */
+                    max-width: 800px;
+                    left:23%;
+
+                    background:  #ffffff;
+                    margin: 2em;
+                    padding:28px;
+                }
+    .all1{
+    /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+       margin-top:-60px;
+        margin-left:0px;
+    }
+                .mp{/* 리스트만 통으로 움직임 */
+                 top:-10px;
+               margin-left:-290px;
+                 margin-top: 25px;
+                }
+         h3{/* 마이페이지 제목*/
+         margin-left:-256px;
+         }
+
+         .hh4{
+    position:absolute ;
+         margin-left:-78px;
+         margin-top: -520px;
+         }
+
+    .hrline{
+    width:130px;
+       margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+     border: none; /* 기본 선 제거 */
+     border-top: 2px solid    #1c4587; /* 원하는 두께와 색상 설정 */
+    }
+    .hrline2{
+    width:130px;
+       margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+    border: none; /* 기본 선 제거 */
+     border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
+    }
+                ul{
+                 list-style-type: none;
+                }
+                .tx{
+                text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+                }
+
+          .cc{
+          position: fixed; /* 고정 */
+
+          height: 300px; /* 이동 */
+          width: 1200px;
+          margin-left: -450px;
+          margin-top:130px;
+            margin-left:-20px;
+            border-bottom: 1px solid    #696969;
             }
-.all1{
-position: fixed; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
-   margin-top:-60px;
+
+        /* ------------------여기까지 리스트------------------ */
+.fullbox{
+position:relative;
+ width: 1200px;
+ height:470px;
+  margin-left:173px;
 }
-            .mp{/* 리스트만 통으로 움직임 */
-             top:-10px;
-           margin-left:-210px;
-             margin-top: 25px;
-            }
-     h3{/* 마이페이지 제목*/
-     margin-left:-176px;
-     }
+        .dateline{
+        position: absolute;
+        border-top: 1px solid       #696969;
+          border-bottom: 1px solid       #d9d9d9;
+              color: #333;
+                  background-color:   #ffffff;
 
-     .hh4{
-     position: fixed; /* 고정 */
-     margin-left:100px;
-     margin-top: -58px;
-     }
+         width: 1200px;
+height:57px;
+        padding:15px;
+       margin-left:-252px;
+         margin-top: -462px;
+        }
+
+       .tx2{
+
+       font-size:13.5px;
+        margin-left:252px;
+ text-decoration: none;
+        }
+        .itembox{
+ position: relative;
+margin-top:0px;
+        }
+        .imgbox{
+  position: absolute;
+margin-top:-400px;
+ margin-left:-240px;}
+
+/* ------------------tx는 주문 내역 목록------------------ */
+        .tx3{ /* --상품명-- */
+        text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+ position: absolute;
+    margin-left: 200px;
+     top: -400px;
+ margin-bottom:500px;
+        }
 
 
+         .tx4{ /* --인원-- */
+         text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+           position: absolute;
+    margin-left: 200px;
+top: -370px;
+    font-size: 15px;
+    color: #434343;
+        }
 
-.hrline{
-width:130px;
-   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
- border: none; /* 기본 선 제거 */
- border-top: 2px solid 		#1c4587; /* 원하는 두께와 색상 설정 */
+         .tx5{ /* --가격-- */
+         text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+             position: absolute;
+    margin-left: 200px;
+top: -340px;
+    font-size: 15px;
+    color: #434343;
 }
-.hrline2{
-width:130px;
-   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
-border: none; /* 기본 선 제거 */
- border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
-}
 
+        .tx6{ /* --상세설명-- */
+        text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+           position: absolute;
+    margin-left: 200px;
+top: -310px;
+    font-size: 15px;
+    color: #434343;
+ }
 
-            ul{
-             list-style-type: none;
-            }
-            .tx{
-            text-decoration: none;
-            font-size:15px;
-            color:	#434343;
-            }
+        .tx7{/* --국내해외-- */
+        text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+             position: absolute;
+    margin-left: 200px;
+top: -280px;
+    font-size: 15px;
+    color: #434343;
+ }
+
+        .tx8{/* --도착지-- */
+        text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+         position: absolute;
+    margin-left: 200px;
+top: -250px;
+    font-size: 15px;
+    color: #434343;
+ }
+
+         .tx9{/* --출발일-- */
+         text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+            position: absolute;
+    margin-left: 200px;
+top: -220px;
+    font-size: 15px;
+    color: #434343;
+    }
+         .tx10{/* --도착지-- */
+         text-decoration: none;
+                font-size:15px;
+                color:   #434343;
+         position: absolute;
+    margin-left: 200px;
+top: -190px;
+    font-size: 15px;
+    color: #434343;
+
+        }
 
 
     </style>
 </th:block>
-
+<body>
 <div layout:fragment="content">
-    <body>
+
 
     <main>
         <div class="all1">
@@ -158,100 +293,105 @@ border: none; /* 기본 선 제거 */
 
                 </ul>
             </div>
-
-            <div class="orderlist">
-                <div>
-                    <h3 class="tit">예약 내역</h3>
-                </div>
-                <div>
-                   <table th:each="order, status : ${orderlist}">
-                                <tr>
-                                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
-                                    <td th:text="${order.orderId}"></td><!--주문번호-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td rowspan="3" >
-                                        <div>
-                                            <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">
-                                        </div>
-                                    </td><!--이미지-->
-                                    <td  th:text="${orderItem.itemNm}">
-                                    </td><!--상품명-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td  th:text="${orderItem.count}">
-
-                                    </td><!--인원-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td th:text="${orderItem.orderPrice}"></td><!--가격-->
-                                </tr>
-                                <tr>
-                                    <td >
-                                        <button th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}" type="button" th:value="${order.orderId}" onclick="orderCancel(this.value)" >주문 취소</button>
-                                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
-                                    </td>
-                                    <td>
-                                        <button type="button" th:value="${order.orderId}" th:onclick="|location.href='/order/detail/${order.orderId}'|">주문 상세보기</button>
-                                    </td>
-
-                                </tr>
-
-                    </table>
-                </div>
-            </div>
-
         </div>
 
-
+        <!-----------------------------건들이지 말기-------------------------------->
 
         <div>
             <h4 class="hh4">예약 내역</h4>
         </div>
+
         <div>
-            <table th:each="order, status : ${orderlist}">
-                <tr>
-                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
-                    <td th:text="${order.orderId}"></td><!--주문번호-->
-                </tr>
-                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                    <td rowspan="3">
-                        <div>
-                            <img class="rounded repImg" th:alt="${orderItem.itemNm}" th:src="${orderItem.imgUrl}">
-                        </div>
-                    </td><!--이미지-->
-                    <td th:text="${orderItem.itemNm}">
-                    </td><!--상품명-->
-                </tr>
-                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                    <td th:text="${orderItem.count}">
+            <div th:each="order, status : ${orderlist}">
+                <div class="fullbox">
+                    <div class="dateline">
+                        <tr>
+                            <td th:text="${order.orderDate}">주문 시간</td><!--주문 시간-->
+                            <a class="tx2">주문번호 :
+                                <td th:text="${order.orderId}">
+                            </a></td><!--주문번호-->
+                        </tr>
+                    </div>
 
-                    </td><!--인원-->
-                </tr>
-                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                    <td th:text="${orderItem.orderPrice}"></td><!--가격-->
-                </tr>
-                <tr>
-                    <td>
-                        <button onclick="orderCancel(this.value)" th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}"
-                                th:value="${order.orderId}" type="button">주문 취소
-                        </button>
-                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
-                    </td>
-                    <td>
-                        <button th:onclick="|location.href='/order/detail/${order.orderId}'|" th:value="${order.orderId}"
-                                type="button">주문 상세보기
-                        </button>
-                    </td>
+                    <div class="itembox">
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <td rowspan="3">
+                                <div class="imgbox">
+                                    <img class="rounded repImg" th:alt="${orderItem.itemNm}"
+                                         th:src="${orderItem.imgUrl}">
+                                </div>
+                            </td><!--이미지-->
 
-                </tr>
 
-            </table>
+                            <a class="tx3">상품 명 :
+                                <td th:text="${orderItem.itemNm}">
+                            </a>
+                            </td><!--상품명-->
+                        </tr>
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx4">인원 :
+                                <td th:text="${orderItem.count}">
+                            </a>
+
+                            </td><!--인원-->
+                        </tr>
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx5">가격 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx6">상세 설명 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx7">국내/해외 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx8">도착지 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx9">출발일 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+
+                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                            <a class="tx10">도착일 :
+                                <td th:text="${orderItem.orderPrice}">가격</td>
+                            </a>
+                        </tr>
+
+
+                    </div>
+
+
+                    <tr>
+                        <td>
+                            <button class="order-cancel"
+                                    onclick="orderCancel(this.value)" th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}"
+                                    th:value="${order.orderId}" type="button">주문 취소
+                            </button>
+                            <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                        </td>
+                        <td>
+                            <button class="order" th:onclick="|location.href='/order/detail/${order.orderId}'|" th:value="${order.orderId}"
+                                    type="button">주문 상세보기
+                            </button>
+                        </td>
+
+                    </tr>
+                </div>
+            </div>
         </div>
-
-
     </main>
-    </body>
 </div>
-
+</body>
 </html>
