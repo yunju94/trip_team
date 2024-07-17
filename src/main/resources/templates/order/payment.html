@@ -14,24 +14,93 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
 
+            $(document).ready(function() {
+
+           var totalMileage = 0;
+           var mileageData = [[${mileageList}]]
+
+          for (var i = 0; i < mileageData.length; i++) {
+        totalMileage += mileageData[i].point; // mileageData가 'point' 속성을 가진 객체들의 배열로 가정합니다
+    }
+    console.log(totalMileage)
+
+       $('#totalMileage').text(totalMileage)
+
+      });
+
+      function keypress(){
+
+      var price = $("#price").text();
+      console.log(price)
+      var useMileage =  $("#useMileage").val();
+      console.log(useMileage)
+      var totalPrice = price - useMileage;
+      $('#totalPrice').text(totalPrice)
+      }
+
+
+function mileageMoneyChange() {
+    if ($("#useMileage").val() != 0) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var orderUid = [[${requestDto.orderUid}]]; // 서버에서 전달받은 주문 번호
+        var totalPrice = parseInt($('#totalPrice').text()); // #totalPrice 요소의 텍스트를 가져와서 총 금액으로 설정
+        var useMileage = parseInt($("#useMileage").val()); // #useMileage 입력 필드의 값을 가져와서 사용할 마일리지로 설정
+
+        console.log(orderUid);
+        console.log(totalPrice);
+        console.log(useMileage);
+
+        var url = '/payment/mileage/' + orderUid; // 마일리지 적용을 위한 URL 설정
+        var paramData = {
+            orderUid: orderUid,
+            totalPrice: totalPrice,
+            useMileage: useMileage
+        };
+
+        console.log(paramData)
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(paramData),
+            beforeSend: function(xhr) {
+                // 데이터 전송하기 전에 헤더에 csrf 값을 설정
+                xhr.setRequestHeader(header, token);
+            },
+            dataType: "json",
+            cache: false,
+            success: function(result, status) {
+                alert("마일리지 적용완료");
+            },
+            error: function(jqXHR, status, error) {
+                if (jqXHR.status == 401) {
+                    alert('로그인 후 이용해주세요');
+                    location.href = '/members/login';
+                } else {
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+}
+
 
 
    function requestPay() {
+       mileageMoneyChange();
+
     var IMP = window.IMP;
-            IMP.init("imp21870752");
+            IMP.init("imp43602572");
 
     var orderUid = [[${requestDto.orderUid}]];
     var itemName = [[${requestDto.itemName}]];
-    var paymentPrice = [[${requestDto.paymentPrice}]];
+    var paymentPrice = $("#totalPrice").text();
     var buyerName = [[${requestDto.buyerName}]];
     var buyerEmail = [[${requestDto.buyerEmail}]];
     var buyerAddress = [[${requestDto.buyerAddress}]];
-            console.log(orderUid)
-            console.log(itemName)
-            console.log(paymentPrice)
-            console.log(buyerName)
-            console.log(buyerEmail)
-            console.log(buyerAddress)
+
 
     IMP.request_pay({
             pg: 'html5_inicis.INIpayTest',
@@ -60,23 +129,23 @@
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     data: JSON.stringify({
-                        paymentUid: rsp.imp_uid,      // 결제 고유번호
-                        orderUid: rsp.merchant_uid   // 주문번호
+                         "payment_uid": rsp.imp_uid,      // 결제 고유번호
+                        "order_uid": rsp.merchant_uid   // 주문번호
                     }),
                     beforeSend : function(xhr){
                     /*데이터 전송하기 전에 헤더에 csrf값 설정*/
                     xhr.setRequestHeader(header, token);
                 },
                 }).done(function (response) {
-                    console.log(response);
+
                     // 가맹점 서버 결제 API 성공시 로직
                     alert('결제 완료!');
-                    window.location.href = "/success-payment"+orderUid;
+                    window.location.href = "/success-payment/"+orderUid;
                 })
             } else {
-            console.log(data)
+
                 alert("결제 실패: " + JSON.stringify(rsp));
-                window.location.href = "/fail-payment"+orderUid;
+                window.location.href = "/fail-payment/"+orderUid;
             }
         });
 }

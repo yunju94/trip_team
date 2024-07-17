@@ -174,8 +174,8 @@ public class OrderService {
         return order;
     }
 
-    public  void  updateOrder(int amount , Order order){
-       order.updateOrders(amount);
+    public  void  payUpdate(Order order, Integer totalPrice){
+       order.updateOrders(totalPrice);
 
     }
 

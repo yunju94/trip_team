@@ -5,6 +5,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.trip.dto.PaymentCallbackRequest;
 import com.trip.dto.RequestPayDto;
+import com.trip.dto.UseMileage;
 import com.trip.entity.Member;
 import com.trip.entity.Mileage;
 import com.trip.entity.Order;
@@ -51,15 +52,25 @@ public class PaymentController {
 
     @PostMapping(value = "/payment")
     public  @ResponseBody ResponseEntity<IamportResponse<Payment>> validationPayment(@RequestBody PaymentCallbackRequest request) {
-        System.out.println("jaughkghdjkljfdlkajadiljfaslkjvkdljiowehtlkkj");
+
         System.out.println(request);
         IamportResponse<Payment> iamportResponse = paymentService.paymentByCallback(request);
-
-        System.out.println("46468645643212312315648665423123132123123");
-
-
         return new ResponseEntity<>(iamportResponse, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/payment/mileage/{orderUid}")
+    public  @ResponseBody ResponseEntity mileageMoneyChange(@PathVariable String orderUid, @RequestBody UseMileage useMileage) {
+
+        Order order = orderService.orderUidOrderCancle(orderUid);
+        orderService.payUpdate(order, useMileage.getTotalPrice());
+        com.trip.entity.Payment payment = paymentService.paymentSearch(orderUid);
+        payment.updatepayment(order);
+        Member member = memberService.findMember(order.getMember().getId()).orElseThrow();
+        mileageService.save(member, useMileage.getUseMileage());
+
+        return new ResponseEntity<String>(orderUid, HttpStatus.OK);
+    }
+
 
     @GetMapping("/success-payment/{orderUid}")
     public String successPaymentPage() {
@@ -67,12 +78,12 @@ public class PaymentController {
     }
 
     @GetMapping("/fail-payment/{orderUid}")
-    public String failPaymentPage(@PathVariable("orderUid") String orderUid) {
+    public String failPaymentPage(@PathVariable("orderUid") String orderUid, @RequestBody UseMileage useMileage) {
                                             //파라미터 값이 없으면 null값으로
 
         Order order =orderService.orderUidOrderCancle(orderUid);
-
-
+        Member member = memberService.findMember(order.getMember().getId()).orElseThrow();
+        mileageService.saveCancel(member, useMileage.getUseMileage());
 
         return "order/fail-payment";
     }
