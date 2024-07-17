@@ -49,6 +49,7 @@ public class OrderController {
         //stringBuilder a;
         //a.append("abc")
         //a.append("def")
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
 
         if (bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
