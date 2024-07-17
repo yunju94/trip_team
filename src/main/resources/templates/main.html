@@ -32,8 +32,8 @@
                 slidesToScroll: 1,
                 autoplay: true,
                 autoplaySpeed: 4000,
-                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> < </button></div>',
-                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> > </button></div>'
+                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> 〈 </button></div>',
+                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> 〉 </button></div>'
             });
 
             // DateRangePicker 초기화
@@ -174,10 +174,13 @@
             top: 90%;
             left: 40px;
             display: flex;
-            z-index: 1000;
         }
 
         .slick-prev {
+         font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
+         z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
             height: 30px;
             width: 30px; /* 버튼의 크기를 지정 */
             margin-left:10px;
@@ -193,6 +196,9 @@
  align-items: center;
  }
 .slick-next {
+ font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
  height: 30px;
  display: flex;
             width: 30px; /* 버튼의 크기를 지정 */
@@ -208,6 +214,7 @@ margin-left:60px;
             align-items: center; }
         .slider img {
             margin-top: 50px;
+             z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
         }
 
     /* ===========================여기까지 슬라이더================================ */
@@ -266,7 +273,7 @@ top:304px;
   cursor: pointer;
    margin-left:30px;
     position: absolute;
-    background-color:       #ffffff;
+    background-color: 		#ffffff;
     width: 300px;
     height:300px;
     box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.1); /* 오른쪽 아래 방향 그림자 추가 */
@@ -286,7 +293,7 @@ text-align: center;
  width: 148.7px;
 position: relative;
     color: #111;
-    background-color:    #cfe2f3;
+    background-color: 	#cfe2f3;
     font-size: 15px;
 list-style-type: none;
 }
@@ -296,7 +303,7 @@ height:40.5px;
  width: 148.7px;
 position: relative;
     color: #111;
-    background-color:    #cfe2f3;
+    background-color: 	#cfe2f3;
     font-size: 15px;
 list-style-type: none;
 }
@@ -332,7 +339,7 @@ padding-bottom: 10px /* 선과 내용 사이 여백 */
 
 
         .form-group > div button {  /* 국내, 해외 글씨창 */
-        color:    #434343;
+        color: 	#434343;
          font-size: 14px;
     width: 298px;
     height:42.6px;

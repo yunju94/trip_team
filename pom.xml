@@ -143,7 +143,6 @@
 		</dependency>
 
 
-
 		<dependency>
 			<groupId>com.github.iamport</groupId>
 			<artifactId>iamport-rest-client-java</artifactId>
@@ -178,43 +177,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>net.nurigo</groupId>
-			<artifactId>sdk</artifactId>
-			<version>4.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
 
 
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>3.7.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>5.3.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>6.1.10</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.9.8</version>
-
-		</dependency>
 
 	</dependencies>
 
@@ -223,8 +187,6 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
-
-
 	</repositories>
 
 

@@ -4,15 +4,13 @@
 <!--사용자 스크립트 추가-->
 
 <!-- Slick Carousel 및 DateRangePicker 관련 CSS 및 JavaScript -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <head>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
 
 
@@ -25,8 +23,11 @@
              slidesToShow: 3,
             slidesToScroll: 1,
             autoplay: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 3000,
+              prevArrow: '<button type="button" class="slick-prev">〈</button>',
+                nextArrow: '<button type="button" class="slick-next">〉</button>'
            });
+
        });
 
 
@@ -129,6 +130,7 @@
                display: flex;
                flex-direction: column;
                align-items: center;
+
            }
 
         header {
@@ -137,7 +139,7 @@
 
             }
      main {
-             position: fixed; /* 고정 */
+
                 top: 30.2%; /* 이동 */
                 max-width: 800px;
                 left:23%;
@@ -147,22 +149,22 @@
                 padding:28px;
             }
 .all1{
-position: fixed; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+position: ; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
    margin-top:-60px;
 }
             .mp{/* 리스트만 통으로 움직임 */
              top:-10px;
-           margin-left:-210px;
+           margin-left:-290px;
              margin-top: 25px;
             }
      h3{/* 마이페이지 제목*/
-     margin-left:-176px;
+     margin-left:-256px;
      }
 
      .hh4{
-     position: fixed; /* 고정 */
-     margin-left:100px;
-     margin-top: -60px;
+position:absolute ;
+     margin-left:-80px;
+     margin-top: -520px;
      }
 
 .hrline{
@@ -199,8 +201,8 @@ border: none; /* 기본 선 제거 */
         font-size: 15px;
         font-weight: 600;
          width: 1200px;
-         left:-10px;
-         top:-2px;
+         left:-80px;
+         top:-462px;
 
             cursor: pointer;
 
@@ -219,27 +221,101 @@ border: none; /* 기본 선 제거 */
       margin-top:130px;
         margin-left:-20px;
         border-bottom: 1px solid 	#696969;
-        color:transparent;
+
+        }
+        th{
+         border-bottom: 1px solid 		#d9d9d9;
+        }
+        td{
+        background-color:#ffffff;
         }
 
-        .reservation-btn{
-         position: absolute;
+        .reservation-btn{/* 예약버튼 */
+        font-size:13px;
+position: absolute;
+margin-left:-33px;
+margin-top:-17px;
          color: #666666;
-            margin-top:130px;
-      left:-20px;
-                width:120px;
-                 margin-left:220px;
-               border: none;
+               border: 1px solid #d9d9d9;
+               border-radius: 5px;
                cursor: pointer;
-               text-decoration: none;
+                background-color:#ffffff;
+                width:70px;
+               line-height: 30px; /* 버튼의 높이와 같게 맞춤 */
+        }
+        .delete-btn{/* 취소버튼 */
+         font-size:13px;
+position: absolute;
+margin-left:-33px;
+margin-top:-17px;
+         color: 	#cc4125;
+               border: 1px solid 		#e06666;
+               border-radius: 5px;
+               cursor: pointer;
+                background-color:#ffffff;
+                width:70px;
+               line-height: 30px; /* 버튼의 높이와 같게 맞춤 */
         }
 
-        .travelslider{
-         position: fixed;
-        margin-top:400px;
-        with
+
+        .travelslider{/* 슬라이더 전체 크기조정 */
+   position: absolute;
+        margin-top:-300px;
+        margin-left:33px;
         height:5000px;
-width:500px;
+width:1000px;
+
+        }
+
+      .travelslider h3{/* 취향에 맞는 여행을 추천 */
+           margin-left:240px;
+           padding:20px;
+        }
+
+        .sliderDiv{/* 사진 사이 간격 조정 */
+padding-left:10px;
+padding-right:10px;
+
+        }
+               .slick-prev{
+                   font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
+            position: absolute;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+            margin-left:-20px;
+            margin-top:90px;
+    z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
+    background-color: #ffffff; /* 배경색 */
+    color: black; /* 버튼 글자색 */
+    border: none;
+    border-radius: 50%; /* 동그란 형태  */
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+
+        }
+
+
+        .slick-next{
+           font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f054"; /* Font Awesome에서의 다음 화살표 아이콘 코드 */
+
+         position: absolute;
+            margin-left:980px;
+            margin-top:-130px;
+    z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
+    background-color: #ffffff; /* 배경색 */
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    color: black;
+    border: none;
+    border-radius: 50%; /* 동그란 형태  */
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
         }
 
 
@@ -249,6 +325,7 @@ width:500px;
 <div layout:fragment="content">
     <body>
     <main>
+
         <div class="all1">
             <h3><strong>마이페이지</strong></h3>
 
@@ -280,25 +357,25 @@ width:500px;
 
         <div>
             <h4 class="hh4">찜</h4>
-            </div>
+        </div>
 
-            <div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>주문번호</th>
-                        <th>상품명</th>
-                        <th>여행 날짜</th>
-                        <th>인원</th>
-                        <th>가격</th>
-                        <th>예약</th>
-                        <th>삭제</th>
-                    </tr>
-                    </thead>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>상품명</th>
+                    <th>여행 날짜</th>
+                    <th>인원</th>
+                    <th>가격</th>
+                    <th>예약</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
 
-                    <tbody>
+                <tbody>
 
-                    <div class="cc">
+                <div class="cc">
                     <tr th:each="cart : ${cartDetailItem}">
                         <td th:text="${cart.id}" id="cartId"></td><!-- id 번호 -->
                         <td th:text="${cart.itemNm}" id="cartItemNm"></td><!-- 상품명 -->
@@ -309,37 +386,52 @@ width:500px;
                             <button class="reservation-btn" onclick="order()" th:data-id="${cart.id}" type="button">예약
                             </button>
                         </td>
-                        <td><button type="button" th:data-id="${cart.id}" onclick="deleteItemList(this)" class="btn btn-danger btn-sm">삭제</button></td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteItemList(this)" th:data-id="${cart.id}"
+                                    type="button">삭제
+                            </button>
+                        </td>
                     </tr>
-                    </div>
-                    </tbody>
-                </table>
-            </div>
+                </div>
+                </tbody>
+            </table>
+        </div>
 
 
         <div class="travelslider">
-            <h3>이런 여행은 어떠신가요?♥</h3>
-                <div class="slider">
-
+            <h3>
+                <svg class="bi bi-heart-fill" fill="currentColor" height="20" viewBox="0 0 16 16"
+                     width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+                          fill-rule="evenodd"/>
+                </svg>
+                취향에 맞는 여행을 추천해드렸어요
+                <svg class="bi bi-heart-fill" fill="currentColor" height="20" viewBox="0 0 16 16"
+                     width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+                          fill-rule="evenodd"/>
+                </svg>
+            </h3>
+            <div class="slider">
                 <div class="sliderDiv">
-                        <img th:src="@{/css/images/jeju_1.jpg}" class="img-fluid rounded">
-                    </div>
-                    <div>
-                        <img th:src="@{/css/images/jeju_2.jpg}" class="img-fluid rounded">
-                    </div>
-                    <div>
-                        <img th:src="@{/css/images/jeju_3.jpg}" class="img-fluid rounded">
-                    </div>
-                    <div>
-                        <img th:src="@{/css/images/jeju_4.jpg}" class="img-fluid rounded">
-                    </div>
-
+                    <img class="img-fluid" th:src="@{/css/images/jeju_1.jpg}">
+                </div>
+                <div class="sliderDiv">
+                    <img class="img-fluid" th:src="@{/css/images/jeju_2.jpg}">
+                </div>
+                <div class="sliderDiv">
+                    <img class="img-fluid" th:src="@{/css/images/jeju_3.jpg}">
+                </div>
+                <div class="sliderDiv">
+                    <img class="img-fluid" th:src="@{/css/images/jeju_4.jpg}">
                 </div>
             </div>
 
-    </main>
+        </div>
 
+    </main>
     </body>
+
 </div>
 
 </html>
