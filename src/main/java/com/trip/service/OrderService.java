@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.trip.entity.QItem.item;
 import static com.trip.entity.QOrder.order;
 
 @Service
@@ -45,6 +46,7 @@ public class OrderService {
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
         for (Order order : orders){
+            Optional<Item> item = itemRepository.findById(order.getId());
             OrderHistDto orderHistDto = new OrderHistDto(order);
             List<OrderItem> orderItems = order.getOrderItems();
             for (OrderItem orderItem : orderItems){
@@ -68,6 +70,7 @@ public class OrderService {
     public List<OrderHistDto> order(String email) {
         //orderhist에 필요한 것. 주문 리스트(가격), 총 갯수, 이미지파일, item이름
         Order orders = orderRepository.findByOrders(email);
+        Item item = itemRepository.findById(orders.getId()).orElseThrow();
         //이메일로 주문 리스트 뽑아내기 + 갯수에 따라 페이지로 만들기
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();

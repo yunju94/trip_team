@@ -87,11 +87,20 @@ public class OrderController {
         //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
 
         Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
+
+
+        Optional<Order> order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());
+        Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
+        ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
         // 이메일을 가지고 service에 가서 개인 정보를 이용해서 order리스트를 받아온다.
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
 
         model.addAttribute("orderlist", orderHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
+
+        model.addAttribute("order", order);
+        model.addAttribute("item", itemFormDto);
+
         model.addAttribute("maxPage", 10);
 
         return "mypage/mypageOrder";
@@ -136,6 +145,7 @@ public class OrderController {
 
         return "mypage/orderdetail";
     }
+
 
 
 }

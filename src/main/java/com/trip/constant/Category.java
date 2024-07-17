@@ -26,4 +26,5 @@ public enum Category { // 국내지역
     public String getDisplayName() {
         return displayName;
     }
+
 }
