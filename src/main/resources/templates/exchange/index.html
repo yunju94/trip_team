@@ -101,6 +101,32 @@
                 });
 
 
+                setInterval(function(){ var paramData = {// 5분에 한 번 업데이트
+                    PHP: $('#PHP').val(),
+                    JPY: $('#JPY').val(),
+                    USD: $('#USD').val(),
+                    VND: $('#VND').val(),
+                    MYR: $('#MYR').val()
+                };
+
+                $.ajax({
+                    url: "/api/exchange",
+                    type: "GET",
+                    data: paramData,
+                    success: function(res) {
+                        console.log(res + " PHP/ KRW");
+                        // 환율 정보 업데이트 로직 추가 필요
+                    },
+                    error: function(err) {
+                        if (err.status === 400) {
+                            alert("잘못 입력된 값 입니다.");
+                        } else if (err.status === 500) {
+                            alert("서버에 문제가 발생했습니다.");
+                        }
+                    }
+                });},300000 )
+
+
             // Enter 키 이벤트 처리
             $('#send_amount').keypress(function (e) {
                 if (e.which === 13) {

@@ -12,7 +12,7 @@ public interface PaymentService {
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
 
-    void  paymentStatuCancle(Long orderId);
+    com.trip.entity.Payment paymentSearch(String UId);
 
 
 }

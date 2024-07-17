@@ -36,4 +36,24 @@ public class MileageService {
 
         return mileageRepository.findByMemberId(memberId);
     }
+
+    public  void  save(Member member, Integer useMileage ){
+            Mileage mileage = new Mileage();
+            mileage.setMember(member);
+            mileage.setContent("결제 시 사용");
+            mileage.setPoint(-useMileage);
+            mileageRepository.save(mileage);
+
+    }
+    public  void  saveCancel(Member member, Integer useMileage ){
+        Mileage mileage = new Mileage();
+        mileage.setMember(member);
+        mileage.setContent("결제 취소");
+        mileage.setPoint(useMileage);
+        mileageRepository.save(mileage);
+
+    }
+
+
+
 }
