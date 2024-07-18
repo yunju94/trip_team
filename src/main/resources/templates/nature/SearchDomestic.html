@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <style>
+        .image-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .image-table td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .image-card {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+        .image-card img {
+            width: 300px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        .item-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .item-price {
+            font-size: 1.1em;
+            color: #555;
+        }
+    </style>
+
+    <script>
+
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <form th:action="@{/admin/items/delete}" method="post">
+        <table class="image-table">
+            <tr>
+              <td>
+                  <div class='image-card' th:each="item: ${items}">
+
+                      <img th:src="${item.itemImgs[0].imgUrl}">
+
+                      <div class=item-details>
+                          <div class=item-name th:text="${item.itemNm}"></div>
+                          <div class=item-price th:text="${item.price}">원</div>
+                          <div class=item-category th:text="${item.category.displayName}"></div>
+                      </div>
+                  </div>
+
+              </td>
+            </tr>
+        </table>
+    </form>
+
+
+</div>
+</body>
+</html>

@@ -35,7 +35,6 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
 
     @Override
     public CurrencyDto getCurrency() {
-
         if(ischeck()){//api 호출
             currency = restTemplate.getForObject(
                     url + "?access_key=" + accessKey

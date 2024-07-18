@@ -5,6 +5,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import com.trip.constant.Category;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.dto.QMainItemDto;
@@ -30,19 +31,41 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em); // JPAQueryFactory 실질적인 객체 생성
     }
     //여행지
-    private BooleanExpression searchNatureStatusEq(String nature){
-        if (nature.equals("인천")||nature.equals("서울")||
-                nature.equals("대전")||nature.equals("양양")||
-                nature.equals("부산")||nature.equals("제주도")){
-            nature= "DOMESTIC";}
-        return nature.equals("DOMESTIC")?
-                QItem.item.nature.eq(DOMESTIC): QItem.item.nature.eq(OVERSEAS);
 
+    private BooleanExpression searchCategoryStatusEq( String category){
+        Category str =null;
+            if (category.equals("인천")){
+                str= Category.INCHEON;
+            }else if (category.equals("서울")) {
+                str= Category.SEOUL;
+            }else if (category.equals("대전")) {
+                str=Category.DAEJEON;
+            }else if (category.equals("양양")) {
+                str=Category.YANGYANG;
+            }else if (category.equals("부산")) {
+                str= Category.BUSAN;
+            }else if (category.equals("제주도")) {
+                str = Category.JEJU;
+            }else if (category.equals("미국")) {
+                str = Category.USA;
+            } else if (category.equals("필리핀")) {
+                str = Category.PHILIPPINES;
+            } else if (category.equals("베트남")) {
+                str = Category.NHA_TRANG;
+            } else if (category.equals("코타키나발루")) {
+                str = Category.KOTA_KINABALU;
+            } else if (category.equals("일본")) {
+                str=Category.JAPAN;
+            } else if (category.equals("하와이")) {
+                str = Category.HAWAII;
+            } else {
+                str = null;
+            }
+
+
+        return QItem.item.category.eq(str);
     }
-    //여행지가 placeIncheon,placeSeoul, placeDeajeon, placeYangyang, placeBusan, placeJeju 이면,
-    //국내 DOMESTIC
-    //여행지가 placeAme, placePhi, placeVie,placeKot,placeJap, placeHaw 이면,
-    //해외 OVERSEAS
+
 
 
     //출발지
@@ -75,7 +98,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QueryResults<Item> results = queryFactory.selectFrom(QItem.item).//item에서 찾는다.
                 where(DateChangeStartDate(itemSearchDto.getDatefilter()),//출발일(itemSearchDto.getDatefilter())
-                        searchNatureStatusEq(itemSearchDto.getPlaceSearch()))//여행지(itemSearchDto.getPlaceSearch())
+                searchCategoryStatusEq(itemSearchDto.getPlaceSearch()))
+                       //여행지(itemSearchDto.getPlaceSearch()로 국내 국외 찾기)
                 .orderBy(QItem.item.id.desc())//id가 내림차순순으로
                 .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
         List<Item> content = results.getResults();
@@ -97,6 +121,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
     }
+
 }
 
 
