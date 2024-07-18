@@ -146,21 +146,20 @@ position:relative;
         .dateline{
         position: absolute;
         border-top: 1px solid       #696969;
-          border-bottom: 1px solid       #d9d9d9;
-              color: #333;
-                  background-color:   #ffffff;
-
-         width: 1200px;
-height:57px;
+        border-bottom: 1px solid       #d9d9d9;
+        color: #333;
+        background-color:   #ffffff;
+        width: 1200px;
+        height:57px;
         padding:15px;
-       margin-left:-252px;
-         margin-top: -462px;
+        margin-left:-252px;
+        margin-top: -462px;
         }
 
        .tx2{
 
        font-size:13.5px;
-        margin-left:252px;
+        margin-left:10px;
  text-decoration: none;
         }
         .itembox{
@@ -175,22 +174,22 @@ margin-top:-400px;
 /* ------------------tx는 주문 내역 목록------------------ */
         .tx3{ /* --상품명-- */
         text-decoration: none;
-                font-size:15px;
+                font-size:23px;
                 color:   #434343;
  position: absolute;
-    margin-left: 200px;
-     top: -400px;
- margin-bottom:500px;
+    margin-left: 250px;
+     top: -350px;
+
         }
 
 
          .tx4{ /* --인원-- */
          text-decoration: none;
-                font-size:15px;
+                font-size:20px;
                 color:   #434343;
            position: absolute;
-    margin-left: 200px;
-top: -370px;
+    margin-left: 253px;
+top: -290px;
     font-size: 15px;
     color: #434343;
         }
@@ -200,8 +199,8 @@ top: -370px;
                 font-size:15px;
                 color:   #434343;
              position: absolute;
-    margin-left: 200px;
-top: -340px;
+    margin-left: 253px;
+top: -255px;
     font-size: 15px;
     color: #434343;
 }
@@ -211,8 +210,8 @@ top: -340px;
                 font-size:15px;
                 color:   #434343;
            position: absolute;
-    margin-left: 200px;
-top: -310px;
+     margin-left: 253px;
+top: -223px;
     font-size: 15px;
     color: #434343;
  }
@@ -222,8 +221,8 @@ top: -310px;
                 font-size:15px;
                 color:   #434343;
              position: absolute;
-    margin-left: 200px;
-top: -280px;
+     margin-left: 253px;
+top: -189px;
     font-size: 15px;
     color: #434343;
  }
@@ -233,8 +232,8 @@ top: -280px;
                 font-size:15px;
                 color:   #434343;
          position: absolute;
-    margin-left: 200px;
-top: -250px;
+    margin-left: 253px;
+top: -156px;
     font-size: 15px;
     color: #434343;
  }
@@ -244,8 +243,8 @@ top: -250px;
                 font-size:15px;
                 color:   #434343;
             position: absolute;
-    margin-left: 200px;
-top: -220px;
+    margin-left: 253px;
+top: -122px;
     font-size: 15px;
     color: #434343;
     }
@@ -254,11 +253,38 @@ top: -220px;
                 font-size:15px;
                 color:   #434343;
          position: absolute;
-    margin-left: 200px;
-top: -190px;
+   margin-left: 253px;
+top: -103px;
     font-size: 15px;
     color: #434343;
 
+        }
+
+        .order-cancel{
+         font-size:15px;
+position: absolute;
+margin-left:850px;
+margin-top:-450px;
+         color:			#434343;
+               border: 1px solid 		#dd7e6b;
+               border-radius: 5px;
+               cursor: pointer;
+                background-color:#ffffff;
+                width:80px;
+                height:35px;
+               line-height: 30px; /* 버튼의 높이와 같게 맞춤 */
+        }
+        .order-cancel:hover{
+
+        color:#cc4125;
+        }
+
+        .cancelcp{
+         color:#cc4125;
+        position: absolute;
+        margin-left:860px;
+          font-size:15px;
+          top: -442px;
         }
 
 
@@ -378,7 +404,8 @@ top: -190px;
                                     onclick="orderCancel(this.value)" th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}"
                                     th:value="${order.orderId}" type="button">주문 취소
                             </button>
-                            <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                            <h3 class="cancelcp"
+                                th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
                         </td>
                     </tr>
                 </div>
