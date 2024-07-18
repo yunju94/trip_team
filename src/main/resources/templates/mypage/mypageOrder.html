@@ -339,32 +339,32 @@ top: -190px;
                                 <td th:text="${orderItem.orderPrice}">가격</td>
                             </a>
                         </tr>
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                        <tr>
                             <a class="tx6">상세 설명 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
+                                <td th:text="${order.itemDetail}"></td>
                             </a>
                         </tr>
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                        <tr>
                             <a class="tx7">국내/해외 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
+                                <td th:text="${order.nature.displayName}"></td>
                             </a>
                         </tr>
 
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                        <tr>
                             <a class="tx8">도착지 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
+                                <td th:text="${order.category.displayName}"></td>
                             </a>
                         </tr>
 
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                        <tr>
                             <a class="tx9">출발일 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
+                                <td th:text="${order.startDate}"></td>
                             </a>
                         </tr>
 
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
+                        <tr>
                             <a class="tx10">도착일 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
+                                <td th:text="${order.endDate}"></td>
                             </a>
                         </tr>
 
@@ -380,15 +380,14 @@ top: -190px;
                             </button>
                             <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
                         </td>
-                        <td>
-                            <button class="order" th:onclick="|location.href='/order/detail/${order.orderId}'|" th:value="${order.orderId}"
-                                    type="button">주문 상세보기
-                            </button>
-                        </td>
-
                     </tr>
                 </div>
             </div>
+
+
+
+
+
         </div>
     </main>
 </div>

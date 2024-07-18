@@ -36,15 +36,24 @@ public class OrderHistDto {
 
     private Category category; // 지역
 
+    private  String itemDetail; //상세 상품 설명
 
 
 
 
-   public OrderHistDto(Order order ) {
+
+   public OrderHistDto(Order order, Item item ) {
         this.orderId = order.getId();
         this.orderDate = order.getOrderDate()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.orderStatus = order.getOrderStatus();
+
+        //////////item/////////
+        this.category = item.getCategory();
+        this.nature = item.getNature();
+        this.startDate = item.getStartDate();
+        this.endDate = item.getEndDate();
+        this.itemDetail = item.getItemDetail();
 
 
  }

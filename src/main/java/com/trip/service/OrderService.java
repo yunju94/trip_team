@@ -46,8 +46,7 @@ public class OrderService {
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
         for (Order order : orders){
-            Optional<Item> item = itemRepository.findById(order.getId());
-            OrderHistDto orderHistDto = new OrderHistDto(order);
+            OrderHistDto orderHistDto = new OrderHistDto(order, order.getOrderItems().getFirst().getItem());
             List<OrderItem> orderItems = order.getOrderItems();
             for (OrderItem orderItem : orderItems){
                 ItemImg itemImg = itemImgRepository.findByItemIdAndReqImgYn(orderItem.getItem().getId(), "Y");
@@ -75,7 +74,7 @@ public class OrderService {
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
 
-            OrderHistDto orderHistDto = new OrderHistDto(orders);
+            OrderHistDto orderHistDto = new OrderHistDto(orders, item);
             List<OrderItem> orderItems = orders.getOrderItems();
             for (OrderItem orderItem : orderItems){
                 ItemImg itemImg = itemImgRepository.findByItemIdAndReqImgYn(orderItem.getItem().getId(), "Y");

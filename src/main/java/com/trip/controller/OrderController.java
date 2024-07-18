@@ -85,10 +85,7 @@ public class OrderController {
         }
         Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 10);
         //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
-
         Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
-
-
         Optional<Order> order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());
         Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
         ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
