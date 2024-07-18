@@ -1,61 +1,249 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/layout1}">
+<!--사용자 스크립트 추가-->
+
+<!-- Slick Carousel 및 DateRangePicker 관련 CSS 및 JavaScript -->
+
+<link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
 
 <head>
-    <title>마일리지</title>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
+
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-
         $(document).ready(function() {
+      $('.question').click(function() {
+          var answerDiv = $(this).find('.answer');
 
-           var totalCount = 0;
-           var mileageData = [[${mileage}]]
+          // .answer 요소를 토글하여 보이거나 숨깁니다.
+          answerDiv.toggle();
 
-          for (var i = 0; i < mileageData.length; i++) {
-        totalCount += mileageData[i].point; // mileageData가 'point' 속성을 가진 객체들의 배열로 가정합니다
-    }
-    console.log(totalCount)
-
-       $('#totalCount').text(totalCount+"P")
-
+          // 다른 답변을 닫습니다.
+          $('.answer').not(answerDiv).hide();
       });
+  });
 
+             $(document).ready(function() {
 
+                var totalCount = 0;
+                var mileageData = [[${mileage}]]
+
+               for (var i = 0; i < mileageData.length; i++) {
+             totalCount += mileageData[i].point; // mileageData가 'point' 속성을 가진 객체들의 배열로 가정합니다
+         }
+         console.log(totalCount)
+
+            $('#totalCount').text(totalCount+"P")
+
+           });
 
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
-        /* 좌측 사이드 */
-        div {
-    display: block;
-    unicode-bidi: isolate;
-    }
-    hr{
-        width: 100px;
-    }
-    .mypage{
-        float: left;
-        margin-right: 20px;
-    }
-    .orderlist{
-        float: left;
-        width: 500px;
-    }
-    .tit {
-    display: table-cell;
-    vertical-align: middle;
+
+        body {
+               font-family: Arial, sans-serif;
+               background-color: #ffff;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+
+           }
+
+        header {
+                width: 100%;
+                background-color: #ffff;
+
+            }
+     main {
+
+                top: 30.2%; /* 이동 */
+                max-width: 800px;
+                left:23%;
+
+                background:  #ffffff;
+                margin: 2em;
+                padding:28px;
+            }
+.all1{
+ /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+   margin-top:-60px;
+   margin-left:-380.5px;
+}
+            .mp{/* 리스트만 통으로 움직임 */
+             top:-10px;
+           margin-left:-290px;
+             margin-top: 25px;
+            }
+     h3{/* 마이페이지 제목*/
+     margin-left:-256px;
      }
-    img{
-       width:100px;
-       height:100px;
+
+     .hh4{
+position:absolute ;
+     margin-left:-80px;
+     margin-top: -520px;
+     }
+
+.hrline{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+ border: none; /* 기본 선 제거 */
+ border-top: 2px solid 	#1c4587; /* 원하는 두께와 색상 설정 */
+}
+.hrline2{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+border: none; /* 기본 선 제거 */
+ border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
+}
+            ul{
+             list-style-type: none;
+            }
+            .tx{
+            text-decoration: none;
+            font-size:15px;
+            color:	#434343;
+            }
+
+              table{
+
+            text-align: center;
+        position: relative;
+            padding: 10px;
+          border-top: 1px solid 		#696969;
+          border-bottom: 1px solid 		#d9d9d9;
+              color: #333;
+                  background-color:	#f7f7f7;
+                  letter-spacing: 2px;
+        font-size: 15px;
+        font-weight: 600;
+         width: 1200px;
+         left:-80px;
+         top:-462px;
+
+            cursor: pointer;
+
+            }
+
+           tr{
+      line-height:50px;
+        letter-spacing: 0px;
+        }
+
+      .cc{
+      position: fixed; /* 고정 */
+      height: 300px; /* 이동 */
+      width: 1200px;
+      margin-left: -450px;
+      margin-top:130px;
+        margin-left:-20px;
+        border-bottom: 1px solid 	#696969;
+        }
+        th{
+         border-bottom: 1px solid 		#d9d9d9;
+        }
+        td{
+        background-color:#ffffff;
+        }
+
+    /* ------------------여기까지 리스트------------------ */
+
+    .point{
+    position:absolute ;
+    width:1200px;
+    height:168px;
+ border: 2px solid 		#a4c2f4;
+    margin-top:-462px;
+        margin-left:-80px;
+    }
+    .point img{
+    position:absolute ;
+     margin-left:70px;
+      margin-top:30px;
+    }
+
+    .hh3{
+    position:absolute ;
+     margin-left:220px;
+     margin-top: 47px;
+    }
+    #totalCount{
+    color:#a4c2f4;
+    }
+
+    .inpoint{
+     position:absolute ;
+      width:440px;
+    height:164px;
+     margin-top:0px;
+      margin-left:756px;
+    background-color: 		#f3f3f3;
+     border: none;
+    }
+    .inpoint2{
+     position:absolute ;
+
+    height:164px;
+     margin-top:0px;
+      margin-left:190px;
+    background-color: 		#f3f3f3;
+     border: none;
+    }
+
+    .question {
+    width:150px;
+      min-height:50px;
+ position:absolute ;
+     left:55px;
+     top:55px;
+        cursor: pointer;
+         background-color:#ffffff;
+padding:15px;
+         border: 1px solid 	#C2C2C2;
+         color:	#666666;
+         border-radius:5px;
+         text-align:center;
+    }
+    .question:hover{
+     border: 1px solid		#434343;
+    }
+     .answer {
+       width:500px;
+  position:absolute ;
+        display: none;
+        top:150px;
+        left:-410px;
+
+        background-color: transparent;
+    }
+    .hhh3{
+color:	#000000;
+     position:absolute;
+     margin-left:120px;
+    }
+    .as1{
+     position:relative;
+    top:70px;
+    }
+    .as2{
+     position:relative;
+     left:-270px;
+    top:70px;
+    }
+    .hhh4{
+color:	#000000;
+     position:absolute;
+     margin-left:-70px;
     }
 
  /* ------------------------------------*/
@@ -63,97 +251,121 @@
 
          /* 테이블 스타일 */
         table {
-            width: 100%;
-            border-collapse: collapse;
+
+        width:600px;
         }
 
         /* 테이블 헤더 스타일 */
-        th {
+        tr {
+        border: 1px solid 		#a4c2f4;
+        width:300px;
+        height:40px;
+         text-align:center;
             background-color: #f2f2f2;
-            padding: 8px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+
+}
 
         /* 테이블 셀 스타일 */
         td {
-            padding: 8px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+        width:300px;
+        height:60px;
+            text-align: center;
+ border: 1px solid 		#a4c2f4;
 
+        }
+        th{
+ border: 1px solid 		#a4c2f4;
+  border-bottom:1px solid 	#b7b7b7;
+        }
 
     </style>
 </th:block>
-
+<body>
 <div layout:fragment="content">
 
-    <div>
-        <div class="mypage">
-            <h3>마이페이지</h3>
-            <div>
-                <ul style="list-style: none">
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
-                    <li ><a href="/orders">예약내역</a></li>
-                    <hr>
-                    <li><a href="/cart">찜</a></li>
-                    <hr>
-                    <li><a href="/mileage"><strong>마일리지</strong></a></li>
-                    <hr>
-                    <li><a>쿠폰함</a></li>
-                    <hr>
-                    <li><a href="/userQuestion">1:1문의</a></li>
-                    <hr>
-                    <li><a href="/qna">자주 찾는 질문</a></li>
-                    <hr>
-                    <li><a>My 여행 후기</a></li>
-                    <hr>
-                    <li><a href="/updateInfo">개인정보 수정</a></li>
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
+
+    <main>
+        <div class="all1">
+            <h3><strong>마이페이지</strong></h3>
+            <div class="mp">
+                <ul>
+                    <hr class="hrline">
+                    <li><a class="tx" href="/orders">예약내역</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/cart">찜</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/mileage">마일리지</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">쿠폰함</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/userQuestion">1:1문의</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/qna">자주 찾는 질문</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">My 여행 후기</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/updateInfo">개인정보 수정</a></li>
+                    <hr class="hrline">
 
                 </ul>
             </div>
+            <!-----------------------------건들이지 말기-------------------------------->
+
+            <h4 class="hh4">마일리지</h4>
+            <div class="point">
+                <img height="97" th:src="@{/css/images/Mileage.png}">
+                <h3 class="hh3"><span th:text="${member.name}"></span>님의
+                    <br>사용 가능한 마일리지는 <span id="totalCount"></span>
+                    입니다.</h3>
+                <div class="inpoint">
+                    <div class="question" data-question-id="1"> 적립 내역 보기
+                        <div class="answer">
+                            <h3 class="hhh3">적립 마일리지 내역</h3>
+                            <table class="as1">
+                                <thead>
+                                <tr>
+                                    <th>적립 내역</th>
+                                    <th>마일리지</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="mileage : ${mileage}">
+                                <tr th:if="${mileage.point > 0}">
+                                    <td th:text="${mileage.content}"></td>
+                                    <td th:text="${mileage.point}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </button>
+                    </div>
+
+                    <div class="inpoint2">
+                        <div class="question" data-question-id="1"> 소멸 내역 보기
+                            <div class="answer">
+                                <h3 class="hhh4">소멸 마일리지 내역</h3>
+                                <table class="as2">
+                                    <thead>
+                                    <tr>
+                                        <th>사용 내역</th>
+                                        <th>사용한 마일리지</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="mileage : ${mileage}">
+                                    <tr th:unless="${mileage.point >= 0}">
+                                        <td th:text="${mileage.content}"></td>
+                                        <td th:text="${mileage.point}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div style="display: flex; justify-content: space-between;">
-            <div>
-                <h3>등록 포인트 내역</h3>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>사용내역</th>
-                        <th>포인트</th>
-                    </tr>
-                    </thead>
-                    <tbody th:each="mileage : ${mileage}">
-                    <tr th:if="${mileage.point > 0}">
-                        <td th:text="${mileage.content}"></td>
-                        <td th:text="${mileage.point}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <h3>소멸 포인트 내역</h3>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>사용내역</th>
-                        <th>포인트</th>
-                    </tr>
-                    </thead>
-                    <tbody th:each="mileage : ${mileage}">
-                    <tr th:unless="${mileage.point >= 0}">
-                        <td th:text="${mileage.content}"></td>
-                        <td th:text="${mileage.point}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <h3>총 잔여 포인트</h3>
-                <span  id="totalCount"  style="font-size: larger; color: red;"></span>
-            </div>
-        </div>
-    </div>
+    </main>
 </div>
+</body>
 </html>

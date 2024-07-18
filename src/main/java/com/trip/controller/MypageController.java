@@ -82,6 +82,7 @@ public class MypageController {
         Member member = memberService.memberload(email);
         if (member.getRole()==Role.USER){//멤버 정보가 유저일 경우
            List<Mileage> mileage =mileageService.membertoMileage(member.getId());
+            model.addAttribute("member", member);
            model.addAttribute("mileage", mileage);
             return "mypage/userMileage";
         }
