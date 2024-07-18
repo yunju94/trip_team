@@ -25,7 +25,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
     @Override
     public Double getCurrencyRate(String receiveCountry) {
         CurrencyDto currency = currencyAPIService.getCurrency();
-        String sendReceiveCountry = sendCountry + receiveCountry;
+        String sendReceiveCountry = sendCountry + receiveCountry;//"KRW" + "JPY"
         Double convertedCurrency = currency.getQuotes().get(sendReceiveCountry);
         return convertedCurrency;
     }
