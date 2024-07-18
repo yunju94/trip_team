@@ -30,10 +30,7 @@ public class CurrencyConverterAPIController {
 
     @GetMapping(value = "/list")
     public  String excahangeList(Model model){
-
-
         List<Double> yValues1 =  currencyConverterService.getPHPDB();
-        System.out.println("yValues1: "+yValues1);
         List<Double> yValues2 =  currencyConverterService.getJPYDB();
         List<Double> yValues3 =  currencyConverterService.getUSDDB();
         List<Double> yValues4 =  currencyConverterService.getVNDDB();
@@ -74,27 +71,21 @@ public class CurrencyConverterAPIController {
 
     //환율을 받아서 DB로 보낼 수 없을까?
     @GetMapping(value = "/exchange")
-    public ResponseEntity ExchangeR(@RequestParam(name = "PHP") String PHP,@RequestParam(name = "JPY") String JPY
-                                    , @RequestParam(name = "USD") String USD,@RequestParam(name = "VND") String VND,
+    public ResponseEntity ExchangeR(@RequestParam(name = "PHP") String PHP,
+                                    @RequestParam(name = "JPY") String JPY,
+                                    @RequestParam(name = "USD") String USD,
+                                    @RequestParam(name = "VND") String VND,
                                     @RequestParam(name = "MYR") String MYR){
 
         Double exchangeRate_PHP = currencyConverter.getCurrencyRate(PHP);
-
         Double exchangeRate_JPY = currencyConverter.getCurrencyRate(JPY);
-
         Double exchangeRate_USD = currencyConverter.getCurrencyRate(USD);
-
         Double exchangeRate_VND = currencyConverter.getCurrencyRate(VND);
-
         Double exchangeRate_MYR = currencyConverter.getCurrencyRate(MYR);
-
 
         ExchangeDto exchangeDto = new ExchangeDto( exchangeRate_JPY,exchangeRate_PHP,
                 exchangeRate_USD, exchangeRate_VND,  exchangeRate_MYR);
-
         exchangeNatureService.savesExchange(exchangeDto);
-
-
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 

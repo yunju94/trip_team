@@ -49,7 +49,6 @@ public class OrderController {
         //stringBuilder a;
         //a.append("abc")
         //a.append("def")
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
 
         if (bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
@@ -83,7 +82,7 @@ public class OrderController {
             model.addAttribute("errorMessage", "로그인 후 이용하시기 바랍니다.");
             return "member/memberLoginForm";
         }
-        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
         //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
         Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
         Optional<Order> order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());

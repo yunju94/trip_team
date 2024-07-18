@@ -412,6 +412,30 @@ margin-top:-450px;
             </div>
 
 
+            <div th:with="start=${(orderlist.number/maxPage)*maxPage + 1},
+                end=(${(orderlist.totalPages ==0) ?
+                1 : (start + (maxPage-1) <orderlist.totalPages ? start + (maxPage -1) : orderlist.totalPages)})">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${orderlist.first}? 'disabled'">
+                        <a th:onclick="'javascript:page('+${orderlist.number -1 } + ')'" aria-label="Previous"
+                           class="page-link">
+                            <span aria-hidden="true">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+                        th:classappend="${orderlist.number eq page-1}?'active':''">
+                        <a th:href="@{'/orders/' + ${page -1}}"
+                           th:inline="text"
+                           class="page-link">[[${page}]]</a>
+                    </li>
+                    <li class="page-item" th:classappend="${orderlist.last}?'disabled'">
+                        <a th:onclick="'javascript:page(' + ${orderlist.number +1} + ')'" aria-label="Next"
+                           class="page-link">
+                            <span aria-hidden="true">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
 
 
