@@ -13,72 +13,170 @@
     <style>
 
         body {
-               font-family: Arial, sans-serif;
-               background-color: #ffff;
-               margin: 0;
-               padding: 0;
-               display: flex;
-               flex-direction: column;
-               align-items: center;
-           }
-           header {
-               width: 100%;
-               background-color: #ffff;
+            font-family: Arial, sans-serif;
+            background-color: #ffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #ffff;
 
-           }
-            h4{
-          position: fixed; /* 상단으로 고정 */
-                    top: 27%; /* 화면 중앙으로 이동 */
-                    left: 47.5%;
         }
         main {
-            position: fixed; /* 고정 */
-               top: 30.2%; /* 이동 */
-               max-width: 800px;
-               left:23%;
+         position: absolute; /* 고정 */
 
-               background:  #ffffff;
-               margin: 2em;
-               padding:28px;
-           }
-          .sidebar {
-      position: fixed; /* 상단으로 고정 */
-                   top: 40.7%; /* 화면 중앙으로 이동 */
-               left: 16%;
-               transform: translateY(-50%);
-               display: flex;
-               flex-direction: column;
-               align-items: center;
-               z-index: 1000; /* 필요시 설정 */
-    }
+            max-width: 800px;
+            left:23%;
 
-    .sidebar button {
-       width: 120px;
-       padding: 0.8em;
-       margin: 0.2em 0;
-       border: none;
-       border-radius: 5px;
-       background-color: #343a40;
-       color: white;
-       cursor: pointer;
-       font-size: 0.8em;
-       transition: background-color 0.3s ease;
+            background:  #ffffff;
+            margin: 2em;
+            padding:28px;
+        }
+         h4{
+         margin-top:-10px;
+   margin-left:20px;
     }
+        .topline{
+          position: fixed;
 
-    .sidebar button:hover {
-       background-color: #495057;
-    }
+            top: 32.7%;
+            left:23.3%;
+        border-top: 1.5px solid	#696969;
+         width: 1200px;
+        }
+        li{
+       list-style-type: none;
+}
+ .sidebar {
+    position: fixed; /* 상단으로 고정 */
+            top: 37%; /* 화면 중앙으로 이동 */
+            left: 16%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000; /* 필요시 설정 */
+}
+
+.sidebar button {
+    width: 120px;
+    padding: 0.8em;
+    margin: 0.2em 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #343a40;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar button:hover {
+    background-color: #495057;
+}
+ /* -----------------------------------------------------*/
+
+
             .form-container{
+
+              position:relative;
+margin-left:320px;
+margin-top:-55px;
+            }
+            .form-group {
+           display: table;
+       width: 94%;
+       height: 10px;
+        padding-top:40px ;
+      padding-bottom: 10px ;
+        border-bottom: 0.3px solid #dcdcdc;
+
+               margin-bottom: 20px;
+                 margin-left: 37px;
+           }
+
+           .form-group label {
+
+         font-size: 15px;
+                width: 20%;
+               line-height: 30px;
+               color: #000;
+               font-weight: bold;
+               display: table-cell; /* label을 테이블 셀로 설정하여 왼쪽 정렬 */
+           }
+           .form-group input[type="text"],
+           .form-group input[type="title"],
+             .form-group input[type="content"]{,
+
+            font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+           margin-top:5px;
+            font-size: 14px;
+       line-height: 30px;
+       color: #000;
+       display: block;
+       height: 20px;
+       padding: 5px 15px 5px 5px;
+       box-sizing: border-box;
+       border: 0;
+       outline: 0;
+           }
+            .form-group textarea[type="content"]{
+                   font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+           margin-top:5px;
+            font-size: 14px;
+
+       color: #000;
+       display: block;
+       height: 100px;
+       padding: 20px;
+       box-sizing: border-box;
+       border: 0;
+       outline: 0;
             }
 
-            .writerBox{
-             position: fixed; /* 상단으로 고정 */
-              display: flex;
-                    top: 35%; /* 화면 중앙으로 이동 */
-                    left: 47.5%;
-              width: 300px;
-              height:30px;
-            }
+.abc{
+ position: relative;
+   margin-left: 50px;
+   top:20px;
+
+}
+        #submit-btn {
+            font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+            position: absolute;
+            color:	#3d85c6;
+               background-color:  #ffffff;
+               border: none;
+               border-radius:10px;
+               height:40px;
+               text-decoration: none;
+               font-size: 15px;
+             margin-left: 100px;
+             margin-top: -10px;
+               cursor: pointer;
+           }
+           #submit-btn:hover{
+           color:	#000000;
+           }
+
+
+        .abc img{
+          cursor: pointer;
+         position: absolute;
+       margin-left:75px;
+        }
 
 
     </style>
@@ -94,26 +192,28 @@
     </aside>
 
     <main>
-<div class="form-container">
-    <form th:action="@{/writeForm}" th:object="${questionsDto}" method="post">
-        <div class="writerBox">
-            <label for="writer">작성자:</label>
-            <input type="text" id="writer" name="writer" th:field="*{writer}" required readonly>
-        </div>
+        <div class="form-container">
+            <form method="post" th:action="@{/writeForm}" th:object="${questionsDto}">
 
-        <div>
-            <label for="title">제목:</label>
-            <input type="text" id="title" name="title" th:field="*{title}" required>
+                <div class="form-group">
+                    <label for="writer">작성자:</label>
+                    <input id="writer" readonly required th:field="*{writer}" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label for="writer">제목:</label>
+                    <input id="title" required th:field="*{title}" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="writer">내용:</label>
+                    <textarea id="content" required rows="5" th:field="*{content}" type="content"></textarea>
+                </div>
+                <div class="abc">
+                    <button id="submit-btn" type="submit">입력</button>
+                    <img height="40" th:src="@{/css/images/btn.png}">
+                </div>
+            </form>
         </div>
-        <div>
-            <label for="content">내용:</label>
-            <textarea id="content" name="content" th:field="*{content}" rows="5" required></textarea>
-        </div>
-        <div>
-            <input type="submit" value="입력">
-        </div>
-    </form>
-</div>
 
     </main>
     </body>
