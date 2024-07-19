@@ -7,6 +7,7 @@ import com.trip.repository.CommentRepository;
 import com.trip.repository.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class CommentService {
 
     public List<Comment> getCommentsByQuestionId(Long questionId) {
         return commentRepository.findByQuestionId(questionId);
+    }
+    @Transactional
+    public void deleteCommentsByQuestionId(Long questionId) {
+        commentRepository.deleteByQuestionId(questionId);
     }
 
 }

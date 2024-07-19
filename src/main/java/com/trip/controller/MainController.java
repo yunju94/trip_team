@@ -5,7 +5,9 @@ package com.trip.controller;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.entity.Item;
+import com.trip.entity.Travel;
 import com.trip.service.ItemService;
+import com.trip.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class MainController {
 
     private  final ItemService itemService;
+
 
     @GetMapping(value = "/")
     public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
@@ -32,5 +36,6 @@ public class MainController {
         model.addAttribute("itemSearchDto", itemSearchDto);
         return "main";
     }
+
 }
 

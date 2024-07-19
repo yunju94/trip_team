@@ -5,6 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
+
 </head>
 <th:block layout:fragment="css">
 
@@ -181,20 +182,25 @@ margin-left:30px;
 
     </style>
 
-</th:block>
+
+        .pagination .disabled a {
+            color: #d9d9d9;
+            border-color: #d9d9d9;
+        }
+    </style>
+</head>
 
 <body>
+<input type="hidden" id="csrf-token" th:value="${_csrf.token}"/>
 <div layout:fragment="content">
-
     <h4>문의 내역</h4>
-
     <aside class="sidebar">
         <button onclick="window.location.href='/qna'">자주찾는질문</button>
         <button onclick="window.location.href='/questions'">1:1문의</button>
     </aside>
 
-
     <main>
+
         <div>
             <table>
                 <thead>
@@ -208,6 +214,7 @@ margin-left:30px;
 
                 <tbody>
                 <div class="cc">
+
                     <tr th:each="question : ${questionsList}">
                         <td th:text="${question.id}">번호</td>
                         <td>
@@ -215,6 +222,7 @@ margin-left:30px;
                         </td>
                         <td th:text="${question.writer}">작성자</td>
                     </tr>
+
 
                 </div>
                 </tbody>
@@ -229,6 +237,7 @@ margin-left:30px;
 
 
     <div class="pagelist">
+
     <div th:if="${totalPages > 1}" style="text-align: center;">
         <ul class="pagination">
 

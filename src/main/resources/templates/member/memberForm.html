@@ -390,7 +390,9 @@ background: none;
 
         <div class="form-group">
             <label th:for="email">이메일 주소</label>
-            <input id="sendmail" placeholder="이메일 입력" th:field="*{email}" type="text">
+
+            <input type="text" th:field="*{email}"  id="sendmail" placeholder="이메일 입력">
+
             <button class="btn" id="e_2" onclick="mailSend()" type="button">인증 메일 보내기</button>
 
             <input class="form-control" id="codecheck" placeholder="인증 코드 입력" type="text">
@@ -433,8 +435,10 @@ background: none;
             <p id="verificationMessage"></p>
         </div>
 
-        <p class="fieldError" id="telError" style="display:none;">전화번호를 입력해주세요.</p>
-        <p th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="fieldError"></p>
+
+        <p id="telError" class="fieldError" style="display:none;">전화번호를 입력해주세요.</p>
+        <p th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="fieldError" ></p>
+
 
 
         <div style="text-align: center">
