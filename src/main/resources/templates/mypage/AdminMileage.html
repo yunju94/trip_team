@@ -1,171 +1,258 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/layout1}">
+<!--사용자 스크립트 추가-->
+
+<!-- Slick Carousel 및 DateRangePicker 관련 CSS 및 JavaScript -->
+
+<link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
 
 <head>
-    <title>마일리지 작성</title>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
+
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
-      function pop()  {
+        function pop()  {
 
-       // 고객번호와 이름을 가져옴
-          var memberId = document.getElementById("memberId").value;
-          var memberName = document.getElementById("memberName").value;
+               // 고객번호와 이름을 가져옴
+                  var memberId = document.getElementById("memberId").value;
+                  var memberName = document.getElementById("memberName").value;
 
-          if (!memberId) {
-                memberId = 0;
+                  if (!memberId) {
+                        memberId = 0;
 
-            }
+                    }
 
-          // 새 창을 열어서 Popup.asp 페이지로 요청 보냄
-          var url = "/Popup.asp?memberId=" + encodeURIComponent(memberId) + "&memberName=" + encodeURIComponent(memberName);
-      window.open(url, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-      }
+                  // 새 창을 열어서 Popup.asp 페이지로 요청 보냄
+                  var url = "/Popup.asp?memberId=" + encodeURIComponent(memberId) + "&memberName=" + encodeURIComponent(memberName);
+              window.open(url, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+              }
 
-      function sendMileage(){
-      var memberId = document.getElementById("Id").value;
-      var content = document.getElementById("content").value;
-      var point = document.getElementById("point").value;
+              function sendMileage(){
+              var memberId = document.getElementById("Id").value;
+              var content = document.getElementById("content").value;
+              var point = document.getElementById("point").value;
 
-      location.href= "/mileageOK/"+ encodeURIComponent(memberId) + "/"+ encodeURIComponent(content) + "/" + encodeURIComponent(point)
-      }
-
-
+              location.href= "/mileageOK/"+ encodeURIComponent(memberId) + "/"+ encodeURIComponent(content) + "/" + encodeURIComponent(point)
+              }
 
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
-        div {
-    display: block;
-    unicode-bidi: isolate;
-    }
-    hr{
-        width: 100px;
-    }
-    .mypage{
-        float: left;
-        margin-right: 20px;
-    }
-    .orderlist{
-        float: left;
-        width: 500px;
-    }
-    .tit {
-    display: table-cell;
-    vertical-align: middle;
+
+        body {
+               font-family: Arial, sans-serif;
+               background-color: #ffff;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+
+           }
+
+        header {
+                width: 100%;
+                background-color: #ffff;
+
+            }
+     main {
+
+                top: 30.2%; /* 이동 */
+                max-width: 800px;
+                left:23%;
+
+                background:  #ffffff;
+                margin: 2em;
+                padding:28px;
+            }
+.all1{
+position: ; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+   margin-top:-60px;
+}
+            .mp{/* 리스트만 통으로 움직임 */
+             top:-10px;
+           margin-left:-290px;
+             margin-top: 25px;
+            }
+     h3{/* 마이페이지 제목*/
+     margin-left:-256px;
      }
-    img{
-       width:100px;
-       height:100px;
-    }
+
+     .hh4{
+position:absolute ;
+     margin-left:-80px;
+     margin-top: -520px;
+     }
+
+.hrline{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+ border: none; /* 기본 선 제거 */
+ border-top: 2px solid 	#1c4587; /* 원하는 두께와 색상 설정 */
+}
+.hrline2{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+border: none; /* 기본 선 제거 */
+ border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
+}
+            ul{
+             list-style-type: none;
+            }
+            .tx{
+            text-decoration: none;
+            font-size:15px;
+            color:	#434343;
+            }
+
+              table{
+
+            text-align: center;
+        position: relative;
+            padding: 10px;
+          border-top: 1px solid 		#696969;
+          border-bottom: 1px solid 		#d9d9d9;
+              color: #333;
+                  background-color:	#f7f7f7;
+                  letter-spacing: 2px;
+        font-size: 15px;
+        font-weight: 600;
+         width: 1200px;
+         left:-80px;
+         top:-462px;
+
+            cursor: pointer;
+
+            }
+
+           tr{
+      line-height:50px;
+        letter-spacing: 0px;
+        }
+
+      .cc{
+      position: fixed; /* 고정 */
+      height: 300px; /* 이동 */
+      width: 1200px;
+      margin-left: -450px;
+      margin-top:130px;
+        margin-left:-20px;
+        border-bottom: 1px solid 	#696969;
+        }
+        th{
+         border-bottom: 1px solid 		#d9d9d9;
+        }
+        td{
+        background-color:#ffffff;
+        }
+
+    /* ------------------여기까지 리스트------------------ */
 
 
+/* 전체 컨테이너 스타일 */
+.container {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center; /* 가운데 정렬 */
+}
 
-    /* 전체 컨테이너 스타일 */
-    .container {
-        width: 60%;
-        margin: 20px auto;
-        padding: 20px;
-        font-family: Arial, sans-serif;
-        text-align: center; /* 가운데 정렬 */
-    }
+/* 제목 스타일 */
+.container h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
 
-    /* 제목 스타일 */
-    .container h3 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-    }
+/* 폼 스타일 */
+.container form {
+    margin-bottom: 20px;
+    display: inline-block; /* 가운데 정렬을 위해 인라인 블록 요소로 설정 */
+    text-align: left; /* 폼 내부 요소를 왼쪽 정렬 */
+}
 
-    /* 폼 스타일 */
-    .container form {
-        margin-bottom: 20px;
-        display: inline-block; /* 가운데 정렬을 위해 인라인 블록 요소로 설정 */
-        text-align: left; /* 폼 내부 요소를 왼쪽 정렬 */
-    }
+/* 입력 필드와 라벨 스타일 */
+.container form div {
+    margin-bottom: 10px;
+}
 
-    /* 입력 필드와 라벨 스타일 */
-    .container form div {
-        margin-bottom: 10px;
-    }
+.container form label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    margin-right: 10px;
+}
 
-    .container form label {
-        display: inline-block;
-        width: 100px;
-        font-weight: bold;
-        margin-right: 10px;
-    }
+.container form input[type="text"],
+.container form input[type="number"] {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
 
-    .container form input[type="text"],
-    .container form input[type="number"] {
-        padding: 8px;
-        width: 200px;
-        border: 1px solid #ccc; /* 테두리 추가 */
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 14px;
-    }
+/* 버튼 스타일 */
+.container form button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* 기본 배경색 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-    /* 버튼 스타일 */
-    .container form button {
-        padding: 10px 20px;
-        background-color: #4CAF50; /* 기본 배경색 */
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .container form button:hover {
-        background-color: #45a049; /* 호버 시 배경색 변경 */
-    }
+.container form button:hover {
+    background-color: #45a049; /* 호버 시 배경색 변경 */
+}
 
     </style>
 </th:block>
-
+<body>
 <div layout:fragment="content">
 
-    <div>
-        <div class="mypage">
-            <h3>마이페이지</h3>
-            <div>
-                <ul style="list-style: none">
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
-                    <li ><a href="/orders">예약내역</a></li>
-                    <hr>
-                    <li><a href="/cart">찜</a></li>
-                    <hr>
-                    <li><a href="/mileage"><strong>마일리지</strong></a></li>
-                    <hr>
-                    <li><a>쿠폰함</a></li>
-                    <hr>
-                    <li><a href="/userQuestion">1:1문의</a></li>
-                    <hr>
-                    <li><a href="/qna">자주 찾는 질문</a></li>
-                    <hr>
-                    <li><a>My 여행 후기</a></li>
-                    <hr>
-                    <li><a href="/updateInfo">개인정보 수정</a></li>
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
+
+    <main>
+        <div class="all1">
+            <h3><strong>마이페이지</strong></h3>
+            <div class="mp">
+                <ul>
+                    <hr class="hrline">
+                    <li><a class="tx" href="/orders">예약내역</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/cart">찜</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/mileage">마일리지</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">쿠폰함</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/userQuestion">1:1문의</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/qna">자주 찾는 질문</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">My 여행 후기</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/updateInfo">개인정보 수정</a></li>
+                    <hr class="hrline">
 
                 </ul>
             </div>
+            <!-----------------------------건들이지 말기-------------------------------->
 
-        </div>
-
-
-        <div class="container">
+            <div class="container">
             <div>
-                <h3>마일리지 작성</h3>
+                <h4 class="hh4">마일리지 작성</h4>
 
                 <form>
                     <div class="memberSearch">

@@ -2,6 +2,7 @@ package com.trip.service;
 
 import com.trip.dto.CurrencyDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +26,15 @@ public class CurrencyAPIServiceImpl implements CurrencyAPIService {
     private int cycleTime;//api호출 주기
 
 
-    private final RestTemplate restTemplate;
+
+    @Autowired
+    RestTemplate restTemplate;
     private CurrencyDto currency;
 
 
 
     @Override
     public CurrencyDto getCurrency() {
-
         if(ischeck()){//api 호출
             currency = restTemplate.getForObject(
                     url + "?access_key=" + accessKey

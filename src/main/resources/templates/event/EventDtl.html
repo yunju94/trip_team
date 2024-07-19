@@ -51,11 +51,8 @@
 
     </div>
 
-    <div>
+    <div th:if="${member.Role == T(com.trip.constant.Role).ADMIN}">
         <button type="button" th:value="${event.id}" onclick="update(this.value)"> 수정하기</button>
-    </div>
-
-    <div>
         <button type="button" th:value="${event.id}" onclick="deleted(this.value)"> 삭제하기</button>
     </div>
 

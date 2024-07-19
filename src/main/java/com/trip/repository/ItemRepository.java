@@ -26,7 +26,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
             ,nativeQuery = true)
     List<Item> findByItemDetailNative(@Param("itemDetail")String itemDetail);
 
-    Optional<Item> findById(Long ItemId);
 
     @Query(value = "SELECT * FROM Item ORDER BY item_id ASC LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Item> findItemsWithLimit(@Param("offset") int offset, @Param("limit") int limit);

@@ -29,14 +29,15 @@
         <div><img th:src="@{/css/images/event.jpg}"></div>
     </div>
     <div  th:each="event :${event}">
+        <!-- event.content가 비어 있거나 null인 경우 -->
+        <div class="imgdiv" th:if="${not #lists.isEmpty(event.eventImgs)}">
+            <img th:src="${event.eventImgs[0].imgUrl}" th:data-id="${event.id}" onclick="eventhref(this.getAttribute('data-id'))">
+        </div>
         <!-- event.eventImgs가 비어 있는 경우 -->
         <div class="imgdiv" th:if="${not #strings.isEmpty(event.content)}">
             <img th:src="${event.content}" th:data-id="${event.id}" onclick="eventhref(this.getAttribute('data-id'))">
         </div>
-        <!-- event.content가 비어 있거나 null인 경우 -->
-        <div class="imgdiv" th:if="${#strings.isEmpty(event.content)}">
-            <img th:src="${event.eventImgs[0].imgUrl}" th:data-id="${event.id}" onclick="eventhref(this.getAttribute('data-id'))">
-        </div>
+
     </div>
 </div>
 
