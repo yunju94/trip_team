@@ -5,6 +5,7 @@ import com.trip.constant.PaymentStatus;
 import com.trip.dto.OrderDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.dto.OrderItemDto;
+import com.trip.dto.RequestPayDto;
 import com.trip.entity.*;
 import com.trip.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.trip.entity.QItem.item;
 import static com.trip.entity.QOrder.order;
 
 @Service
@@ -44,7 +46,7 @@ public class OrderService {
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
         for (Order order : orders){
-            OrderHistDto orderHistDto = new OrderHistDto(order);
+            OrderHistDto orderHistDto = new OrderHistDto(order, order.getOrderItems().getFirst().getItem());
             List<OrderItem> orderItems = order.getOrderItems();
             for (OrderItem orderItem : orderItems){
                 ItemImg itemImg = itemImgRepository.findByItemIdAndReqImgYn(orderItem.getItem().getId(), "Y");
@@ -67,11 +69,12 @@ public class OrderService {
     public List<OrderHistDto> order(String email) {
         //orderhist에 필요한 것. 주문 리스트(가격), 총 갯수, 이미지파일, item이름
         Order orders = orderRepository.findByOrders(email);
+        Item item = itemRepository.findById(orders.getId()).orElseThrow();
         //이메일로 주문 리스트 뽑아내기 + 갯수에 따라 페이지로 만들기
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
 
-            OrderHistDto orderHistDto = new OrderHistDto(orders);
+            OrderHistDto orderHistDto = new OrderHistDto(orders, item);
             List<OrderItem> orderItems = orders.getOrderItems();
             for (OrderItem orderItem : orderItems){
                 ItemImg itemImg = itemImgRepository.findByItemIdAndReqImgYn(orderItem.getItem().getId(), "Y");
@@ -163,12 +166,19 @@ public class OrderService {
 
     public  Order  orderUidOrderCancle(String orderUid){
 
+        System.out.println(orderUid);
         Order order=orderRepository.findByOrderUid(orderUid);
+
         order.orderCancel();
-        Optional<Payment> payment = paymentRepository.findById(order.getPayment().getId());
-        payment.get().setStatus(PaymentStatus.CANCEL);
+        Payment payment = paymentRepository.findById(order.getPayment().getId()).orElseThrow();
+        payment.setStatus(PaymentStatus.CANCEL);
 
         return order;
+    }
+
+    public  void  payUpdate(Order order, Integer totalPrice){
+       order.updateOrders(totalPrice);
+
     }
 
 

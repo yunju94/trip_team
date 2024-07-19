@@ -33,4 +33,8 @@ public class Payment {
         this.status = status;
         this.paymentUid = paymentUid;
     }
+    @Builder
+    public  void  updatepayment(Order order){
+        this.price = order.getPrice();
+    }
 }

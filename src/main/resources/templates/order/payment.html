@@ -10,69 +10,155 @@
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script>
-        var IMP = window.IMP;
-        IMP.init("imp43602572");
-
-        function requestPay() {
-
-            var orderUid = '[[${requestDto.orderUid}]]';
-            var itemName = '[[${requestDto.itemName}]]';
-            var paymentPrice = '[[${requestDto.paymentPrice}]]';
-            var buyerName = '[[${requestDto.buyerName}]]';
-            var buyerEmail = '[[${requestDto.buyerEmail}]]';
-            var buyerAddress = '[[${requestDto.buyerAddress}]]';
-
-
-            IMP.request_pay({
-                    pg : 'html5_inicis.INIpayTest',
-                    pay_method : 'card',
-                    merchant_uid: orderUid, // 주문 번호
-                    name : itemName, // 상품 이름
-                    amount : paymentPrice, // 상품 가격
-                    buyer_email : buyerEmail, // 구매자 이메일
-                    buyer_name : buyerName, // 구매자 이름
-                    buyer_tel : '010-1234-5678', // 임의의 값
-                    buyer_addr : buyerAddress, // 구매자 주소
-                    buyer_postcode : '123-456', // 임의의 값
-
-                },
-                function(rsp) {
-                    if (rsp.success) {
-                       // alert('call back!!: ' + JSON.stringify(rsp));
-                        // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-                        // jQuery로 HTTP 요청
-                        $.ajax({
-                            url: "/payment",
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                              data: JSON.stringify({
-                                "payment_uid": rsp.imp_uid,      // 결제 고유번호
-                                "order_uid": rsp.merchant_uid   // 주문번호
-                            })
-                        }).done(function (response) {
-                            console.log(response);
-                            // 가맹점 서버 결제 API 성공시 로직
-                            //alert('Please, Check your payment result page!!' + rsp);
-                            alert('결제 완료!');
-                            window.location.href = "/success-payment";
-
-                        }).done(function (response) {
-                            console.log(response);
-                            // 가맹점 서버 결제 API 성공시 로직
-                            //alert('Please, Check your payment result page!!' + rsp);
-                            alert('결제 완료!');
-                            window.location.href = "/success-payment";
-                        })
-                    } else {
-                        //alert("success? "+ rsp.success+ ", 결제에 실패하였습니다. 에러 내용: " + JSON.stringify(rsp));
-                        alert('결제 실패!' + rsp);
-                        window.location.href = "/fail-payment/"+ orderUid;
-                    }
-                });
-        }
-    </script>
 </head>
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+
+            $(document).ready(function() {
+
+           var totalMileage = 0;
+           var mileageData = [[${mileageList}]]
+
+          for (var i = 0; i < mileageData.length; i++) {
+        totalMileage += mileageData[i].point; // mileageData가 'point' 속성을 가진 객체들의 배열로 가정합니다
+    }
+    console.log(totalMileage)
+
+       $('#totalMileage').text(totalMileage)
+
+      });
+
+      function keypress(){
+
+      var price = $("#price").text();
+      console.log(price)
+      var useMileage =  $("#useMileage").val();
+      console.log(useMileage)
+      var totalPrice = price - useMileage;
+      $('#totalPrice').text(totalPrice)
+      }
+
+
+function mileageMoneyChange() {
+    if ($("#useMileage").val() != 0) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var orderUid = [[${requestDto.orderUid}]]; // 서버에서 전달받은 주문 번호
+        var totalPrice = parseInt($('#totalPrice').text()); // #totalPrice 요소의 텍스트를 가져와서 총 금액으로 설정
+        var useMileage = parseInt($("#useMileage").val()); // #useMileage 입력 필드의 값을 가져와서 사용할 마일리지로 설정
+
+        console.log(orderUid);
+        console.log(totalPrice);
+        console.log(useMileage);
+
+        var url = '/payment/mileage/' + orderUid; // 마일리지 적용을 위한 URL 설정
+        var paramData = {
+            orderUid: orderUid,
+            totalPrice: totalPrice,
+            useMileage: useMileage
+        };
+
+        console.log(paramData)
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(paramData),
+            beforeSend: function(xhr) {
+                // 데이터 전송하기 전에 헤더에 csrf 값을 설정
+                xhr.setRequestHeader(header, token);
+            },
+            dataType: "json",
+            cache: false,
+            success: function(result, status) {
+                alert("마일리지 적용완료");
+            },
+            error: function(jqXHR, status, error) {
+                if (jqXHR.status == 401) {
+                    alert('로그인 후 이용해주세요');
+                    location.href = '/members/login';
+                } else {
+                    alert(jqXHR.responseText);
+                }
+            }
+        });
+    }
+}
+
+
+
+   function requestPay() {
+       mileageMoneyChange();
+
+    var IMP = window.IMP;
+            IMP.init("imp43602572");
+
+    var orderUid = [[${requestDto.orderUid}]];
+    var itemName = [[${requestDto.itemName}]];
+    var paymentPrice = $("#totalPrice").text();
+    var buyerName = [[${requestDto.buyerName}]];
+    var buyerEmail = [[${requestDto.buyerEmail}]];
+    var buyerAddress = [[${requestDto.buyerAddress}]];
+
+
+    IMP.request_pay({
+            pg: 'html5_inicis.INIpayTest',
+            pay_method: 'card',
+            merchant_uid: orderUid, // 주문 번호
+            name: itemName, // 상품 이름
+            amount: paymentPrice, // 상품 가격
+            buyer_email: buyerEmail, // 구매자 이메일
+            buyer_name: buyerName, // 구매자 이름
+            buyer_tel: '010-1234-5678', // 임의의 값
+            buyer_addr: buyerAddress, // 구매자 주소
+            buyer_postcode: '123-456', // 임의의 값
+
+        },
+        function(rsp) {
+
+             var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            if (rsp.success) {
+                alert('call back!!: ' + JSON.stringify(rsp));
+                // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+                // jQuery로 HTTP 요청
+                jQuery.ajax({
+                    url: "/payment",
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    data: JSON.stringify({
+                         "payment_uid": rsp.imp_uid,      // 결제 고유번호
+                        "order_uid": rsp.merchant_uid   // 주문번호
+                    }),
+                    beforeSend : function(xhr){
+                    /*데이터 전송하기 전에 헤더에 csrf값 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                }).done(function (response) {
+
+                    // 가맹점 서버 결제 API 성공시 로직
+                    alert('결제 완료!');
+                    window.location.href = "/success-payment/"+orderUid;
+                })
+            } else {
+
+                alert("결제 실패: " + JSON.stringify(rsp));
+                window.location.href = "/fail-payment/"+orderUid;
+            }
+        });
+}
+
+
+        </script>
+    </th:block>
+    <th:block layout:fragment="css">
+        <style>
+
+        </style>
+    </th:block>
+
 <body>
 <div layout:fragment="content">
 <h1>결제 페이지</h1>
@@ -103,11 +189,27 @@
                     <th>주소: </th>
                     <td th:text="${requestDto.buyerAddress}"></td>
                 </tr>
+                <tr>
+                    <th>남은 마일리지: </th>
+                    <td id="totalMileage" th:text="${totalMileage}"></td>
+                </tr>
 
                 <tr>
-                    <th>결제 금액: </th>
-                    <td th:text="${requestDto.paymentPrice}"></td>
+                    <th> 사용 마일리지: </th>
+                    <td><input type="number" id="useMileage"><button type="button" onclick="keypress()">사용하기</button> </td>
                 </tr>
+
+                <tr>
+                    <th>금액: </th>
+                    <td id="price" th:text="${requestDto.paymentPrice}"></td>
+                </tr>
+                <tr>
+                    <th>총 금액: </th>
+                    <td  id="totalPrice" th:text="${requestDto.paymentPrice}"></td>
+                </tr>
+
+
+
             </table>
         </div>
     </div>

@@ -69,8 +69,10 @@ public class NatureController {
                         .append("</a>")
                         .append("<div class='item-details'>")
                         .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+
                         .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
                         .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+
                         .append("</div>")
                         .append("</div>")
                         .append("</td>")
@@ -109,8 +111,10 @@ public class NatureController {
                         .append("</a>")
                         .append("<div class='item-details'>")
                         .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+
                         .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
                         .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+
                         .append("</div>")
                         .append("</div>")
                         .append("</td>")

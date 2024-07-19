@@ -112,6 +112,7 @@
             });
         }
 
+
         function update() {
             var itemId = $('#itemId').val();
             location.href = '/admin/item/update/' + itemId;
@@ -120,6 +121,7 @@
 
           function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -305,7 +307,7 @@
             <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                   class="badge bg-primary mgb-15">판매중</span>
             <span th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
-                  class="badge bg-primary mgb-15">품절</span>
+                  class="badge bg-primary mgb-15">마감</span>
             <div class="h4" th:text="${item.itemNm}"></div>
             <hr class="my-4">
             <div class="text-right">
@@ -330,8 +332,11 @@
                 <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()">찜♡</button>
                 <button type="button" class="btn btn-primary btn-lg" onclick="order()">예약하기</button>
             </div>
-            <div th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}" class="text-right">
-                <button type="button" class="btn btn-danger btn-lg">품절</button>
+
+            <div th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
+                 class="text-right">
+                <button type="button" class="btn btn-danger btn-lg">마감</button>
+
             </div>
         </div>
     </div>

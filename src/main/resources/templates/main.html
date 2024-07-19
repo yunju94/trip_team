@@ -32,8 +32,8 @@
                 slidesToScroll: 1,
                 autoplay: true,
                 autoplaySpeed: 4000,
-                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> < </button></div>',
-                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> > </button></div>'
+                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> 〈 </button></div>',
+                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> 〉 </button></div>'
             });
 
             // DateRangePicker 초기화
@@ -117,8 +117,6 @@
             var placeSearch = $("#placeSearch").val();
             var startPlace = $("#startPlace").val();
             var datefilter = $("#datefilter").val();
-            console.log(datefilter);
-
 
              location.href=
                 "/admin/items/"+ 'page' + "?placeSearch=" + placeSearch
@@ -127,6 +125,10 @@
          }
 
         });
+
+
+
+
 
 
     </script>
@@ -142,6 +144,7 @@
             margin-left: 0px;
             margin-right: -300px;
             width: 1498px;
+            height: 740px;
             position: relative;
          height: 5000px;
         }
@@ -173,10 +176,13 @@
             top: 90%;
             left: 40px;
             display: flex;
-            z-index: 1000;
         }
 
         .slick-prev {
+         font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
+         z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
             height: 30px;
             width: 30px; /* 버튼의 크기를 지정 */
             margin-left:10px;
@@ -192,6 +198,9 @@
  align-items: center;
  }
 .slick-next {
+ font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
  height: 30px;
  display: flex;
             width: 30px; /* 버튼의 크기를 지정 */
@@ -207,6 +216,7 @@ margin-left:60px;
             align-items: center; }
         .slider img {
             margin-top: 50px;
+             z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
         }
 
     /* ===========================여기까지 슬라이더================================ */
@@ -265,7 +275,7 @@ top:304px;
   cursor: pointer;
    margin-left:30px;
     position: absolute;
-    background-color:       #ffffff;
+    background-color: 		#ffffff;
     width: 300px;
     height:300px;
     box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.1); /* 오른쪽 아래 방향 그림자 추가 */
@@ -285,7 +295,7 @@ text-align: center;
  width: 148.7px;
 position: relative;
     color: #111;
-    background-color:    #cfe2f3;
+    background-color: 	#cfe2f3;
     font-size: 15px;
 list-style-type: none;
 }
@@ -295,7 +305,7 @@ height:40.5px;
  width: 148.7px;
 position: relative;
     color: #111;
-    background-color:    #cfe2f3;
+    background-color: 	#cfe2f3;
     font-size: 15px;
 list-style-type: none;
 }
@@ -331,7 +341,7 @@ padding-bottom: 10px /* 선과 내용 사이 여백 */
 
 
         .form-group > div button {  /* 국내, 해외 글씨창 */
-        color:    #434343;
+        color: 	#434343;
          font-size: 14px;
     width: 298px;
     height:42.6px;
@@ -493,7 +503,7 @@ wight:500px;
                 </div>
                 <!-- ======================여기까지 슬라이더================================ -->
                 <div class="textBox">
-                    <form method="get" role="form" th:action="@{/admin/items/}">
+                    <form th:action="@{/admin/items/}" method="get" role="form">
 
 
                         <p class="ment">
@@ -502,35 +512,25 @@ wight:500px;
                             <strong>어떤 여행을 꿈꾸시나요?</strong></p>
                         <div>
                             <div class="form-group">
-                                <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16"
-                                     width="16" xmlns="http://www.w3.org/2000/svg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                                 </svg>
                                 <!-- 여행지 -->
-                                <input id="placeSearch" name="placeSearch" placeholder="어디로 떠나세요?" type="text">
+                                <input type="text" name="placeSearch" id="placeSearch" placeholder="어디로 떠나세요?">
 
-                                <div class="placeDiv" id="placeDiv" name="placeDiv">
+                                <div class="placeDiv" name="placeDiv" id="placeDiv">
                                     <div class="Box1">
                                         <ul class="a1">
                                             <li class="Domestic"><a class="nav-link px-2 link-secondary"
                                                                     id="Domestic">국내</a></li>
-                                            <div id="DomesticMenu" name="DomesticMenu">
-                                                <button id="placeIncheon" name="placeIncheon" type="button" value="인천">
-                                                    인천
-                                                </button>
-                                                <button id="placeSeoul" name="placeSeoul" type="button" value="서울">서울
-                                                </button>
-                                                <button id="placeDeajeon" name="placeDeajeon" type="button" value="대전">
-                                                    대전
-                                                </button>
-                                                <button id="placeYangyang" name="placeYangyang" type="button"
-                                                        value="양양">
-                                                    양양
-                                                </button>
-                                                <button id="placeBusan" name="placeBusan" type="button" value="부산">부산
-                                                </button>
-                                                <button id="placeJeju" name="placeJeju" type="button" value="제주도">제주도
-                                                </button>
+                                            <div name="DomesticMenu" id="DomesticMenu">
+                                                <button type="button" name="placeIncheon" id="placeIncheon" value="인천">인천</button>
+                                                <button type="button" name="placeSeoul" id="placeSeoul" value="서울">서울</button>
+                                                <button type="button" name="placeDeajeon" id="placeDeajeon" value="대전">대전</button>
+                                                <button type="button" name="placeYangyang" id="placeYangyang" value="양양">양양</button>
+                                                <button type="button" name="placeBusan" id="placeBusan" value="부산">부산</button>
+                                                <button type="button" name="placeJeju" id="placeJeju" value="제주도">제주도</button>
                                             </div>
                                         </ul>
                                     </div>
@@ -539,20 +539,13 @@ wight:500px;
                                         <ul class="a2">
                                             <li class="Overseas"><a class="nav-link px-2 link-secondary"
                                                                     id="Overseas">해외</a></li>
-                                            <div id="OverseasMenu" name="OverseasMenu">
-                                                <button id="placeAme" name="placeAme" type="button" value="미국">미국
-                                                </button>
-                                                <button id="placePhi" name="placePhi" type="button" value="필리핀">필리핀
-                                                </button>
-                                                <button id="placeVie" name="placeVie" type="button" value="베트남">베트남
-                                                </button>
-                                                <button id="placeKot" name="placeKot" type="button" value="코타키나발루">
-                                                    코타키나발루
-                                                </button>
-                                                <button id="placeJap" name="placeJap" type="button" value="일본">일본
-                                                </button>
-                                                <button id="placeHaw" name="placeHaw" type="button" value="하와이">하와이
-                                                </button>
+                                            <div name="OverseasMenu" id="OverseasMenu">
+                                                <button type="button" name="placeAme" id="placeAme" value="미국">미국</button>
+                                                <button type="button" name="placePhi" id="placePhi" value="필리핀">필리핀</button>
+                                                <button type="button" name="placeVie" id="placeVie" value="베트남">베트남</button>
+                                                <button type="button" name="placeKot" id="placeKot" value="코타키나발루">코타키나발루</button>
+                                                <button type="button" name="placeJap" id="placeJap" value="일본">일본</button>
+                                                <button type="button" name="placeHaw" id="placeHaw" value="하와이">하와이</button>
                                             </div>
                                         </ul>
                                     </div>
@@ -652,7 +645,6 @@ wight:500px;
                 </div>
 
             </th:block>
-
 
         </div>
     </div>

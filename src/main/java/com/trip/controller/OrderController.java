@@ -82,15 +82,21 @@ public class OrderController {
             model.addAttribute("errorMessage", "로그인 후 이용하시기 바랍니다.");
             return "member/memberLoginForm";
         }
-        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
         //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
-
         Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
+        Optional<Order> order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());
+        Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
+        ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
         // 이메일을 가지고 service에 가서 개인 정보를 이용해서 order리스트를 받아온다.
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
 
         model.addAttribute("orderlist", orderHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
+
+        model.addAttribute("order", order);
+        model.addAttribute("item", itemFormDto);
+
         model.addAttribute("maxPage", 10);
 
         return "mypage/mypageOrder";
@@ -117,7 +123,7 @@ public class OrderController {
         //오더 아이디를 받는다. 개인정보를 받는다. 오더 아이디로 저장된 오더 정보를 불러온다.
         Optional<Order> order = orderService.orderdetail(orderId);
 
-        List<OrderHistDto> OrderHistDto = orderService.order(principal.getName());
+
         Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
         ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
 
@@ -128,12 +134,14 @@ public class OrderController {
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
 
 
-        model.addAttribute("OrderHistDto", OrderHistDto);
 
+        model.addAttribute("order", order);
         model.addAttribute("item", itemFormDto);
+
 
         return "mypage/orderdetail";
     }
+
 
 
 }

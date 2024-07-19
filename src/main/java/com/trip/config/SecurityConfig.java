@@ -29,13 +29,9 @@ public class SecurityConfig {
         http.authorizeRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error").permitAll()
 
-
-                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**",
-
+                .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/order/**",
                         "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments",
-                        "/map", "/event", "/map","/verification/**").permitAll()
-
-
+                        "/map", "/event").permitAll()
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("questions/delete/").hasRole("ADMIN")
