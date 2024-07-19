@@ -8,7 +8,6 @@ import com.trip.dto.OrderHistDto;
 import com.trip.entity.*;
 import com.trip.service.*;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,6 +76,7 @@ public class MypageController {
         }
         try {
             memberService.updateMember(memberFormDto);
+
             model.addAttribute("errorMessage", "완료되었습니다.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "수정 중 에러가 발생하였습니다.");

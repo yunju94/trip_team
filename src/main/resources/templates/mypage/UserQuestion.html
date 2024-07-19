@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/layout1}">
+<!--사용자 스크립트 추가-->
+
+<!-- Slick Carousel 및 DateRangePicker 관련 CSS 및 JavaScript -->
+
+<link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
 
 <head>
-    <title>1:1문의</title>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
+
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -24,94 +29,237 @@
 
 <th:block layout:fragment="css">
     <style>
-        /* 좌측 사이드 */
-        div {
-    display: block;
-    unicode-bidi: isolate;
-    }
-    hr{
-        width: 100px;
-    }
-    .mypage{
-        float: left;
-        margin-right: 20px;
-    }
-    .orderlist{
-        float: left;
-        width: 500px;
-    }
-    .tit {
-    display: table-cell;
-    vertical-align: middle;
-     }
-    img{
-       width:100px;
-       height:100px;
-    }
 
-      /* 문의 내용 */
-    .write{
-        width: 500px;
-        border: 1px solid #ccc;
-        margin: 0 auto;
+        body {
+             font-family: Arial, sans-serif;
+             background-color: #ffff;
+             margin: 0;
+             padding: 0;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
 
-    }
+         }
 
- /* ------------------------------------*/
+      header {
+              width: 100%;
+              background-color: #ffff;
+
+          }
+   main {
+
+              top: 30.2%; /* 이동 */
+              max-width: 800px;
+              left:23%;
+
+              background:  #ffffff;
+              margin: 2em;
+              padding:28px;
+          }
+.all1{
+position: ; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+ margin-top:-60px;
+}
+          .mp{/* 리스트만 통으로 움직임 */
+           top:-10px;
+         margin-left:-290px;
+           margin-top: 25px;
+          }
+   h3{/* 마이페이지 제목*/
+   margin-left:-256px;
+   }
+
+   .hh4{
+position:absolute ;
+   margin-left:-80px;
+   margin-top: -520px;
+   }
+
+.hrline{
+width:130px;
+ margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+border: none; /* 기본 선 제거 */
+border-top: 2px solid 	#1c4587; /* 원하는 두께와 색상 설정 */
+}
+.hrline2{
+width:130px;
+ margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+border: none; /* 기본 선 제거 */
+border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
+}
+          ul{
+           list-style-type: none;
+          }
+          .tx{
+          text-decoration: none;
+          font-size:15px;
+          color:	#434343;
+          }
+
+
+
+         tr{
+    line-height:50px;
+      letter-spacing: 0px;
+      padding:5px;
+      }
+
+
+.table-container {
+ cursor: pointer;
+  text-align: center;
+        position: relative;
+            padding: 10px;
+              color: #333;
+                  background-color:	#ffffff;
+                  letter-spacing: 2px;
+        font-size: 15px;
+        font-weight: 600;
+         width: 1200px;
+
+         left:-80px;
+         top:-462px;
+    display: flex;
+}
+
+.left-table{
+ cursor: pointer;
+padding:5px;
+margin-top:-10px;
+margin-left:-11px;
+border-bottom:1px solid #d9d9d9;
+border-top: 1px solid black;
+    width:700px;
+    margin-right: 2px; /* 테이블 사이 간격 조정 */
+}
+
+.left-table td{
+padding:5px;
+border-bottom:none;
+border-top:none;
+}
+
+
+
+ /* .right-table {
+   width:600px;
+margin-top:-10px;
+border-bottom:1px solid #d9d9d9;
+border-top: 1px solid black;
+}
+.right-table td{
+ background-color:	#F7F7F7;
+border-bottom:none;
+border-top:none;
+}
+.right-table th{
+ background-color:	#ffffff;
+border-bottom:none;
+} */
+
+
+
+th{
+padding-top:5px;
+border-bottom:1px solid #d9d9d9;
+ background-color: #F7F7F7;
+   line-height:50px;
+
+}
+
+
+
+
+/* ------------------------------------*/
 
 
     </style>
 </th:block>
-
+<body>
 <div layout:fragment="content">
 
-    <div>
-        <div class="mypage">
-            <h3>마이페이지</h3>
-            <div>
-                <ul style="list-style: none">
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
-                    <li ><a href="/orders">예약내역</a></li>
-                    <hr>
-                    <li><a href="/cart">찜</a></li>
-                    <hr>
-                    <li><a href="/mileage">마일리지</a></li>
-                    <hr>
-                    <li><a>쿠폰함</a></li>
-                    <hr>
-                    <li><a href="/userQuestion"><strong>1:1문의</strong></a></li>
-                    <hr>
-                    <li><a href="/qna">자주 찾는 질문</a></li>
-                    <hr>
-                    <li><a>My 여행 후기</a></li>
-                    <hr>
-                    <li><a href="/updateInfo">개인정보 수정</a></li>
-                    <hr style="border: 1px solid rgb(34, 34, 34);">
+
+    <main>
+        <div class="all1">
+            <h3><strong>마이페이지</strong></h3>
+            <div class="mp">
+                <ul>
+                    <hr class="hrline">
+                    <li><a class="tx" href="/orders">예약내역</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/cart">찜</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/mileage">마일리지</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">쿠폰함</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/userQuestion">1:1문의</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/qna">자주 찾는 질문</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">My 여행 후기</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/updateInfo">개인정보 수정</a></li>
+                    <hr class="hrline">
 
                 </ul>
             </div>
         </div>
+
+        <!-----------------------------건들이지 말기-------------------------------->
         <div>
-            <div class="write" th:each="question, questionIndex : ${question}">
-                <div  th:data-id="${question.id}" onclick="view(this.getAttribute('data-id'))">
+            <h4 class="hh4">1:1문의 내역</h4>
+        </div>
 
-                <h2 th:text="${question.title}">제목</h2>
-                <div class="post-info">
-                    <p><strong>내용:</strong></p>
-                    <p th:text="${question.content}">내용</p>
-                </div>
-                <div class="comments">
+        <div>
+            <div class="table-container">
 
-                    <div th:each="comment : ${comments[questionIndex.index]}">
-                        <div class="comment">
-                            <p th:text="'┗'+${comment.content}">댓글 내용</p>
+                <table class="left-table">
+                    <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>내용</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <div class="aaa">
+                        <div th:each="question, questionIndex : ${question}">
+                            <tr onclick="view(this.getAttribute('data-id'))" th:data-id="${question.id}">
+                                <td th:text="${question.title}">제목</td>
+                                <td th:text="${question.content}">내용</td>
+                            </tr>
                         </div>
                     </div>
-                </div>
-                </div>
+                    </tbody>
+
+                </table>
+
+
+                <!--   <table class="right-table">
+                      <thead>
+                      <tr>
+                          <th> 댓글<img th:src="@{/css/images/text2.png}" height="25"></th>
+
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                      <div>
+
+                          <div th:each="question, questionIndex : ${question}">
+                              <tr>
+                                  <td th:each="comment : ${comments[questionIndex.index]}">
+                                      <img th:src="@{/css/images/people.png}" height="10"> <a th:text="${comment.content}">댓글 내용</a>
+                              </tr>
+                          </div>
+                      </div>
+                      </tbody>
+                   </table> -->
             </div>
         </div>
 
-    </div>
+    </main>
 </div>
+</body>
 </html>
