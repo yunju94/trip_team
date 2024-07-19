@@ -6,6 +6,7 @@
 <head>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta charset="UTF-8">
 </head>
 
 <th:block layout:fragment="script">
@@ -55,107 +56,158 @@
 </th:block>
 
 <th:block layout:fragment="css">
-<style>
-    div {
-     display: block;
-     unicode-bidi: isolate;
- }
-     hr{
-         width: 100px;
-     }
-     .mypage{
-         float: left;
-         margin-right: 20px;
-     }
-     .orderlist{
-         float: left;
-         width: 500px;
-     }
-     .tit {
-     display: table-cell;
-     vertical-align: middle;
-      }
-     img{
-        width:100px;
-        height:100px;
+    <style>
+
+        body {
+               font-family: Arial, sans-serif;
+               background-color: #ffff;
+               margin: 0;
+               padding: 0;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+           }
+        header {
+                width: 100%;
+                background-color: #ffff;
+
+            }
+     main {
+             position: fixed; /* 고정 */
+                top: 30.2%; /* 이동 */
+                max-width: 800px;
+                left:23%;
+
+                background:  #ffffff;
+                margin: 2em;
+                padding:28px;
+            }
+.all1{
+position: fixed; /* 마이페이지 제목부터 리스트까지 통으로 움직임 */
+   margin-top:-60px;
+}
+            .mp{/* 리스트만 통으로 움직임 */
+             top:-10px;
+           margin-left:-210px;
+             margin-top: 25px;
+            }
+     h3{/* 마이페이지 제목*/
+     margin-left:-176px;
      }
 
-</style>
+     .hh4{
+     position: fixed; /* 고정 */
+     margin-left:100px;
+     margin-top: -58px;
+     }
+
+
+
+.hrline{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+ border: none; /* 기본 선 제거 */
+ border-top: 2px solid 		#1c4587; /* 원하는 두께와 색상 설정 */
+}
+.hrline2{
+width:130px;
+   margin: 15px 0; /* 가로선의 위아래 여백을 설정 */
+border: none; /* 기본 선 제거 */
+ border-top: 1.5px solid #03619B; /* 원하는 두께와 색상 설정 */
+}
+
+
+            ul{
+             list-style-type: none;
+            }
+            .tx{
+            text-decoration: none;
+            font-size:15px;
+            color:	#434343;
+            }
+
+
+    </style>
 </th:block>
 
 <div layout:fragment="content">
+    <body>
+
+    <main>
+        <div class="all1">
+            <h3><strong>마이페이지</strong></h3>
+            <div class="mp">
+                <ul>
+                    <hr class="hrline">
+                    <li><a class="tx" href="/orders">예약내역</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/cart">찜</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/mileage">마일리지</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">쿠폰함</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/userQuestion">1:1문의</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/qna">자주 찾는 질문</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx">My 여행 후기</a></li>
+                    <hr class="hrline2">
+                    <li><a class="tx" href="/updateInfo">개인정보 수정</a></li>
+                    <hr class="hrline">
+
+                </ul>
+            </div>
+        </div>
+
 
         <div>
-            <div class="mypage">
-                <h3>마이페이지</h3>
-                <div>
-                    <ul style="list-style: none">
-                        <hr style="border: 1px solid rgb(34, 34, 34);">
-                        <li ><a href="/orders"><strong>예약내역</strong></a></li>
-                        <hr>
-                        <li><a href="/cart">찜</a></li>
-                        <hr>
-                        <li><a href="/mileage">마일리지</a></li>
-                        <hr>
-                        <li><a>쿠폰함</a></li>
-                        <hr>
-                        <li><a href="/userQuestion">1:1문의</a></li>
-                        <hr>
-                        <li><a href="/qna">자주 찾는 질문</a></li>
-                        <hr>
-                        <li><a>My 여행 후기</a></li>
-                        <hr>
-                        <li><a href="/updateInfo">개인정보 수정</a></li>
-                        <hr style="border: 1px solid rgb(34, 34, 34);">
+            <h4 class="hh4">예약 내역</h4>
+        </div>
+        <div>
+            <table th:each="order, status : ${orderlist}">
+                <tr>
+                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
+                    <td th:text="${order.orderId}"></td><!--주문번호-->
+                </tr>
+                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                    <td rowspan="3">
+                        <div>
+                            <img class="rounded repImg" th:alt="${orderItem.itemNm}" th:src="${orderItem.imgUrl}">
+                        </div>
+                    </td><!--이미지-->
+                    <td th:text="${orderItem.itemNm}">
+                    </td><!--상품명-->
+                </tr>
+                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                    <td th:text="${orderItem.count}">
 
-                    </ul>
-                </div>
+                    </td><!--인원-->
+                </tr>
+                <tr th:each="orderItem : ${order.orderItemDtoList}">
+                    <td th:text="${orderItem.orderPrice}"></td><!--가격-->
+                </tr>
+                <tr>
+                    <td>
+                        <button onclick="orderCancel(this.value)" th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}"
+                                th:value="${order.orderId}" type="button">주문 취소
+                        </button>
+                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
+                    </td>
+                    <td>
+                        <button th:onclick="|location.href='/order/detail/${order.orderId}'|" th:value="${order.orderId}"
+                                type="button">주문 상세보기
+                        </button>
+                    </td>
 
-            </div>
-            <div class="orderlist">
-                <div>
-                    <h3 class="tit">예약 내역</h3>
-                </div>
-                <div>
-                   <table th:each="order, status : ${orderlist}">
-                                <tr >
-                                    <td th:text="${order.orderDate}"></td><!--주문 시간-->
-                                    <td th:text="${order.orderId}"></td><!--주문번호-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td rowspan="3" >
-                                        <div>
-                                            <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">
-                                        </div>
-                                    </td><!--이미지-->
-                                    <td  th:text="${orderItem.itemNm}">
-                                    </td><!--상품명-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td  th:text="${orderItem.count}">
+                </tr>
 
-                                    </td><!--인원-->
-                                </tr>
-                                <tr th:each="orderItem : ${order.orderItemDtoList}">
-                                    <td th:text="${orderItem.orderPrice}"></td><!--가격-->
-                                </tr>
-                                <tr>
-                                    <td >
-                                        <button th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}" type="button" th:value="${order.orderId}" onclick="orderCancel(this.value)" >주문 취소</button>
-                                        <h3 th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
-                                    </td>
-                                    <td>
-                                        <button type="button" th:value="${order.orderId}" th:onclick="|location.href='/order/detail/${order.orderId}'|">주문 상세보기</button>
-                                    </td>
+            </table>
+        </div>
 
-                                </tr>
 
-                    </table>
-                </div>
-            </div>
-
-      </div>
-
+    </main>
+    </body>
 </div>
 
 </html>

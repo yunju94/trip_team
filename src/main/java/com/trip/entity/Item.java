@@ -3,6 +3,7 @@ package com.trip.entity;
 import com.trip.constant.Category;
 import com.trip.constant.Nature;
 import com.trip.constant.ItemSellStatus;
+import com.trip.constant.Region;
 import com.trip.dto.ItemFormDto;
 import com.trip.exception.OutOfStockException;
 import jakarta.persistence.*;
@@ -52,6 +53,8 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category; // 지역
 
+    @Enumerated(EnumType.STRING)
+    private Region region; // 지역
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -72,6 +75,9 @@ public class Item extends BaseEntity {
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+        this.category= itemFormDto.getCategory();
+        this.nature = itemFormDto.getNature();
+        this.region = itemFormDto.getRegion();
     }
 
     public void removeStock(int stockNumber) {

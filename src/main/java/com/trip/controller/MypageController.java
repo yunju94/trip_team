@@ -146,8 +146,10 @@ public class MypageController {
             commen.add(comments);
 
         }
+        System.out.println(commen);
+        System.out.println(questionsList);
         model.addAttribute("question", questionsList);
         model.addAttribute("comments", commen);
-        return "mypage/userQuestion";//멤버 정보가 관리자인 경우
+        return "mypage/UserQuestion";//멤버 정보가 관리자인 경우
     }
 }

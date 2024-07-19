@@ -110,15 +110,16 @@ public class ItemController {
         model.addAttribute("maxPage",5);
         System.out.println(itemSearchDto.getPlaceSearch());
         if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
-                itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("양양")||
-                itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("제주도")){
+                itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("양양")||
+                itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("제주도")){
             //itemsearchDto에서 국내 여행지일 경우 국내 여행 사이트로 연결
-
             return "nature/domestic";
 //아닐 경우 해외 여행 사이트로 연결
         }else {
             return "nature/overseas";
         }
+
+
 
     }
     @GetMapping(value = "/item/{itemId}")

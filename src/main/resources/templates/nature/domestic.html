@@ -48,18 +48,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let page = 0;
-        let loadingData = false;
-        let loadedItemIds = new Set();
+let loadingData = false;
+let loadedItemIds = new Set();
 
-        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-        function getData(limit) {
-            if (loadingData) {
-                return;
-            }
+function getData(limit) {
+    if (loadingData) {
+        return;
+    }
 
-            loadingData = true;
+    loadingData = true;
 
             $.ajax({
                 type: "POST",
@@ -100,10 +100,10 @@
             });
         });
 
-        $(window).scroll(function() {
-            var currentScroll = $(this).scrollTop();
-            var windowHeight = $(window).height();
-            var documentHeight = $(document).height();
+$(window).scroll(function() {
+    var currentScroll = $(this).scrollTop();
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
 
             if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
                 getData(10);
@@ -114,18 +114,19 @@
 <body>
 <div layout:fragment="content">
     <form th:action="@{/admin/items/delete}" method="post">
-        <table class="image-table">
-            <tbody id="data-list">
-            <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
-            </tbody>
-            <tr sec:authorize="hasRole('ADMIN')" class="delete-button">
+    <table class="image-table">
+        <tbody id="data-list">
+        <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
+        </tbody>
+
+            <!-- 선택한 상품 삭제 버튼 -->
+            <tr sec:authorize="hasRole('ADMIN')">
                 <td colspan="3">
-                    <input type="checkbox" id="select-all" class="select-all"> 전체 선택
                     <button type="submit" class="btn btn-danger">선택한 상품 삭제</button>
                 </td>
             </tr>
-        </table>
-    </form>
+        </form>
+    </table>
 </div>
 </body>
 </html>

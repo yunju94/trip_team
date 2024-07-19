@@ -31,8 +31,9 @@ public class SecurityConfig {
 
 
                 .requestMatchers("/", "/members/**", "/item/**", "/images/**", "/qna/**", "/getAnswer", "/orders/**",
-                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments","/map","/verification/**"
-                ,"/news").permitAll()
+
+                        "/mypage/**","/domestic","/overseas","/questions","/writeForm", "/exchange","/view/**","/comments",
+                        "/map", "/event", "/map","/verification/**").permitAll()
 
 
 
