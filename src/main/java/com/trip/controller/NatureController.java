@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import java.text.NumberFormat;
 import java.util.ArrayList;
-
 import java.util.List;
-
-
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,21 +40,24 @@ public class NatureController {
         model.addAttribute("items", itemList);
         return "nature/overseas";
     }
+
     @PostMapping("/domestic")
     public ResponseEntity<String> getDomesticData(
             @RequestParam int nextPageLimit,
             @RequestParam int limit,
-            @RequestParam(required = false) List<Long> loadedItemIds // 변경된 부분
+            @RequestParam(required = false) List<Long> loadedItemIds
     ) {
         if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>(); // 기본 값 설정
+            loadedItemIds = new ArrayList<>();
         }
 
         List<Item> items = itemService.getItems(nextPageLimit, limit);
         StringBuilder sb = new StringBuilder();
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
 
         for (Item item : items) {
             if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
+                String formattedPrice = numberFormat.format(item.getPrice());
                 sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
                         .append("<td>")
                         .append("<div class='image-card'>")
@@ -68,8 +69,8 @@ public class NatureController {
                         .append("</a>")
                         .append("<div class='item-details'>")
                         .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-                        .append("<div class='item-price'>").append(item.getPrice()).append("원</div>")
-                        .append("<div class='item-category'>출발지 : ").append(item.getCategory().getDisplayName()).append("</div>")
+                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
                         .append("</div>")
                         .append("</div>")
                         .append("</td>")
@@ -79,6 +80,7 @@ public class NatureController {
 
         return ResponseEntity.ok(sb.toString());
     }
+
     @PostMapping("/overseas")
     public ResponseEntity<String> getOverseasData(
             @RequestParam int nextPageLimit,
@@ -86,14 +88,16 @@ public class NatureController {
             @RequestParam(required = false) List<Long> loadedItemIds
     ) {
         if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>(); //
+            loadedItemIds = new ArrayList<>();
         }
 
         List<Item> items = itemService.getItems(nextPageLimit, limit);
         StringBuilder sb = new StringBuilder();
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
 
         for (Item item : items) {
             if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.OVERSEAS) {
+                String formattedPrice = numberFormat.format(item.getPrice());
                 sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
                         .append("<td>")
                         .append("<div class='image-card'>")
@@ -105,8 +109,8 @@ public class NatureController {
                         .append("</a>")
                         .append("<div class='item-details'>")
                         .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-                        .append("<div class='item-price'>").append(item.getPrice()).append("원</div>")
-                        .append("<div class='item-category'>출발지 : ").append(item.getCategory().getDisplayName()).append("</div>")
+                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
                         .append("</div>")
                         .append("</div>")
                         .append("</td>")

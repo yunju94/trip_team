@@ -21,7 +21,7 @@
             padding: 5px;
         }
         .image-card img {
-            width: 300px;
+            width: 200px;
             height: auto;
             margin-right: 20px;
             border-radius: 10px;
@@ -49,54 +49,57 @@ const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('con
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
 function getData(limit) {
-if (loadingData) {
-    return;
-}
-
-loadingData = true;
-
-$.ajax({
-    type: "POST",
-    enctype: 'multipart/form-data',
-    url: "/overseas",
-    headers: {
-        [csrfHeader]: csrfToken
-    },
-    data: {
-        "nextPageLimit": (page + 1) * limit,
-        "limit": limit,
-        "loadedItemIds": Array.from(loadedItemIds) // 추가된 부분
-    },
-    traditional: true, // 배열 전송을 위한 설정
-    success: function(data) {
-        // 데이터를 기존 tbody에 추가
-        $("tbody#data-list").append(data);
-        $(data).find('tr').each(function() {
-            loadedItemIds.add($(this).data('item-id'));
-        });
-        page += 1;
-        loadingData = false;
-    },
-    error: function(xhr, status, error) {
-        console.error("에러: ", xhr.responseText);
-        loadingData = false;
+    if (loadingData) {
+        return;
     }
-});
+
+    loadingData = true;
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/overseas",
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        data: {
+            "nextPageLimit": (page + 1) * limit,
+            "limit": limit,
+            "loadedItemIds": Array.from(loadedItemIds) // 추가된 부분
+        },
+        traditional: true, // 배열 전송을 위한 설정
+        success: function(data) {
+            // 데이터를 기존 tbody에 추가
+            $("tbody#data-list").append(data);
+            $(data).find('tr').each(function() {
+                loadedItemIds.add($(this).data('item-id'));
+            });
+            page += 1;
+            loadingData = false;
+        },
+        error: function(xhr, status, error) {
+            console.error("에러: ", xhr.responseText);
+            loadingData = false;
+        }
+    });
 }
 
 $(document).ready(function() {
-getData(10);
+    getData(10);
 });
 
 $(window).scroll(function() {
-var currentScroll = $(this).scrollTop();
-var windowHeight = $(window).height();
-var documentHeight = $(document).height();
+    var currentScroll = $(this).scrollTop();
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
 
-if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
-    getData(5);
-}
+    if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
+        getData(10);
+    }
 });
+
+
+
 
     </script>
 </head>
@@ -111,6 +114,7 @@ if (currentScroll + windowHeight >= documentHeight - 100 && !loadingData) {
             <!-- 선택한 상품 삭제 버튼 -->
             <tr sec:authorize="hasRole('ADMIN')">
                 <td colspan="3">
+
                     <button type="submit" class="btn btn-danger">선택한 상품 삭제</button>
                 </td>
             </tr>

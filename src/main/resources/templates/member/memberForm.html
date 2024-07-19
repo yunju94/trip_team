@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             $(document).ready(function(){
@@ -47,7 +48,6 @@
                             console.log("5")
                             alert(jqXHR.responseText);
                         }
-
                     }
                 });
             }
@@ -163,160 +163,78 @@
         </script>
     </th:block>
     <style>
-
-        main{
-         position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    width: 500px;
-    padding: 2rem;
-
+        main {
+            position: relative;
+            max-width: 600px;
+            padding: 2rem;
+            margin: 0 auto;
         }
-        .logoline{
-         position: absolute;
-         left:-693px;
-          top: -50px;
-           width: 1919px;
-           height:35px;
-         border-bottom: 0.5px solid #efefef;
-}
-.logo{
- position: absolute;
-  top:-55px;
-left:400px;
-}
-.headerinfo{
- position: absolute;
- top:-30px;
-left:940px;
-}
-
         .form-group {
-
-        display: table;
-    width: 94%;
-    height: 10px;
-     padding-top: 20px ;
-   padding-bottom: 2px ;
-    border-bottom: 1px solid #000;
-            margin-bottom: 20px;
-              margin-left: 37px;
-
+            display: table;
+            width: 100%;
+            height: 30px;
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+            margin-bottom: 20px; /* 입력 필드 사이의 간격 조정 */
         }
         .form-group label {
-      font-size: 15px;
-             width: 20%;
-            line-height: 30px;
-            color: #000;
-            font-weight: bold;
-            display: table-cell; /* label을 테이블 셀로 설정하여 왼쪽 정렬 */
+            display: block; /* 레이블을 블록 요소로 설정하여 줄 바꿈을 강제로 생성 */
+            margin-bottom: 5px; /* 레이블 아래 여백 추가 */
         }
         .form-group input[type="text"],
         .form-group input[type="password"] {
+            display: table;
+            width: 100%;
+            height: 30px;
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
 
-
-         font-size: 15px;
-    line-height: 30px;
-    color: #000;
-    display: block;
-
-    height: 20px;
-    padding: 0 15px 0 5px;
-    box-sizing: border-box;
-    border: 0;
-    outline: 0;
-    background: none;
-
+            width: 100%; /* 입력 필드를 부모 요소의 100% 너비로 설정 */
+            padding: 8px; /* 입력 필드 안쪽 여백 설정 */
+            border: none; /* 입력 필드 주위의 테두리 제거 */
+            box-sizing: border-box; /* 박스 크기 모델을 border-box로 설정하여 패딩과 테두리가 요소의 전체 너비와 높이에 포함되도록 함 */
         }
-       .form-group label{
-        margin-top:2px;
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus {
+            outline: none; /* 포커스 시 브라우저 기본 외곽선 제거 */
+            border-color: #66afe9; /* 포커스 시 하단 줄 색상 변경 */
         }
-
-         .form-group input[type="button"]{
-          position: absolute;
-            background-color:		#efefef;
-            color: #666666;
-            top: 257px;
-             width:120px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-         }
-
-        .btn-primary {
-         position: absolute;
-            background-color:	#3d85c6;
-            color: white;
-            border: none;
-            border-radius:10px;
-            padding: 9px 205px;
-            width:470px;
-            height:50px;
-            text-decoration: none;
+        .aa {
             font-size: 15px;
-            top: 470px;
-          left: 70px;
-            cursor: pointer;
+            line-height: 30px;
+            color: #000;
+            float: left;
+            font-weight: bold;
         }
         .fieldError {
-         position: absolute;
-         margin-left: 37px;
-               font-size: 13px;
-               line-height: 20px;
-               color: #dc941b;
-               margin-top: -17px;
-        }
-        #address{
-
-         margin-left:130px;
-width:200px;
-         margin-top: -5px;
-         margin-bottom: -18px;
-        }
-        #detailAddress{
-          position: absolute;
-         top: 300px;
-
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
         }
     </style>
-    </div>
 </head>
 <body>
+<div layout:fragment="content">
     <main>
-        <div class="logoline">
-        <a class="logo" href="/">
-            <img th:src="@{/css/images/logo.png}" height="80">
-        </a>
-            <p class="headerinfo"> 정보입력 </p>
-        </div>
-
         <form action="/members/new" role="form" method="post" th:object="${memberFormDto}">
-
-             <div class="form-group">
-            <label th:for="name">이름 입력</label>
-            <input type="text" th:field="*{name}" placeholder="이름 입력">
-        </div>
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError"></p>
-
             <div class="form-group">
-
-
-                <label th:for="password">비밀번호</label>
-                <input type="password" th:field="*{password}" placeholder="8~16자 숫자입력">
+                <label th:for="name">이름</label>
+                <input type="text" th:field="*{name}" placeholder="이름을 입력해주세요.">
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError"></p>
             </div>
-            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError"></p>
-
+            <div class="form-group">
+                <label th:for="password">비밀번호</label>
+                <input type="password" th:field="*{password}" placeholder="비밀번호 입력">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError"></p>
+            </div>
             <div class="form-group">
                 <label th:for="address">주소</label>
-
-                <input type="text" id="postcode" th:field="*{postcode}" placeholder="" readonly="readonly">
-                <input type="button" onclick="daumPost()" value="우편번호 찾기">
-                <input type="text" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소 입력">
-                <input type="text" id="address" th:field="*{address}"><br>
+                <input type="text" id="postcode" th:field="*{postcode}" placeholder="우편번호" readonly="readonly">
+                <input type="button" onclick="daumPost()" value="우편번호 찾기"><br>
+                <input type="text" id="address" th:field="*{address}" placeholder="주소"><br>
+                <input type="text" id="detailAddress" th:field="*{detailAddress}" placeholder="상세주소">
+                <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError"></p>
             </div>
-            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="fieldError"></p>
-
             <div class="form-group">
                 <label th:for="email">이메일 주소</label>
                 <input type="text" th:field="*{email}" id="sendmail" class="form-control" placeholder="이메일을 입력해주세요.">
@@ -330,8 +248,7 @@ width:200px;
             </div>
             <div class="form-group">
                 <label th:for="tel">전화번호</label>
-
-                <input type="text" th:field="*{tel}" id="tel" placeholder="010 1234 1234">
+                <input type="text" th:field="*{tel}" id="tel" placeholder="전화번호를 입력해주세요.">
                 <p id="telError" class="fieldError" style="display:none;">전화번호를 입력해주세요.</p> <!-- telError 요소 추가 -->
                 <button type="button" onclick="sendVerificationCode()">인증번호 발송</button>
                 <input type="text" id="verificationCode" placeholder="인증번호 입력">
@@ -339,13 +256,11 @@ width:200px;
                 <p id="verificationMessage"></p>
             </div>
 
-
             <div style="text-align: center">
-                <button type="submit" class="btn btn-primary">가입완료</button>
+                <button type="submit" class="btn btn-primary">회원가입</button>
             </div>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         </form>
-
     </main>
 </div>
 </body>
