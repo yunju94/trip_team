@@ -5,6 +5,7 @@ import com.trip.entity.Questions;
 import com.trip.repository.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class QuestionsService {
 
     private final QuestionsRepository questionsRepository;
+    private final CommentService commentService;
 
-    public QuestionsService(QuestionsRepository questionsRepository) {
+    public QuestionsService(QuestionsRepository questionsRepository, CommentService commentService) {
         this.questionsRepository = questionsRepository;
+        this.commentService = commentService;
     }
 
     // 게시글 저장 메서드
@@ -39,5 +42,10 @@ public class QuestionsService {
 
     public List<Questions> userQuestionMember(String name){
         return  questionsRepository.findByWriter(name);
+    }
+    @Transactional
+    public void deleteQuestionById(Long id) {
+        commentService.deleteCommentsByQuestionId(id);
+        questionsRepository.deleteById(id);
     }
 }

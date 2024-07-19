@@ -38,6 +38,7 @@ public class SecurityConfig {
 
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("questions/delete/").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(formLogin -> formLogin
                 .loginPage("/members/login")

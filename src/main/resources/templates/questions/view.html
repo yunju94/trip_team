@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 보기</title>
+
     <style>
         /* CSS 스타일링 추가 */
         body {
@@ -107,6 +108,10 @@
             <button onclick="window.location.href='/questions'">목록으로</button>
         </form>
     </div>
+    <form th:action="@{/questions/delete}" method="post">
+        <input type="hidden" name="id" th:value="${question.id}" />
+        <button type="submit" class="delete-btn">삭제</button>
+    </form>
 </div>
 
 </body>

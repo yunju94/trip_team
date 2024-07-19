@@ -71,7 +71,7 @@ function getData(limit) {
                 data: {
                     "nextPageLimit": (page + 1) * limit,
                     "limit": limit,
-                    "loadedItemIds": Array.from(loadedItemIds) // 추가된 부분
+                    "loadedItemIds": Array.from(loadedItemIds)
                 },
                 traditional: true, // 배열 전송을 위한 설정
                 success: function(data) {
@@ -114,10 +114,10 @@ $(window).scroll(function() {
 <body>
 <div layout:fragment="content">
     <form th:action="@{/admin/items/delete}" method="post">
-    <table class="image-table">
-        <tbody id="data-list">
-        <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
-        </tbody>
+        <table class="image-table">
+            <tbody id="data-list">
+            <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
+            </tbody>
 
             <!-- 선택한 상품 삭제 버튼 -->
             <tr sec:authorize="hasRole('ADMIN')">
@@ -125,8 +125,8 @@ $(window).scroll(function() {
                     <button type="submit" class="btn btn-danger">선택한 상품 삭제</button>
                 </td>
             </tr>
-        </form>
-    </table>
+        </table>
+
 </div>
 </body>
 </html>
