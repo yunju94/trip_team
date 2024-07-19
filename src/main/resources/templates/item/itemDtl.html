@@ -1,160 +1,311 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
-<!--사용자 스크립트 추가-->
-
 <head>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <th:block layout:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
-              calculateTotalPrice();
+            calculateTotalPrice();
 
-              $("#count").change(function () {
-                    calculateTotalPrice();
-              });
+            $("#count").change(function () {
+                calculateTotalPrice();
+            });
+
+            // Slick Carousel 초기화
+
+            $('.slider').slick({
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                prevArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-prev"> < </button></div>',
+                nextArrow: '<div class="slick-arrows"><button type="button" class="slick-arrow slick-next"> > </button></div>'
+            });
         });
 
+
         function calculateTotalPrice() {
-              var count = $("#count").val();
-              var price = $("#price").val();
-              var totalPrice = price * count;
-              $("#totalPrice").html(totalPrice + '원');
+            var count = $("#count").val();
+            var price = $("#price").val();
+            var totalPrice = price * count;
+            $("#totalPrice").html(totalPrice.toLocaleString() + '원');
         }
 
         function order() {
-              var token = $("meta[name='_csrf']").attr("content");
-              var header = $("meta[name='_csrf_header']").attr("content");
-
-              var url = "/order";
-              var paramData = {
-                    itemId: $("#itemId").val(),
-                    count: $("#count").val()
-              }
-
-              var param = JSON.stringify(paramData);
-
-              $.ajax({
-                    url: url,
-                    type: "POST",
-                    contentType: "application/json",
-                    data: param,
-                    beforeSend: function (xhr) {
-                          // 데이터 전송하기 전에 헤더에 csrf 값을 설정
-                          xhr.setRequestHeader(header, token);
-                    },
-                    dataType: "json",
-                    cache: false,
-                    success: function (result, status) {
-                          alert("결제를 진행합니다..");
-                            location.href = '/payment/' + result;
-                    },
-                    error : function(jqXHR, status, error){
-                          if(jqXHR.status == '401'){
-                                alert('로그인 후 이용해주세요');
-                                location.href='/members/login';
-                          }else{
-                                alert(jqXHR.responseText);
-                          }
-                    }
-              });
-        }
-
-        function addCart(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/cart";
-            //변수 선언과 동시에 값 대입
-
+            var url = "/order";
             var paramData = {
-            //객체 리트럴
-            //    키      값 -> itemid/count의 값
-                itemId : $("#itemId").val(),
-                count : $("#count").val()
+                itemId: $("#itemId").val(),
+                count: $("#count").val()
             };
 
             var param = JSON.stringify(paramData);
-            //son 형식을 문자열로 변경
 
             $.ajax({
-                url : url,
-                type : "POST",
-                contentType : "application/json",
-                data : param,
-                beforeSend : function(xhr){
-                    /*데이터 전송하기 전에 헤더에 csrf값 설정*/
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function (xhr) {
+                    // 데이터 전송하기 전에 헤더에 csrf 값을 설정
                     xhr.setRequestHeader(header, token);
                 },
-                dataType : "json",
-                cache : false,
-                success : function(result, status){
-                    alert("상품을 찜했습니다. 찜내역에 가시면 확인하실 수 있습니다. ");
-                    location.href='/';
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    alert("결제를 진행합니다..");
+                    location.href = '/payment/' + result;
                 },
-                error : function(jqXHR, status, error){
-                    if(jqXHR.status == '401'){
-                        alert('로그인 후 이용해주세요.');
-                        location.href='/members/login';
-                    }else{
+                error: function (jqXHR, status, error) {
+                    if (jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요');
+                        location.href = '/members/login';
+                    } else {
                         alert(jqXHR.responseText);
                     }
                 }
             });
         }
 
-        function update(){
-        var itemId = $('#itemId').val();
-            location.href='/admin/item/' + itemId;
+        function addCart() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/cart";
+            var paramData = {
+                itemId: $("#itemId").val(),
+                count: $("#count").val()
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function (xhr) {
+                    // 데이터 전송하기 전에 헤더에 csrf 값을 설정
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    alert("상품을 찜했습니다. 찜내역에 가시면 확인하실 수 있습니다.");
+                    location.href = '/';
+                },
+                error: function (jqXHR, status, error) {
+                    if (jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요.');
+                        location.href = '/members/login';
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
         }
 
+
+        function update() {
+            var itemId = $('#itemId').val();
+            location.href = '/admin/item/update/' + itemId;
+        }
+
+
+          function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var priceElement = document.getElementById("price");
+            var formattedPriceElement = document.getElementById("formattedPrice");
+
+            var price = parseFloat(priceElement.value.replace(/,/g, ''));
+            if (!isNaN(price)) {
+                formattedPriceElement.textContent = formatNumber(price);
+            }
+        });
 
     </script>
 </th:block>
 <th:block layout:fragment="css">
     <style>
         .mgb-15 {
-              margin-bottom: 15px;
+            margin-bottom: 15px;
         }
 
         .mgt-30 {
-              margin-top: 30px;
+            margin-top: 30px;
         }
 
         .mgt-50 {
-              margin-top: 50px;
+            margin-top: 50px;
         }
 
         .repImgDiv {
-              margin-right: 150px;
-              height: auto;
-              width: 50%;
+            margin-right: 100px;
+            height: auto;
+            width: 50%;
         }
 
         .repImg {
-              width: 100%;
-              height: 400px;
+
+            width: 100%;
+            height: 300px;
         }
 
         .wd50 {
-              height: auto;
-              width: 50%;
+            height: auto;
+            width: 50%;
         }
+
+        .slider {
+            margin-left: -30px;
+            display: block;
+            width: 350px;
+            height: 450px;
+            position: relative;
+
+        }
+
+        .slick-arrows {
+            width: 100px;
+            height: 40px;
+            position: absolute;
+            top: 90%;
+            left: 40px;
+            display: flex;
+            z-index: 1000;
+            margin-bottom: 200px;
+        }
+
+        .slick-prev {
+    font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f053"; /* Font Awesome에서의 이전 화살표 아이콘 코드 */
+    position: absolute;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    margin-left: -60px; /* 왼쪽으로 이동 */
+    margin-top: -210px;
+    z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
+    background-color: #ffffff; /* 배경색 */
+    color: black; /* 버튼 글자색 */
+    border: none;
+    border-radius: 50%; /* 동그란 형태  */
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.slick-next {
+    font-family: "Font Awesome Free 5";
+    font-weight: 900; /* 아이콘 두껍게 설정 */
+    content: "\f054"; /* Font Awesome에서의 다음 화살표 아이콘 코드 */
+    position: absolute;
+    margin-left: 290px;
+    margin-top: -209.5px;
+    z-index: 1; /* 다른 콘텐츠 위에 표시하기 위해 z-index 설정 */
+    background-color: #ffffff; /* 배경색 */
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    color: black;
+    border: none;
+    border-radius: 50%; /* 동그란 형태  */
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.slider img {
+    margin-top: 60px;
+}
+        .document-image {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.document-image img {
+    max-width: 100%;
+    height: auto;
+    border: none; /* 이미지 주변 테두리 제거 */
+}
+
+.important-notes {
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    margin-top: 20px; /* 위쪽 여백 */
+}
+
+.product-info,
+.important-info,
+.travel-info {
+    margin-top: 20px;
+}
+
+.product-info h5,
+.important-info h5,
+.travel-info h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.product-info .point-list,
+.travel-info .included,
+.travel-info .excluded,
+.travel-info .optional {
+    margin-top: 10px;
+}
+
+.product-info hr,
+.important-info hr {
+    margin-top: 20px;
+}
+
+.travel-info h5 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.travel-info ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.travel-info ul li {
+    margin-bottom: 5px;
+}
+
+.travel-info .optional p {
+    margin-top: 10px;
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
     </style>
 </th:block>
 <div layout:fragment="content" style="margin-left: 25%;margin-right: 25%;">
     <input type="hidden" id="itemId" th:value="${item.id}">
 
     <div class="d-flex">
-        <div class="repImgDiv">
-            <img th:src="${item.itemImgDtoList[0].imgUrl}" class="rounded repImg" th:alt="${item.itemNm}">
+        <div class="repImgDiv slider">
+            <div th:each="itemImg : ${item.itemImgDtoList}">
+                <img th:src="${itemImg.imgUrl}" class="rounded repImg" th:alt="${item.itemNm}">
+            </div>
         </div>
         <div class="wd50">
-                  <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
-                        class="badge bg-primary mgb-15">판매중</span>
+            <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
+                  class="badge bg-primary mgb-15">판매중</span>
             <span th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                   class="badge bg-primary mgb-15">마감</span>
             <div class="h4" th:text="${item.itemNm}"></div>
@@ -162,7 +313,7 @@
             <div class="text-right">
                 <div class="h4 text-danger text-left">
                     <input type="hidden" th:value="${item.price}" id="price" name="price">
-                    <span th:text="${item.price}"></span>원
+                    <span th:text="${item.price}" id="formattedPrice"></span>원
                 </div>
                 <div class="input-group w-50">
                     <div class="input-group-prepend">
@@ -178,13 +329,14 @@
                 <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
             </div>
             <div th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}" class="text-right">
-                <button type="button" class="btn btn-light border border-primary btn-lg"
-                        onclick="addCart()">찜♡</button>
-                <button type="button" class="btn btn-primary btn-lg" onclick="order()" >예약하기</button>
+                <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()">찜♡</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="order()">예약하기</button>
             </div>
+
             <div th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                  class="text-right">
                 <button type="button" class="btn btn-danger btn-lg">마감</button>
+
             </div>
         </div>
     </div>
@@ -192,14 +344,98 @@
         <div class="container">
             <p class="lead" th:text="${item.itemDetail}"></p>
             <hr class="m6-4">
+        </div>
+        <div class="important-notes">
+            <h4><strong>여행시 유의사항</strong></h4>
+            <br>
+            <p><strong>여행 중 대형버스 탑승시, 탑승객 전원의 안전벨트 착용이 의무화되었습니다.</strong></p>
+            <p>주말 및 일본연휴 기간에는 현지 교통 혼잡으로 인해 일정이 다소 변경 될 수 있습니다.</p>
+            <p>환전은 전액 엔화로 해주시기 바랍니다. (달러화 사용불가)</p>
+            <p>일본 호텔에는 기본적인 세면도구(비누,샴푸,치약,칫솔 등)가 비치되어 있습니다.</p>
+            <p>대부분의 일본 온천은 남녀탕이 구분되어있으므로 온천욕시 수영복은 필요없습니다. (예외의 경우 일정표에 별도표기)</p>
+            <p>일본의 전압은 110V이며, 전자제품 사용시 110V용 플러그가 필요합니다.</p>
+            <p>2019년 4월 22일부터 해외에서의 육류 제품의 불법 반입에 대한 대응을 엄격화하며, 적발시 3년 이하의 징역 또는 300만엔(한화 약 3,300만원) 이하의 벌금이 부과될 수 있으니 유의바랍니다.</p>
+        </div>
 
+        <div class="document-image">
+            <div><img th:src="@{/css/images/deInfo.png}"></div>
+        </div>
+
+        <div class="product-info">
+            <h5>더조은투어와 함께, 즐거운 안심여행 "SAFETY & JOY"</h5>
+            <ul class="point-list">
+                <li>응급/위기상황 발생 시 체계적인 현장 지원</li>
+                <li>안전/위생지침 준수업체 이용(차량/호텔/선박/식당 등)</li>
+                <li>안전교육 이수 인솔자 안심 동행</li>
+                <li>국가별 방역지침 준수</li>
+            </ul>
+            <hr>
+            <h5>해외 긴급 의료지원 서비스 "어시스트카드"</h5>
+            <ul class="point-list">
+                <li>365일 24시간 한국 알람 센터 운영</li>
+                <li>여행 중 긴급 도움 필요시 의료지원 / 긴급상황지원</li>
+            </ul>
+            <hr>
+            <h5>1억원 여행자보험</h5>
+            <p>해외치료비 최대 보장 한도 [상해/질병] 500만원</p>
+            <p>[휴대품 도난/파손] 최대 보장 한도 50만원 (1품목, 1조, 1쌍, 20만원 보상)</p>
+            <p><span class="highlight">* 국가/연령에 따라 보장내용이 상이할 수 있습니다.</span></p>
+        </div>
+
+        <div class="important-info">
+            <h5>예약 취소 안내</h5>
+            <p>예약취소는 마이페이지 및 숙박 고객센터를 통해 가능합니다. 불가피한 사정으로 예약하신 숙박업체에 직접 취소를 하신 경우에는 해당 숙박업체의 예약변경 및 취소에 대한 확인 자료를 당사로 제출해주셔야 합니다.</p>
+            <p>입실일 당일은 취소수수료가 100% 발생하여 취소가 불가능합니다. 당일 노쇼(No Show)란 예약된 숙소를 이용하지 않는 경우로 당일 취소분과 동일하게 적용해 숙박요금이 100% 정상 청구됩니다.</p>
+            <p>취소수수료가 100%인 경우, 마이페이지 상에서 취소가 불가능하오니 숙박 고객센터로 문의하시기 바랍니다.</p>
+            <p>취소수수료 규정은 예약일(결제일)과 관계없이 입실일 기준으로 산정됩니다. 취소수수료는 할인(쿠폰) 적용 전 객실 판매금액을 기준으로 책정됩니다.</p>
+            <hr>
+            <h5>기타 유의사항</h5>
+            <p>상품별, 숙소별 별도 취소 규정이 적용되니 예약진행 시 이용동의란의 취소가능일을 반드시 확인해 주시기 바랍니다.</p>
+            <p>실시간 예약의 특성상 동일한 객실에 중복 예약이 발생할 수 있으며, 이 경우 먼저 결제완료된 예약 건에 우선권이 있으므로 이후 중복 예약 건은 취소될 수 있습니다.</p>
+            <p>성수기 요금의 확정 전, 또는 잘못 등록된 요금이 확인될 경우 고객센터를 통한 안내 후, 예약 취소가 진행될 수 있습니다.</p>
+            <p>현장에서 발생된 숙박업체과의 분쟁으로 인한 취소/환불 요청시 당사는 중개플랫폼사로 취소 및 환불처리에 관여하지 않습니다.</p>
+            <p>미성년자의 숙박업소 출입은 가능하나 청소년보호법 제30조 제8호에 의거 이성혼숙은 제한되며, 제한으로 인한 환불은 숙소별 취소규정에 따라 적용됩니다.</p>
+            <p>당사는 예약 대행사로 예약상의 문제 이외의 상품 자체의 하자로 인한 문제는 해당 숙박업체에 귀속됨을 알려드립니다.</p>
+        </div>
+
+        <div class="travel-info">
+            <h4>포함/불포함/선택경비 정보</h4>
+
+            <div class="included">
+                <h5>포함내역</h5>
+                <ul>
+                    <li><strong>[교통]</strong> 왕복항공권, 전용 차량비 : 자유일정 시 불포함</li>
+                    <li><strong>[제세금]</strong> 국내공항세, 현지공항세, 관광진흥개발기금, 전쟁보험료, 유류할증료</li>
+                    <li><strong>[숙박]</strong> 숙박비</li>
+                    <li><strong>[식사]</strong> 식사비 : 자유일정 시 불포함 (2일차 석식, 3일차 중식)</li>
+                    <li><strong>[관광]</strong> 관광지 입장료 : 자유일정 시 불포함</li>
+                    <li><strong>[여행자보험]</strong> 1억원 여행자보험</li>
+                    <li><strong>[인솔자]</strong> 인솔자 경비(현지 기타경비외)</li>
+                </ul>
+            </div>
+
+            <div class="excluded">
+                <h5>불포함내역</h5>
+                <ul>
+                    <li><strong>[가이드/기사]</strong> 가이드/기사 경비 : 인당 JPY 3,000 (전일정 2박3일시, 1인당 ￥3,000의 가이드/기사 경비를 현지에서 지불하셔야 합니다. (성인/아동 동일))</li>
+                    <li><strong>개인 여행경비</strong> (물값, 자유시간시 개인비용 등)</li>
+                    <li><strong>각종 매너팁</strong> (테이블팁, 객실팁, 포터비, 마사지팁 등) - 매너팁은 소비자의 자율적 선택으로 지불여부에 따른 불이익은 없습니다.</li>
+                </ul>
+            </div>
+
+            <div class="optional">
+                <h5>선택경비</h5>
+                <ul>
+                    <li><strong>[교통]</strong> 항공리턴변경(불가)</li>
+                    <li><strong>[숙박]</strong> 객실 1인 사용료 : 150,000원</li>
+                </ul>
+                <p>선택관광/기항지관광/현지투어에 관한 상세 내역은 패키지 상품상세를 참고바랍니다.</p>
+            </div>
         </div>
     </div>
-    <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
-        <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15"
-             width="800">
+    <div th:if="${member.Role == T(com.trip.constant.Role).ADMIN}">
+        <button type="button" onclick="update()">수정하기</button>
     </div>
-    <div th:if="${member.Role == T(com.trip.constant.Role).ADMIN}"><button type="button" onclick="update()">수정하기</button> </div>
 </div>
-
+</div>
 </html>
