@@ -33,7 +33,6 @@
 
 <div layout:fragment="content">
     <div>
-
         <div class="imgdiv" th:if="${event != null and not #strings.isEmpty(event.content)}">
             <img th:src="${event.content}">
             <img th:src="${event.content1}">
@@ -47,10 +46,7 @@
                 <img th:src="${eventImg.imgUrl}" >
             </div>
         </div>
-
-
     </div>
-
     <div th:if="${member.Role == T(com.trip.constant.Role).ADMIN}">
         <button type="button" th:value="${event.id}" onclick="update(this.value)"> 수정하기</button>
         <button type="button" th:value="${event.id}" onclick="deleted(this.value)"> 삭제하기</button>

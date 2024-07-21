@@ -42,19 +42,15 @@ public class NatureController {
     }
 
     @PostMapping("/domestic")
-    public ResponseEntity<String> getDomesticData(
-            @RequestParam int nextPageLimit,
-            @RequestParam int limit,
-            @RequestParam(required = false) List<Long> loadedItemIds
-    ) {
+    public ResponseEntity<String> getDomesticData( @RequestParam int nextPageLimit,
+                                                 @RequestParam int limit,
+                                                 @RequestParam(required = false) List<Long> loadedItemIds) {
         if (loadedItemIds == null) {
             loadedItemIds = new ArrayList<>();
         }
-
         List<Item> items = itemService.getItems(nextPageLimit, limit);
         StringBuilder sb = new StringBuilder();
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
         for (Item item : items) {
             if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
                 String formattedPrice = numberFormat.format(item.getPrice());
@@ -69,17 +65,14 @@ public class NatureController {
                         .append("</a>")
                         .append("<div class='item-details'>")
                         .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-
                         .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
                         .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
-
                         .append("</div>")
                         .append("</div>")
                         .append("</td>")
                         .append("</tr>");
             }
         }
-
         return ResponseEntity.ok(sb.toString());
     }
 

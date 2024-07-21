@@ -76,18 +76,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         if (Date.length() == 0 ){
             return null;
         }
-
         String startDate = Date.substring(0, 10);//07/15/2024
         String[] str = startDate.split("/");
         String Start =  str[2]+"-"+ str[0]+"-"+ str[1]; //2024-07-15
-
-
         String endDate = Date.substring(13, 23); //07/18/2024
-
         str = endDate.split("/");
         String End = str[2]+"-" + str[0]+"-"+ str[1]; //2024-07-18
-
-
         return QItem.item.startDate.eq(LocalDate.parse(Start));
 
     }

@@ -25,14 +25,11 @@
 
                   if (!memberId) {
                         memberId = 0;
-
                     }
-
                   // 새 창을 열어서 Popup.asp 페이지로 요청 보냄
                   var url = "/Popup.asp?memberId=" + encodeURIComponent(memberId) + "&memberName=" + encodeURIComponent(memberName);
               window.open(url, "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
               }
-
               function sendMileage(){
               var memberId = document.getElementById("Id").value;
               var content = document.getElementById("content").value;
