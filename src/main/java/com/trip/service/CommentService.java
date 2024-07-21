@@ -14,7 +14,6 @@ import java.util.List;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
-
     @Autowired
     private QuestionsRepository questionsRepository;
 

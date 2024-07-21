@@ -73,19 +73,14 @@ public class MypageController {
     public  String updateInformationPost(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "에러가 발생했습니다.");
-
         }
         try {
             memberService.updateMember(memberFormDto);
             model.addAttribute("errorMessage", "완료되었습니다.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "수정 중 에러가 발생하였습니다.");
-
-
         }
-
         return "mypage/updateInfo";
-
     }
 
 
@@ -98,7 +93,6 @@ public class MypageController {
            List<Mileage> mileage =mileageService.membertoMileage(member.getId());
             model.addAttribute("member", member);
            model.addAttribute("mileage", mileage);
-           model.addAttribute("member", member);
             return "mypage/userMileage";
         }
         return "mypage/AdminMileage";//멤버 정보가 관리자인 경우
@@ -109,7 +103,6 @@ public class MypageController {
                         Model model) {
 
         List<Member> member = memberService.findMemberSearch(memberId, memberName);
-
         model.addAttribute("memberlist", member);
 
         // 여기서 필요한 로직을 추가하여 모델에 데이터를 담아서 View로 전달할 수 있습니다.
@@ -162,8 +155,6 @@ public class MypageController {
             commen.add(comments);
 
         }
-        System.out.println(commen);
-        System.out.println(questionsList);
         model.addAttribute("question", questionsList);
         model.addAttribute("comments", commen);
         return "mypage/UserQuestion";//멤버 정보가 관리자인 경우

@@ -44,21 +44,15 @@ function mileageMoneyChange() {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         var orderUid = [[${requestDto.orderUid}]]; // 서버에서 전달받은 주문 번호
+
         var totalPrice = parseInt($('#totalPrice').text()); // #totalPrice 요소의 텍스트를 가져와서 총 금액으로 설정
         var useMileage = parseInt($("#useMileage").val()); // #useMileage 입력 필드의 값을 가져와서 사용할 마일리지로 설정
-
-        console.log(orderUid);
-        console.log(totalPrice);
-        console.log(useMileage);
-
         var url = '/payment/mileage/' + orderUid; // 마일리지 적용을 위한 URL 설정
         var paramData = {
             orderUid: orderUid,
             totalPrice: totalPrice,
             useMileage: useMileage
         };
-
-        console.log(paramData)
 
         $.ajax({
             url: url,

@@ -36,9 +36,7 @@
            var token =$("meta[name='_csrf']").attr("content");
            var header =$("meta[name='_csrf_header']").attr("content");
 
-
            var url = "/cart/"+ cartItemId + "/delete";
-
 
            $.ajax({
                url : url,
@@ -74,14 +72,11 @@
               var cartId= $("#cartId").text()
               var count = $("#cartCount").text()
 
-
               var url = "/cart/" + cartId + "/order";
               var paramData = {
                     cartId: cartId,
                     count: count
               }
-
-
               var param = JSON.stringify(paramData);
 
               $.ajax({
