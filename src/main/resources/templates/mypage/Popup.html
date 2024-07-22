@@ -21,27 +21,18 @@
                     checkboxes[i].checked = checkall.checked;
                 }
             }
-
             function setParentText() {
                 opener.document.getElementById("memberId").value = document.getElementById("ChId").value;
                 opener.document.getElementById("Id").value = document.getElementById("ChId").value;
-
                 var token = [[${_csrf.token}]];
                 var header = [[${_csrf.headerName}]];
-
                 var memberId = document.getElementById("ChId").value;
-
-
                 var url = "/mileage/" + memberId + "/search";
 
                  var paramData = {
                     memberId: memberId
                 }
-
-
               var param = JSON.stringify(paramData);
-
-
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -50,7 +41,6 @@
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader(header, token);
                     },
-
                     success: function(result, status) {
                         opener.document.getElementById("memberName").value = result;
                         console.log(result);

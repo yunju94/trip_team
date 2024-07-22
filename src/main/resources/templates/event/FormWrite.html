@@ -9,26 +9,52 @@
 
         });
 
+        function BoxDelete(id) {
+    // id에 해당하는 요소를 삭제하는 로직을 구현합니다.
+    var inputElement = document.getElementById(id);
+            if (inputElement) {
+                inputElement.value = ""; // 입력 필드의 값을 비웁니다
+            } else {
+                console.log("해당 id를 가진 입력 필드가 존재하지 않습니다: " + inputId);
+            }
+}
+
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
+        .div>div{
+        display: flex;
+        align-items: center;
+        }
 
     </style>
 </th:block>
 
 <div layout:fragment="content">
     <div>
-        <h3>패키지 등록</h3>
+        <h3>공지사항 등록</h3>
         <form role="form" class="container" method="post" enctype="multipart/form-data" th:object="${EventFormDto}">
             <input type="hidden" th:field="*{id}">
         <p>링크</p>
-            <div>
-                <input type="text" th:field="${EventFormDto.content}" class="imageFile form-control" >
-                <input type="text" th:field="${EventFormDto.content1}" class="imageFile form-control" >
-                <input type="text" th:field="${EventFormDto.content2}" class="imageFile form-control" >
-                <input type="text" th:field="${EventFormDto.content3}" class="imageFile form-control" >
+            <div  class="div">
+                <div>
+                    <input type="text" th:field="${EventFormDto.content}" id="content" class="imageFile form-control">
+                    <button type="button" style="float:left;" onclick="BoxDelete('content')">X</button>
+                </div>
+                <div>
+                    <input type="text" th:field="${EventFormDto.content1}" id="content1" class="imageFile form-control">
+                    <button type="button" style="float:left;" onclick="BoxDelete('content1')">X</button>
+                </div>
+                <div >
+                    <input type="text" th:field="${EventFormDto.content2}" id="content2" class="imageFile form-control">
+                    <button type="button" style="float:left;" onclick="BoxDelete('content2')">X</button>
+                </div>
+                <div >
+                    <input type="text" th:field="${EventFormDto.content3}" id="content3" class="imageFile form-control">
+                    <button type="button" style="float:left;" onclick="BoxDelete('content3')">X</button>
+                </div>
             </div>
 
 
@@ -37,7 +63,8 @@
                 <div class="row" th:each="num: ${#numbers.sequence(1,5)}">
                     <div class="input-group mb3">
                         <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>
-                        <input type="file" class="imageFile form-control" name="eventImgFile">
+                        <input type="file" class="imageFile form-control" id="Box + ${num}" name="eventImgFile">
+                        <button type="button" style="float:left;" onclick="BoxDelete('Box + ${num}')">X</button>
                     </div>
                 </div>
             </div>
@@ -48,8 +75,9 @@
                     <div class="input-group mb3">
                         <label class="image input-group-text" th:text="${not #strings.isEmpty(eventImgDto.oriImgName)} ?
                                 ${eventImgDto.oriImgName} : '상품이미지 ' + ${status.index + 1}"></label>
-                        <input type="file" class="imageFile form-control" name="eventImgFile">
+                        <input type="file" class="imageFile form-control"  id="X + ${num}" name="eventImgFile">
                         <input type="hidden" name="eventImgIds" th:value="${eventImgDto.id}">
+                        <button type="button" style="float:left;" onclick="BoxDelete('X + ${num}')">X</button>
                     </div>
                 </div>
             </div>

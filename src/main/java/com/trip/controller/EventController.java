@@ -45,7 +45,6 @@ public class EventController {
             return "event/FormWrite";
         }
         try {
-            System.out.println(eventFormDto);
             eventService.saveEventTem(eventFormDto, eventImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage",
@@ -92,11 +91,8 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             return "event/FormWrite";
         }
-
         try {
-            System.out.println("211212212121121");
             eventService.updateItem(eventFormDto, eventImgFile);
-            System.out.println("23233323232323233");
         } catch (Exception e){
             model.addAttribute("errorMessage","상품 수정 중 에러가 발생하였습니다.");
             return "event/FormWrite";
@@ -107,9 +103,7 @@ public class EventController {
 
     @GetMapping(value ="/event/delete/{id}")
     public  String eventIddelete(@PathVariable("id") Long eventId){
-
         eventService.getEventDelete(eventId);
-        System.out.println("삭제 완료!");
         return "event/EventMain";
     }
 
