@@ -50,10 +50,22 @@
         .comment {
             border-top: 1px solid #ddd;
             padding: 10px 0;
+            position: relative;
         }
 
         .comment p {
             margin: 5px 0;
+        }
+
+        .comment .delete-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         .comment-form {
@@ -76,6 +88,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .comment-form input[type="submit"]:hover {
             background-color: #0056b3;
         }
@@ -95,6 +108,11 @@
             <div class="comment">
                 <p><strong th:text="${comment.writer}">작성자</strong></p>
                 <p th:text="${comment.content}">댓글 내용</p>
+                <form th:action="@{/comments/delete}" method="post" style="display: inline;">
+                    <input type="hidden" name="commentId" th:value="${comment.id}" />
+                    <input type="hidden" name="questionId" th:value="${question.id}" />
+                    <button type="submit" class="delete-btn">x</button>
+                </form>
             </div>
         </div>
     </div>
@@ -105,7 +123,7 @@
             <textarea name="content" rows="5" placeholder="댓글 내용을 입력하세요" required></textarea>
             <input type="text" name="writer" th:value="${commentDto.writer}" readonly required />
             <input type="submit" value="댓글 작성" />
-            <button onclick="window.location.href='/questions'">목록으로</button>
+            <button type="button" onclick="window.location.href='/questions'">목록으로</button>
         </form>
     </div>
     <form th:action="@{/questions/delete}" method="post">

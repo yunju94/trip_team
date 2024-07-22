@@ -18,5 +18,9 @@ public class CommentController {
         commentService.save(commentDto);
         return "redirect:/view?id=" + commentDto.getQuestionId();
     }
-
+    @PostMapping("/comments/delete")
+    public String deleteComment(@RequestParam Long commentId, @RequestParam Long questionId , CommentDto commentDto) {
+        commentService.deleteCommentById(commentId);
+        return "redirect:/view?id=" + commentDto.getQuestionId(); // 게시글 상세보기 페이지로 리다이렉트
+    }
 }
