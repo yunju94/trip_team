@@ -271,17 +271,16 @@
 
           // 7일 전 날짜 계산
           var minusWeek = new Date(now);
-          minusWeek.setDate(now.getDate() -6); //2일 전으로 변경
-
+          minusWeek.setDate(now.getDate() -6);
+          //6일 전(일주일)으로 변경
           // 날짜 배열 초기화
           var xValues = [];
-
-          // 3일 간의 날짜 배열 생성
+          // 7일 간의 날짜 배열 생성
           for (var date = new Date(minusWeek); date <= now; date.setDate(date.getDate() + 1)) {
-              var formattedDate = date.toISOString().slice(0,10); // "YYYY-MM-DD" 형식으로 포맷팅
-              xValues.push(formattedDate); // 포맷팅된 날짜를 배열에 추가
+              var formattedDate = date.toISOString().slice(0,10); // "YYYY-MM-DD" 형식
+              xValues.push(formattedDate); //배열에 추가
           }
-          console.log(now)
+
 
           // 서버에서 데이터를 받아오는 반복문
             var yValues1_1=  [ [[${yValues1}]] ];

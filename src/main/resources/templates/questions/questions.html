@@ -5,7 +5,6 @@
 
 <head>
     <meta charset="UTF-8">
-
 </head>
 <th:block layout:fragment="css">
 
@@ -79,10 +78,10 @@
                 text-align: center;
             position: relative;
                 padding: 10px;
-              border-top: 1px solid 		#696969;
-              border-bottom: 1px solid 		#d9d9d9;
+              border-top: 1px solid       #696969;
+              border-bottom: 1px solid       #d9d9d9;
                   color: #333;
-                      background-color:	#f7f7f7;
+                      background-color:   #f7f7f7;
                       letter-spacing: 2px;
             font-size: 15px;
             font-weight: 600;
@@ -97,10 +96,10 @@
             letter-spacing: 0px;
             }
             th{
-             border-bottom: 1px solid 		#d9d9d9;
+             border-bottom: 1px solid       #d9d9d9;
             }
             td{
-     background-color: 	#ffffff;
+     background-color:    #ffffff;
             }
 
           .cc{
@@ -182,25 +181,20 @@ margin-left:30px;
 
     </style>
 
-
-        .pagination .disabled a {
-            color: #d9d9d9;
-            border-color: #d9d9d9;
-        }
-    </style>
-</head>
+</th:block>
 
 <body>
-<input type="hidden" id="csrf-token" th:value="${_csrf.token}"/>
 <div layout:fragment="content">
+
     <h4>문의 내역</h4>
+
     <aside class="sidebar">
         <button onclick="window.location.href='/qna'">자주찾는질문</button>
         <button onclick="window.location.href='/questions'">1:1문의</button>
     </aside>
 
-    <main>
 
+    <main>
         <div>
             <table>
                 <thead>
@@ -214,7 +208,6 @@ margin-left:30px;
 
                 <tbody>
                 <div class="cc">
-
                     <tr th:each="question : ${questionsList}">
                         <td th:text="${question.id}">번호</td>
                         <td>
@@ -222,7 +215,6 @@ margin-left:30px;
                         </td>
                         <td th:text="${question.writer}">작성자</td>
                     </tr>
-
 
                 </div>
                 </tbody>
@@ -237,31 +229,30 @@ margin-left:30px;
 
 
     <div class="pagelist">
+        <div th:if="${totalPages > 1}" style="text-align: center;">
+            <ul class="pagination">
 
-    <div th:if="${totalPages > 1}" style="text-align: center;">
-        <ul class="pagination">
+                <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                    <a th:href="@{/questions(page=0)}">처음</a>
+                </li>
 
-            <li th:class="${currentPage == 0} ? 'disabled' : ''">
-                <a th:href="@{/questions(page=0)}">처음</a>
-            </li>
+                <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                    <a class="no-underline" th:href="@{/questions(page=${currentPage - 1})}">이전</a>
+                </li>
 
-            <li th:class="${currentPage == 0} ? 'disabled' : ''">
-                <a class="no-underline" th:href="@{/questions(page=${currentPage - 1})}">이전</a>
-            </li>
-
-            <li th:each="pageIdx : ${#numbers.sequence(0, totalPages - 1)}"
-                th:class="${currentPage == pageIdx} ? 'active' : ''">
-                <img height="20" th:src="@{/css/images/heart.png}">
-                <a th:href="@{/questions(page=${pageIdx})}" th:text="${pageIdx + 1}"></a>
-            </li>
-            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                <a th:href="@{/questions(page=${currentPage + 1})}">다음</a>
-            </li>
-            <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                <a th:href="@{/questions(page=${totalPages - 1})}">마지막</a>
-            </li>
-        </ul>
-    </div>
+                <li th:each="pageIdx : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:class="${currentPage == pageIdx} ? 'active' : ''">
+                    <img height="20" th:src="@{/css/images/heart.png}">
+                    <a th:href="@{/questions(page=${pageIdx})}" th:text="${pageIdx + 1}"></a>
+                </li>
+                <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                    <a th:href="@{/questions(page=${currentPage + 1})}">다음</a>
+                </li>
+                <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                    <a th:href="@{/questions(page=${totalPages - 1})}">마지막</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>
