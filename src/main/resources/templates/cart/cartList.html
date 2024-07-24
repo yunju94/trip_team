@@ -94,7 +94,7 @@
                     success: function (result, status) {
                            console.log("4")
                           alert("결제를 진행합니다..");
-                            location.href = '/payment/' + result;
+                            location.href = '/payment/' + result.message;
                     },
                     error : function(jqXHR, status, error){
                         console.log("5")

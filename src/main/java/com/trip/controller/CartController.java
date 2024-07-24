@@ -62,15 +62,18 @@ public class CartController {
         }
         String email = principal.getName(); //로그인된 이메일을 변수 이메일에 대입
         Long cartItemId; //변수 선언
+        String jsonResponse ="";
         try {
             cartItemId = cartService.addCart(cartItemDto, email); // cartService로 이동
+
+            jsonResponse = "{\"message\": \"" + cartItemId + "\"}";
 
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 
         }
-        return  new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+        return  new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 
 
@@ -81,7 +84,8 @@ public class CartController {
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
         cartService.deleteCartItem(cartItemId);
-        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+        String jsonResponse = "{\"message\": \"" + cartItemId + "\"}";
+        return  new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/cart/{cartId}/order")
@@ -95,13 +99,15 @@ public class CartController {
         CartOrderDto cartorderDto = new CartOrderDto();
             cartorderDto.setCartItemId(cartItemId);
         Long orderId;
+        String jsonResponse ="";
         try{
             orderId = cartService.orderCartItem(cartorderDto, principal.getName());
+            jsonResponse = "{\"message\": \"" + orderId + "\"}";
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        return  new ResponseEntity<Long>(orderId, HttpStatus.OK);
+        return  new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 
 

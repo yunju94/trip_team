@@ -63,15 +63,22 @@ public class OrderController {
         //로그인 정보 -> sprinf security
         //principal.gerName() (현재 로그인된 정보)
         String email = principal.getName();
+        String jsonResponse="";
         Long orderId;
             try{
-                orderId = orderService.order(orderDto, email);
+                 orderId = orderService.order(orderDto, email);
+
+                // JSON 형식의 문자열을 생성
+                jsonResponse = "{\"message\": \"" + orderId + "\"}";
 
         }catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }
-        return  new ResponseEntity<Long>(orderId, HttpStatus.OK);
+
+
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+
     }
 
 

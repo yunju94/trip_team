@@ -56,9 +56,11 @@ public class CartService {
     public boolean validateCartItem(Long cartItemId, String email){
 
         Member curMember = memberRepository.findByEmail(email);
+        System.out.println("asallasdjlksadjls");
         //이메일로 멤버 객체 추출
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityExistsException::new);
+        System.out.println("1111111111111111111");
         //카트 아이템 아이디로 카트 아이템 객체(엔티티) 추출
         Member savedMember = cartItem.getCart().getMember();
 

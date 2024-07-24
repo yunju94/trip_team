@@ -61,7 +61,7 @@
                 cache: false,
                 success: function (result, status) {
                     alert("결제를 진행합니다..");
-                    location.href = '/payment/' + result;
+                    location.href = '/payment/' + result.message;
                 },
                 error: function (jqXHR, status, error) {
                     if (jqXHR.status == '401') {
