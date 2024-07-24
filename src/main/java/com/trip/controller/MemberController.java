@@ -51,7 +51,7 @@ public class MemberController {
     @PostMapping(value = "/new")
     public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult,
                              Model model) {
-        System.out.println("1");
+
         // @Valid 붙은 객체를 검사해서 결과에 에러가 있으면 실행
         if(bindingResult.hasErrors()){
             System.out.println(bindingResult);

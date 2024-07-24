@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Order extends BaseEntity{//예약서
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
     private  Long id;
 

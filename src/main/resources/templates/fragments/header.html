@@ -239,7 +239,9 @@
              <li><a href="#" class="nav-link px-2 link-secondary">공지사항 작성</a></li>
          </ul>
 
-
+        <ul class="nav10">
+            <li><p  sec:authorize = "isAuthenticated()" th:text="${#authentication.name}" class="nav8"></p></li>
+        </ul>
 
 
 
