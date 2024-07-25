@@ -11,6 +11,55 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             calculateTotalPrice();
+            ItemCountPlus();
+
+            function ItemCountPlus(){
+                var Itemcount = $("#itemCount").val();
+                var itemId = $("#itemId").val();
+
+                console.log(Itemcount)
+
+                 var token = $("meta[name='_csrf']").attr("content");
+                 var header = $("meta[name='_csrf_header']").attr("content");
+
+                 var url = "/item/count/"+ Itemcount+"/"+itemId;
+            var paramData = {
+                "Itemcount": $("#itemCount").val(),
+                "itemId":$("#itemId").val(),
+            };
+                var param = JSON.stringify(paramData);
+
+                $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function (xhr) {
+                    // 데이터 전송하기 전에 헤더에 csrf 값을 설정
+                    xhr.setRequestHeader(header, token);
+
+                },
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    console.log(result.count)
+
+                },
+                error: function (jqXHR, status, error) {
+                    if (jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요');
+                        location.href = '/members/login';
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+
+
+
+
+            }
+
 
             $("#count").change(function () {
                 calculateTotalPrice();
@@ -296,6 +345,7 @@
 </th:block>
 <div layout:fragment="content" style="margin-left: 25%;margin-right: 25%;">
     <input type="hidden" id="itemId" th:value="${item.id}">
+    <input type="hidden" id="itemCount" th:value="${item.count}">
 
     <div class="d-flex">
         <div class="repImgDiv slider">
@@ -338,6 +388,7 @@
                 <button type="button" class="btn btn-danger btn-lg">마감</button>
 
             </div>
+
         </div>
     </div>
     <div class="mgt-30">

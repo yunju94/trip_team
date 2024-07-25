@@ -80,6 +80,8 @@ function getData(limit) {
         return;
     }
 
+
+
     loadingData = true;
 
             $.ajax({
@@ -90,6 +92,7 @@ function getData(limit) {
                     [csrfHeader]: csrfToken
                 },
                 data: {
+
                     "nextPageLimit": (page + 1) * limit,
                     "limit": limit,
                     "loadedItemIds": Array.from(loadedItemIds)
@@ -148,13 +151,6 @@ $(window).scroll(function() {
             </tr>
         </table>
     </form>
-
-
-
-    <div style="height: 2000px;">
-        <h1>Scroll down to see the button</h1>
-    </div>
-
     <!-- Scroll to Top Button -->
     <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Top</button>
 

@@ -119,7 +119,7 @@
             var datefilter = $("#datefilter").val();
 
              location.href=
-                "/admin/items/"+ 'page' + "?placeSearch=" + placeSearch
+                "/items/"+ 'page' + "?placeSearch=" + placeSearch
                  + "&startPlace=" + startPlace + "&datefilter=" + datefilter;
 
          }
@@ -503,7 +503,7 @@ wight:500px;
                 </div>
                 <!-- ======================여기까지 슬라이더================================ -->
                 <div class="textBox">
-                    <form th:action="@{/admin/items/}" method="get" role="form">
+                    <form th:action="@{/items/}" method="get" role="form">
 
 
                         <p class="ment">
