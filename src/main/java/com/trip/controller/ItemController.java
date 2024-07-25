@@ -12,13 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
@@ -95,7 +94,7 @@ public class ItemController {
     }
 
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
-    @GetMapping(value = {"/admin/items", "/admin/items/page"})
+    @GetMapping(value = {"/items", "/items/page"})
     public String itemManage(ItemSearchDto itemSearchDto, Optional<Integer> page,
                              Model model){
         // page.isPresent() -> page 값이 있는지 확인
@@ -113,10 +112,10 @@ public class ItemController {
                 itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("양양")||
                 itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("제주도")){
             //itemsearchDto에서 국내 여행지일 경우 국내 여행 사이트로 연결
-            return "nature/domestic";
+            return "nature/SearchDomestic";
 //아닐 경우 해외 여행 사이트로 연결
         }else {
-            return "nature/overseas";
+            return "nature/SearchOverseas";
         }
 
 
@@ -141,6 +140,14 @@ public class ItemController {
             }
         }
         return "redirect:/";
+    }
+
+    @PostMapping(value = "/item/count/{Itemcount}/{itemId}")
+    public @ResponseBody ResponseEntity itemCountSave (@PathVariable(name = "Itemcount") int Itemcount,
+                                                       @PathVariable(name = "itemId") Long itemId){
+        int ItemCount=itemService.countPlus(Itemcount, itemId);
+        String jsonResponse = "{\"count\": \"" + ItemCount + "\"}";
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 
 

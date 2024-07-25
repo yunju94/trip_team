@@ -43,6 +43,8 @@ public class ItemFormDto {
 
     private Region region;
 
+    private int count;
+
     @NotNull(message = "출발날짜는 필수 입력 값입니다.")
     private LocalDate startDate;
 

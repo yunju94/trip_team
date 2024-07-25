@@ -126,4 +126,11 @@ public class ItemService {
         int offset = nextPageLimit - limit;
         return itemRepository.findItemsByNature(Nature.OVERSEAS);
     }
+
+    public  int countPlus(int count, long itemId){
+        Item item =itemRepository.findById(itemId).orElseThrow();
+        item.setCount(count+1);
+        itemRepository.save(item);
+        return item.getCount();
+    }
 }

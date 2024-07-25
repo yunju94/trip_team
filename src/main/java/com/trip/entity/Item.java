@@ -56,6 +56,10 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Region region; // 지역
 
+    private  int count;//조회수
+
+    
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
