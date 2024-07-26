@@ -11,8 +11,9 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("select o from Order o where o.member.email = :email")
-    List<Order> findOrders(@Param("email") String email, Pageable pageable);
+
+    @Query("select o from Order o where o.member.email = :email order by o.orderDate desc")
+    List<Order> findOrdersOrderByOrderDateDesc(@Param("email") String email, Pageable pageable);
 
     @Query("select o from Order o where o.member.email = :email")
     Order findByOrders(@Param("email") String email);

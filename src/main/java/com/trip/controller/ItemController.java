@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -95,27 +97,27 @@ public class ItemController {
 
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
     @GetMapping(value = {"/items", "/items/page"})
-    public String itemManage(ItemSearchDto itemSearchDto, Optional<Integer> page,
+    public String itemManage(ItemSearchDto itemSearchDto,
                              Model model){
         // page.isPresent() -> page 값이 있는지 확인
         // 값 있을 시 page.get() , 값 없을 시 0
         // 한 페이지에 개수 -> 5개
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0,5);
-
-        Page<Item> items = itemService.getAdminItemPage(itemSearchDto,pageable);
-        model.addAttribute("items",items);
         model.addAttribute("itemSearchDto",itemSearchDto);
-        model.addAttribute("maxPage",5);
-        System.out.println(itemSearchDto.getPlaceSearch());
+
+
+        int count = 0;
+        model.addAttribute("count", count);
+
         if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
                 itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("양양")||
                 itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("제주도")){
             //itemsearchDto에서 국내 여행지일 경우 국내 여행 사이트로 연결
-            return "nature/SearchDomestic";
+            return "nature/domestic";
 //아닐 경우 해외 여행 사이트로 연결
         }else {
-            return "nature/SearchOverseas";
+
+            return "nature/overseas";
         }
 
 
