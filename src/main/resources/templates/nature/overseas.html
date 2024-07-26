@@ -73,36 +73,65 @@ function getData(limit) {
 
     loadingData = true;
 
-    $.ajax({
-        type: "POST",
-        enctype: 'multipart/form-data',
-        url: "/overseas",
-        headers: {
-            [csrfHeader]: csrfToken
-        },
-        data: {
+
+    var count = [[${count}]];
+    console.log(count)
 
 
-            "nextPageLimit": (page + 1) * limit,
-            "limit": limit,
-            "loadedItemIds": Array.from(loadedItemIds) // 추가된 부분
-        },
-        traditional: true, // 배열 전송을 위한 설정
-        success: function(data) {
-            // 데이터를 기존 tbody에 추가
-            $("tbody#data-list").append(data);
-            $(data).find('tr').each(function() {
-                loadedItemIds.add($(this).data('item-id'));
+            if(count==0){
+                var url = "/overseas/search";
+
+               var paramData = {
+
+                    "placeSearch": "[[${itemSearchDto.placeSearch }]]",
+                    "startPlace": "[[${itemSearchDto.startPlace}]]",
+                    "datefilter": "[[${itemSearchDto.datefilter }]]",
+
+                "nextPageLimit": (page + 1) * limit,
+                "limit": limit,
+                "loadedItemIds": Array.from(loadedItemIds)
+            };
+
+            }else{
+                var url = "/overseas";
+
+                var paramData = {
+                    "nextPageLimit": (page + 1) * limit,
+                    "limit": limit,
+                    "loadedItemIds": Array.from(loadedItemIds)
+                };
+
+
+            }
+
+
+
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: url,
+                headers: {
+                    [csrfHeader]: csrfToken
+                },
+                data: paramData,
+                traditional: true, // 배열 전송을 위한 설정
+                success: function(data) {
+
+
+                    $("tbody#data-list").append(data);
+                    $(data).find('tr').each(function() {
+                        loadedItemIds.add($(this).data('item-id'));
+                    });
+                    page += 1;
+                    loadingData = false;
+                },
+                error: function(xhr, status, error) {
+                    console.error("에러: ", xhr.responseText);
+                    loadingData = false;
+                }
             });
-            page += 1;
-            loadingData = false;
-        },
-        error: function(xhr, status, error) {
-            console.error("에러: ", xhr.responseText);
-            loadingData = false;
         }
-    });
-}
+
 
 $(document).ready(function() {
     getData(10);
@@ -127,6 +156,7 @@ $(window).scroll(function() {
 </head>
 <body>
 <div layout:fragment="content">
+
 
     <form th:action="@{/admin/items/delete}" method="post">
         <table class="image-table">

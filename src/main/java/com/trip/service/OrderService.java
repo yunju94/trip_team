@@ -41,7 +41,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderHistDto> orderlist(String email, Pageable pageable) {
         //orderhist에 필요한 것. 주문 리스트(가격), 총 갯수, 이미지파일, item이름
-        List<Order> orders = orderRepository.findOrders(email, pageable);
+        List<Order> orders = orderRepository.findOrdersOrderByOrderDateDesc(email, pageable);
         //이메일로 주문 리스트 뽑아내기 + 갯수에 따라 페이지로 만들기
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();

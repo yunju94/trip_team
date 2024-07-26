@@ -89,8 +89,9 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true) // 쿼리문 실행  읽기만 가능
-    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        return itemRepository.getAdminItemPage(itemSearchDto,pageable);
+    public List<Item> getAdminItemPage(ItemSearchDto itemSearchDto, int nextPageLimit, int limit){
+        int offset = nextPageLimit - limit;
+        return itemRepository.getAdminItemPage(itemSearchDto,offset, limit);
     }
     @Transactional(readOnly = true)
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){

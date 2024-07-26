@@ -343,7 +343,7 @@ margin-top:-450px;
                             <td rowspan="3">
                                 <div class="imgbox">
                                     <img class="rounded repImg" th:alt="${orderItem.itemNm}"
-                                         th:src="${orderItem.imgUrl}">
+                                         th:src="${orderItem.imgUrl}" width="450px" height="300px">
                                 </div>
                             </td><!--이미지-->
 
@@ -417,8 +417,7 @@ margin-top:-450px;
                 1 : (start + (maxPage-1) <orderlist.totalPages ? start + (maxPage -1) : orderlist.totalPages)})">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${orderlist.first}? 'disabled'">
-                        <a th:onclick="'javascript:page('+${orderlist.number -1 } + ')'" aria-label="Previous"
-                           class="page-link">
+                        <a th:href="@{'/orders/'+ ${orderlist.number-1}}" aria-label='Previous' class="page-link">
                             <span aria-hidden="true">Previous</span>
                         </a>
                     </li>
@@ -429,8 +428,7 @@ margin-top:-450px;
                            class="page-link">[[${page}]]</a>
                     </li>
                     <li class="page-item" th:classappend="${orderlist.last}?'disabled'">
-                        <a th:onclick="'javascript:page(' + ${orderlist.number +1} + ')'" aria-label="Next"
-                           class="page-link">
+                        <a th:href="@{'/orders/'+ ${orderlist.number+1}}" aria-label="Next" class="page-link">
                             <span aria-hidden="true">Next</span>
                         </a>
                     </li>

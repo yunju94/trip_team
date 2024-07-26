@@ -89,16 +89,16 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
 
     @Override
-    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+    public List<Item> getAdminItemPage(ItemSearchDto itemSearchDto, int offset, int limit){
         QueryResults<Item> results = queryFactory.selectFrom(QItem.item).//item에서 찾는다.
                 where(DateChangeStartDate(itemSearchDto.getDatefilter()),//출발일(itemSearchDto.getDatefilter())
                 searchCategoryStatusEq(itemSearchDto.getPlaceSearch()))
                        //여행지(itemSearchDto.getPlaceSearch()로 국내 국외 찾기)
                 .orderBy(QItem.item.id.desc())//id가 내림차순순으로
-                .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+                .offset(offset).limit(limit).fetchResults();
         List<Item> content = results.getResults();
         long total = results.getTotal();
-        return new PageImpl<>(content,pageable,total);
+        return content;
     }
 
 

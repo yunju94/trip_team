@@ -80,26 +80,52 @@ function getData(limit) {
         return;
     }
 
-
-
     loadingData = true;
+
+    var count = [[${count}]];
+    console.log(count)
+
+
+            if(count==0){
+                var url = "/domestic/search";
+
+               var paramData = {
+
+                    "placeSearch": "[[${itemSearchDto.placeSearch }]]",
+                    "startPlace": "[[${itemSearchDto.startPlace}]]",
+                    "datefilter": "[[${itemSearchDto.datefilter }]]",
+
+                "nextPageLimit": (page + 1) * limit,
+                "limit": limit,
+                "loadedItemIds": Array.from(loadedItemIds)
+            };
+
+            }else{
+                var url = "/domestic";
+
+                var paramData = {
+                    "nextPageLimit": (page + 1) * limit,
+                    "limit": limit,
+                    "loadedItemIds": Array.from(loadedItemIds)
+                };
+
+
+            }
+
+
 
             $.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
-                url: "/domestic",
+                url: url,
                 headers: {
                     [csrfHeader]: csrfToken
                 },
-                data: {
-
-                    "nextPageLimit": (page + 1) * limit,
-                    "limit": limit,
-                    "loadedItemIds": Array.from(loadedItemIds)
-                },
+                data: paramData,
                 traditional: true, // 배열 전송을 위한 설정
                 success: function(data) {
-                    // 데이터를 기존 tbody에 추가
+
+
                     $("tbody#data-list").append(data);
                     $(data).find('tr').each(function() {
                         loadedItemIds.add($(this).data('item-id'));
@@ -141,7 +167,10 @@ $(window).scroll(function() {
         <table class="image-table">
             <tbody id="data-list">
             <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
-            </tbody>
+
+
+
+</tbody>
 
             <!-- 선택한 상품 삭제 버튼 -->
             <tr sec:authorize="hasRole('ADMIN')">
