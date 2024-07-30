@@ -20,21 +20,13 @@ public class event extends BaseEntity{
     @Column(name = "event_id")
     private Long id;
 
-    private String content;
-    private String content1;
-    private String content2;
-    private String content3;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private  List<EventLink> content;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<eventImg> eventImgs; // itemImg 엔티티와의 일대다 관계
 
 
-    public void updateEvent(EventFormDto eventFormDto){
-        this.content = eventFormDto.getContent();
-        this.content1 = eventFormDto.getContent1();
-        this.content2 = eventFormDto.getContent2();
-        this.content3 = eventFormDto.getContent3();
 
-    }
 
 }

@@ -27,13 +27,16 @@ public class EventService {
     private final EventRepository eventRepository;
     private  final  EventImgService eventImgService;
     private  final EventImgReposotory eventImgReposotory;
+    private  final  EventLinkService eventLinkService;
 
     public Long saveEventTem(EventFormDto eventFormDto, List<MultipartFile> eventImgFileList)
             throws Exception{
         //상품등록
         event even = eventFormDto.createEventTem();
         eventRepository.save(even);
+
         //이미지 등록
+        eventLinkService.saveEventLinkcontet(eventFormDto, even);
         for (int i=0; i<eventImgFileList.size();i++) {
             eventImg eventImg= new eventImg();
             eventImg.setEvent(even);
@@ -43,12 +46,12 @@ public class EventService {
                 eventImg.setReqImgYn("N");
             eventImgService.saveEventImg(eventImg,eventImgFileList.get(i));
         }
+
         return even.getId();
     }
 
     public List<event> AllSearch(){
-      List<event> event = eventRepository.findAll();
-      return event;
+        return eventRepository.findAll();
     }
 
     public   Optional<event> seachEvent(Long eventId){
@@ -86,13 +89,24 @@ public class EventService {
         //상품 변경
         event event =eventRepository.findById(eventFormDto.getId()).
                 orElseThrow(EntityNotFoundException::new);
-        event.updateEvent(eventFormDto);
         //상품 이미지 변경
         List<Long> eventImgIds = eventFormDto.getEventImgIds();
 
-        for (int i=0; i<itemImgFileList.size();i++){
-            eventImgService.updateItemImg(eventImgIds.get(i),itemImgFileList.get(i));
+        if (eventFormDto.getEventImgIds().size()!=0){
+            for (int i=0; i<itemImgFileList.size();i++){
+                eventImgService.updateItemImg(eventImgIds.get(i),itemImgFileList.get(i));
+            }
         }
+
+        if (eventFormDto.getContent().size()!=0){
+
+            //상품 링크 변경
+            for (int i = 0 ; i< eventFormDto.getContent().size(); i++){
+                eventLinkService.updateLink(eventFormDto, event.getId());
+            }
+
+        }
+
 
 
         return event.getId();

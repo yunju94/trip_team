@@ -50,8 +50,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public Member memberload(String email){
-        Member member = memberRepository.findByEmail(email);
-      return member;
+        return memberRepository.findByEmail(email);
     }
 
     public  void updateMember(MemberFormDto memberFormDto){

@@ -8,36 +8,56 @@
         $(document).ready(function(){
 
         });
-        function eventhref(id){
 
-        location.href ='/event/' + id;
-        }
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
-        .imgdiv>img{
-        width:700px;
+        .main_img {
+           display: flex;
+           justify-content: center; /* 가로 방향 중앙 정렬 */
+           margin: 20px 0; /* 상하 여백을 추가 (선택적) */
+       }
+       .img-container {
+       justify-content: center;
+       width: 800px;
+           display: flex;
+           flex-wrap: wrap;
 
-        }
+       }
+       .imgdiv {
+           box-sizing: border-box;
+           width: 350px;
+           height: 350px;
+           display: block;
+       }
+       .imgdiv img {
+        box-sizing: border-box;
+           width: 350px;
+           height: 350px;
+           display: block;
+       }
     </style>
 </th:block>
 
 <div layout:fragment="content">
     <div>
-        <div><img th:src="@{/css/images/event.jpg}"></div>
+        <div class="main_img"><img th:src="@{/css/images/event.jpg}" alt="Event Image"></div>
     </div>
-    <div  th:each="event :${event}">
-        <!-- event.content가 비어 있거나 null인 경우 -->
-        <div class="imgdiv" th:if="${not #lists.isEmpty(event.eventImgs)}">
-            <img th:src="${event.eventImgs[0].imgUrl}" th:data-id="${event.id}" onclick="eventhref(this.getAttribute('data-id'))">
+    <div class="img-container" th:each="event : ${event}">
+        <!-- event.content가 비어 있지 않는 경우 -->
+        <div class="imgdiv" th:if="${#lists.isEmpty(event.content)}">
+            <a th:href ="@{/event/{id}(id=${event.id})}">
+            <img th:src="${event.eventImgs[0].imgUrl}" id="${event.id}" >
+            </a>
         </div>
-        <!-- event.eventImgs가 비어 있는 경우 -->
-        <div class="imgdiv" th:if="${not #strings.isEmpty(event.content)}">
-            <img th:src="${event.content}" th:data-id="${event.id}" onclick="eventhref(this.getAttribute('data-id'))">
+        <!-- event.event가 비어 있지 않는 경우 -->
+        <div class="imgdiv" th:if="${not #lists.isEmpty(event.content)}">
+            <a th:href="@{/event/{id}(id=${event.id})}">
+            <img th:src="${event.content[0].link}" id="${event.id}">
+            </a>
         </div>
-
     </div>
 </div>
 
