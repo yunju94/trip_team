@@ -16,11 +16,8 @@ import org.modelmapper.ModelMapper;
 @Setter
 public class EventFormDto {
     private Long id;
-    private String content;
-    private String content1;
-    private String content2;
-    private String content3;
 
+    private  List<EventLinkDto> content= new ArrayList<>(); // 상품 이미지 링크 정보
     private List<EventImgDto> eventImgDtoList = new ArrayList<>(); // 상품 이미지 정보
 
     private List<Long> eventImgIds = new ArrayList<>(); // 상품 이미지 아이디

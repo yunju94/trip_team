@@ -1,5 +1,6 @@
 package com.trip.controller;
 
+import com.trip.constant.Role;
 import com.trip.dto.EventFormDto;
 import com.trip.dto.ItemFormDto;
 import com.trip.entity.Member;
@@ -41,10 +42,12 @@ public class EventController {
     @PostMapping(value = "/event/new/write")
     public String itemFormWrite(@Valid EventFormDto eventFormDto, BindingResult bindingResult,
                                 @RequestParam("eventImgFile") List<MultipartFile> eventImgFileList , Model model){
+
         if (bindingResult.hasErrors()) {
             return "event/FormWrite";
         }
         try {
+
             eventService.saveEventTem(eventFormDto, eventImgFileList);
         } catch (Exception e) {
             model.addAttribute("errorMessage",
@@ -56,10 +59,22 @@ public class EventController {
 
     @GetMapping(value ="/event/{id}")
     public  String eventIdSearch(@PathVariable("id") Long eventId, Model model, Principal principal){
+
+        if (principal.getName() == null){
+            return "member/memberLoginForm";
+        }
+
         Optional<event> eventOptional  = eventService.seachEvent(eventId);
         model.addAttribute("event", eventOptional.orElse(null));
 
+
+
         Member member = memberService.memberload(principal.getName());
+        if (member == null){
+            member=new Member();
+            member.setRole(Role.USER);
+
+        }
         model.addAttribute("member", member);
         return "event/EventDtl";
     }
@@ -86,8 +101,7 @@ public class EventController {
                              BindingResult bindingResult,
                              Model model,
                              @PathVariable("eventId") Long eventId){
-        System.out.println( eventId);
-        System.out.println(eventFormDto.getId());
+
         if (bindingResult.hasErrors()) {
             return "event/FormWrite";
         }

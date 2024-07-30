@@ -15,7 +15,6 @@
         }
 
         function deleted(id){
-        console.log(id)
         location.href='/event/delete/'+id
         }
 
@@ -33,23 +32,24 @@
 
 <div layout:fragment="content">
     <div>
-        <div class="imgdiv" th:if="${event != null and not #strings.isEmpty(event.content)}">
-            <img th:src="${event.content}">
-            <img th:src="${event.content1}">
-            <img th:src="${event.content2}">
-            <img th:src="${event.content3}">
-
+        <!-- event.content가 비어 있지 않은 경우 -->
+        <div class="imgdiv" th:if="${not #lists.isEmpty(event.content)}">
+            <div th:each="event : ${event.content}">
+                <img th:src="${event.link}" class="text-center" alt="Event Image">
+            </div>
         </div>
-        <!-- 기본값으로 이벤트 이미지를 출력하는 경우 -->
-        <div class="imgdiv" th:if="${#strings.isEmpty(event.content)}">
+
+        <!-- event.content가 비어 있는 경우 -->
+        <div class="imgdiv" th:if="${#lists.isEmpty(event.content)}">
             <div th:each="eventImg : ${event.eventImgs}" class="text-center">
-                <img th:src="${eventImg.imgUrl}" >
+                <img th:src="${eventImg.imgUrl}" alt="Event Image">
             </div>
         </div>
     </div>
+
     <div th:if="${member.Role == T(com.trip.constant.Role).ADMIN}">
-        <button type="button" th:value="${event.id}" onclick="update(this.value)"> 수정하기</button>
-        <button type="button" th:value="${event.id}" onclick="deleted(this.value)"> 삭제하기</button>
+        <button type="button" th:value="${event.id}" onclick="update(this.getAttribute('value'))">수정하기</button>
+        <button type="button" th:value="${event.id}" onclick="deleted(this.getAttribute('value'))">삭제하기</button>
     </div>
 
 

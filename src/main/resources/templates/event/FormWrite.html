@@ -7,6 +7,54 @@
     <script th:inline="javascript">
         $(document).ready(function(){
 
+                 $('#link_div').show()
+                 $('#image_div').hide()
+
+            $('#align').change(function(){
+            //협업으로 링크만 가져다가 붙일 수 있을 때, 하나씩 사진을 올려야할 때.
+                var option = $(this).val();
+
+
+                if(option ==='link'){
+                    $('#link_div').show()
+                    $('#image_div').hide()
+
+                }
+               if(option ==='image'){
+                    $('#link_div').hide()
+                    $('#image_div').show()
+
+                }
+
+            })
+
+          var count = 0;
+
+$('#add').click(function() {
+    // 새로운 link_box 요소 생성
+    var newLinkBox = $(`
+        <div class="link_box">
+            <input type="text" name="content" placeholder="최대 5개까지만 가능합니다.">
+            <button type="button" class="delete-button">X</button>
+        </div>
+    `);
+
+    // 삭제 버튼 클릭 시 해당 link_box를 삭제하도록 이벤트 핸들러 추가
+    newLinkBox.find('.delete-button').click(function() {
+        $(this).parent().remove();
+    });
+
+    // 생성된 link_box를 컨테이너에 추가
+    $('#container').append(newLinkBox);
+
+    // count 값을 증가시켜 다음 요소에 고유한 id를 부여
+    count++;
+});
+
+
+
+
+
         });
 
         function BoxDelete(id) {
@@ -37,50 +85,62 @@
         <h3>공지사항 등록</h3>
         <form role="form" class="container" method="post" enctype="multipart/form-data" th:object="${EventFormDto}">
             <input type="hidden" th:field="*{id}">
-        <p>링크</p>
-            <div  class="div">
-                <div>
-                    <input type="text" th:field="${EventFormDto.content}" id="content" class="imageFile form-control">
-                    <button type="button" style="float:left;" onclick="BoxDelete('content')">X</button>
-                </div>
-                <div>
-                    <input type="text" th:field="${EventFormDto.content1}" id="content1" class="imageFile form-control">
-                    <button type="button" style="float:left;" onclick="BoxDelete('content1')">X</button>
-                </div>
-                <div >
-                    <input type="text" th:field="${EventFormDto.content2}" id="content2" class="imageFile form-control">
-                    <button type="button" style="float:left;" onclick="BoxDelete('content2')">X</button>
-                </div>
-                <div >
-                    <input type="text" th:field="${EventFormDto.content3}" id="content3" class="imageFile form-control">
-                    <button type="button" style="float:left;" onclick="BoxDelete('content3')">X</button>
-                </div>
-            </div>
+            <div  th:if="${#lists.isEmpty(EventFormDto.eventImgDtoList) and #lists.isEmpty(EventFormDto.content)}">
+            <select id="align">
+                <option value="link">링크</option>
+                <option value="image">이미지</option>
+            </select>
 
 
-        <p>사진</p>
-            <div th:if="${#lists.isEmpty(EventFormDto.eventImgDtoList)}">
-                <div class="row" th:each="num: ${#numbers.sequence(1,5)}">
-                    <div class="input-group mb3">
-                        <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>
-                        <input type="file" class="imageFile form-control" id="Box + ${num}" name="eventImgFile">
-                        <button type="button" style="float:left;" onclick="BoxDelete('Box + ${num}')">X</button>
+
+                <div  id="link_div">
+                    <p>링크</p>
+                    <div name="link_box">
+                        <div id="container">
+                            <!-- 저장. -->
+                            <!-- 새로운 link_box 요소가 여기에 추가됩니다. -->
+                        </div>
+                        <button id="add" type="button">추가</button>
+                    </div>
+                </div>
+
+                <div id="image_div">
+                    <p>사진</p>
+                    <div class="row" th:each="num: ${#numbers.sequence(1,5)}"
+                         th:if="${#lists.isEmpty(EventFormDto.eventImgDtoList)}">
+                        <div class="input-group mb3">
+                            <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>
+                            <input type="file" class="imageFile form-control" id="Box + ${num}" name="eventImgFile">
+                            <button type="button" style="float:left;" onclick="BoxDelete('Box + ${num}')">X</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
 
-            <div th:if="${not #lists.isEmpty(EventFormDto.eventImgDtoList)}">
-                <div class="row" th:each="eventImgDto, status: ${EventFormDto.eventImgDtoList}">
-                    <div class="input-group mb3">
-                        <label class="image input-group-text" th:text="${not #strings.isEmpty(eventImgDto.oriImgName)} ?
-                                ${eventImgDto.oriImgName} : '상품이미지 ' + ${status.index + 1}"></label>
-                        <input type="file" class="imageFile form-control"  id="X + ${num}" name="eventImgFile">
-                        <input type="hidden" name="eventImgIds" th:value="${eventImgDto.id}">
-                        <button type="button" style="float:left;" onclick="BoxDelete('X + ${num}')">X</button>
+            <div th:if="${not #lists.isEmpty(EventFormDto.eventImgDtoList) or not #lists.isEmpty(EventFormDto.content)}">
+                <!-- eventImgDtoList가 비어 있지 않은 경우 -->
+                <div th:if="${not #lists.isEmpty(EventFormDto.eventImgDtoList)}">
+                    <div class="row" th:each="eventImgDto, status : ${EventFormDto.eventImgDtoList}">
+                        <div class="input-group mb-3">
+                            <label class="image input-group-text" th:text="${not #strings.isEmpty(eventImgDto.oriImgName)} ?
+                    eventImgDto.oriImgName : '상품이미지 ' + ${status.index + 1}"></label>
+                            <input type="file" class="imageFile form-control" id="img-${status.index}" name="eventImgFile">
+                            <input type="hidden" name="eventImgIds" th:value="${eventImgDto.id}">
+                            <button type="button" style="float:left;" onclick="BoxDelete('img-${status.index}')">X</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- content가 비어 있지 않은 경우 -->
+                <div th:if="${not #lists.isEmpty(EventFormDto.content)}">
+                    <div class="row" th:each="content, status : ${EventFormDto.content}">
+                        <input type="text" th:value="${content.link}" readonly>
                     </div>
                 </div>
             </div>
+
+
 
 
 
