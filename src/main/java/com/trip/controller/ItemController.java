@@ -2,7 +2,7 @@ package com.trip.controller;
 
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
-import com.trip.entity.Item;
+import com.trip.dto.MainItemDto;
 import com.trip.entity.Member;
 import com.trip.service.ItemService;
 import com.trip.service.MemberService;
@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -151,6 +148,21 @@ public class ItemController {
         String jsonResponse = "{\"count\": \"" + ItemCount + "\"}";
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
+    @GetMapping(value = "/items/searchText/{search}")
+    public  String searchItem (@PathVariable String search, Model model){
+
+        Pageable pageable = PageRequest.of(0, 5);
+
+        Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
+
+        model.addAttribute("items", items);
+
+        model.addAttribute("maxPage", 5);
+
+
+        return "nature/SearchItem";
+    }
+
 
 
 }

@@ -134,4 +134,8 @@ public class ItemService {
         itemRepository.save(item);
         return item.getCount();
     }
+    @Transactional(readOnly = true)
+    public  Page<MainItemDto> searchItemPage(Pageable pageable, String search){
+        return itemRepository.searchItemPage(pageable, search);
+    }
 }
