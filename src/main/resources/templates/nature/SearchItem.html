@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <style>
+        .image-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .image-table td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .image-card {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+        .image-card img {
+            width: 200px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        .item-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .item-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .item-price {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+
+          #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+  }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div th:each="item : ${items}">
+        <!-- 이미지 URL을 출력할 때는 'th:src'를 사용 -->
+       <img th:src="${item.imgUrl}" alt="Item Image">
+
+        <!-- 항목의 이름과 가격을 출력할 때는 'th:text'를 사용 -->
+        <a th:text="${item.itemNm}"></a>
+        <a th:text="${item.price}"></a>
+        <a th:text="${item.itemDetail}"></a>
+        <a th:text="${item.startDate}"></a>
+    </div>
+
+</div>
+</body>
+</html>

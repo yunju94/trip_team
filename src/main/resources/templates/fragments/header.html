@@ -172,6 +172,19 @@
 
 
         </style>
+        <script>
+
+
+           function searchBtn(){
+              console.log("page")
+
+               var searchText= $('#Search').val();
+               console.log(searchText)
+              location.href="/items/searchText/" + searchText;
+           };
+
+
+        </script>
     </head>
     <body>
 
@@ -179,6 +192,10 @@
         <a class="logo" href="/">
             <img th:src="@{/css/images/logo.png}" height="80">
         </a>
+        <div>
+            <input type="text" id="Search" placeholder="검색어를 입력해주세요.">
+            <button id="Btn" onclick="searchBtn()">검색</button>
+        </div>
 
 
         <div class="dropdown">

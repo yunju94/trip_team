@@ -13,5 +13,5 @@ public interface ItemRepositoryCustom {
     List<Item> getAdminItemPage(ItemSearchDto itemSearchDto, int offset, int  limit);
     Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable);
 
-
+    Page<MainItemDto> searchItemPage(Pageable pageable, String search);
 }

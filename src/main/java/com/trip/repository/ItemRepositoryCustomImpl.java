@@ -6,9 +6,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import com.trip.constant.Category;
-import com.trip.dto.ItemSearchDto;
-import com.trip.dto.MainItemDto;
+import com.trip.dto.*;
 import com.trip.dto.QMainItemDto;
+
 import com.trip.entity.Item;
 import com.trip.entity.QItem;
 import com.trip.entity.QItemImg;
@@ -114,6 +114,39 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
+    }
+
+
+
+    private BooleanExpression searchStatus( String search){
+
+        return QItem.item.itemNm.like("%"+ search + "%");
+    }
+
+    private BooleanExpression searchDetailStatus( String search){
+
+        return QItem.item.itemDetail.like("%"+ search + "%");
+    }
+
+    public Page<MainItemDto> searchItemPage(Pageable pageable, String search) {
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<MainItemDto> results = queryFactory
+                .select(new  QMainItemDto(item.id,item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
+                .from(itemImg).join(itemImg.item, item)
+                .where(itemImg.reqImgYn.eq("Y"))
+                .where(searchStatus(search))
+                .where(searchDetailStatus(search))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
     }
 
 }
