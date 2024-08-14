@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -148,10 +149,10 @@ public class ItemController {
         String jsonResponse = "{\"count\": \"" + ItemCount + "\"}";
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
-    @GetMapping(value = "/items/searchText/{search}")
-    public  String searchItem (@PathVariable String search, Model model){
+    @GetMapping(value = {"/items/searchText/{search}", "/items/searchText/{search}/{page}"})
+    public  String searchItem (@PathVariable String search, Model model,@PathVariable("page") Optional<Integer> page){
 
-        Pageable pageable = PageRequest.of(0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
         Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
 
@@ -161,6 +162,16 @@ public class ItemController {
 
 
         return "nature/SearchItem";
+    }
+
+    @PostMapping(value = "/item/scrolling")
+    public @ResponseBody ResponseEntity SearchItemScroll(@RequestParam  Optional<Integer> page
+                                                        ,@RequestParam String search){
+
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+        Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
+        return ResponseEntity.ok(items);
     }
 
 
