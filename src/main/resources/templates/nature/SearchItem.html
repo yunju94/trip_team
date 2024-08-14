@@ -59,22 +59,149 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let search="";
+          let page =1;
+          let loadingData = false;
 
+          function loadItems(page) {
+              var token = $("meta[name='_csrf']").attr("content");
+              var header = $("meta[name='_csrf_header']").attr("content");
+
+              if (loadingData) {
+                  return;
+              }
+
+              loadingData = true;
+
+              $.ajax({
+                  type: "POST",
+                  url: "/item/scrolling",
+                  data: {
+                      "page": page,
+                      "search": search,
+
+                  },
+                  beforeSend: function (xhr) {
+                      xhr.setRequestHeader(header, token);
+                  },
+                  success: function (response) {
+                      var newItems = response.content;
+                      var container = $('#itemContainer');
+
+                      newItems.forEach(function (item) {
+                          var newItemHtml = `
+
+                             <table class="image-table">
+                                <tbody id="data-list">
+                                <tr >
+                                    <td >
+                                        <div class='image-card'>
+                                            <img src="${item.imgUrl}" alt="Item Image">
+                                        </div>
+                                    </td>
+                                    <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
+                                    <td>
+                                        <p >${item.itemNm}</p>
+                                        <p >${item.price}</p>
+                                        <p >${item.itemDetail}</p>
+                                        <p>출발 가능 기간:<a >${item.startDate}</a></p>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <!-- 선택한 상품 삭제 버튼 -->
+
+                            </table>
+
+                          `;
+                          container.append(newItemHtml);
+                      });
+                      loadingData = false;
+                  },
+                  error: function (xhr, status, error) {
+                      console.error("에러: ", xhr.responseText);
+                      loadingData = false;
+                  }
+              });
+          }
+
+          $(document).ready(function () {
+
+
+              loadItems(page);
+
+              $(window).scroll(function () {
+
+                     console.log("scroll")
+                  var currentScroll = $(this).scrollTop();
+                  var windowHeight = $(window).height();
+                  var documentHeight = $(document).height();
+
+                  if (currentScroll + windowHeight >= documentHeight - 10 && !loadingData) {
+                      loadItems(++page);
+                  }
+              });
+          });
     </script>
 </head>
 <body>
 <div layout:fragment="content">
+    <div id="itemContainer">
+        <div th:each="item : ${items}">
+            <table class="image-table">
+                <tbody id="data-list">
+                <tr >
+                    <td >
+                        <div class='image-card'>
+                            <img th:src="${item.imgUrl}" alt="Item Image">
+                        </div>
+                    </td>
+                    <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
+                    <td>
+                        <p th:text="${item.itemNm}"></p>
+                        <p th:text="${item.price}"></p>
+                        <p th:text="${item.itemDetail}"></p>
+                        <p>출발 가능 기간:<a th:text="${item.startDate}"></a></p>
+                    </td>
+                </tr>
+                </tbody>
 
-    <div th:each="item : ${items}">
-        <!-- 이미지 URL을 출력할 때는 'th:src'를 사용 -->
-       <img th:src="${item.imgUrl}" alt="Item Image">
+                <!-- 선택한 상품 삭제 버튼 -->
 
-        <!-- 항목의 이름과 가격을 출력할 때는 'th:text'를 사용 -->
-        <a th:text="${item.itemNm}"></a>
-        <a th:text="${item.price}"></a>
-        <a th:text="${item.itemDetail}"></a>
-        <a th:text="${item.startDate}"></a>
+            </table>
+
+
+            <!-- 이미지 URL을 출력할 때는 'th:src'를 사용 -->
+
+        </div>
     </div>
+
+    <button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">Top</button>
+
+    <script>
+        // Get the button
+        var scrollToTopButton = document.getElementById("scrollToTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollToTopButton.style.display = "block";
+          } else {
+            scrollToTopButton.style.display = "none";
+          }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function scrollToTop() {
+          document.body.scrollTop = 0; // For Safari
+          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+
+
+
 
 </div>
 </body>
