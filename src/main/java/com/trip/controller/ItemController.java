@@ -142,6 +142,20 @@ public class ItemController {
         return "redirect:/";
     }
 
+    @DeleteMapping(value = "/admin/item/delete/{Id}")
+    public @ResponseBody ResponseEntity deleteItemDtl(@PathVariable Long Id, Model model){
+
+        try {
+
+            itemService.deleteItemId(Id);
+
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "삭제 중 오류 발생!");
+        }
+        return   ResponseEntity.ok(Id);
+
+    }
+
     @PostMapping(value = "/item/count/{Itemcount}/{itemId}")
     public @ResponseBody ResponseEntity itemCountSave (@PathVariable(name = "Itemcount") int Itemcount,
                                                        @PathVariable(name = "itemId") Long itemId){
