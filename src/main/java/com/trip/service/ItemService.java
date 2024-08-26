@@ -138,4 +138,10 @@ public class ItemService {
     public  Page<MainItemDto> searchItemPage(Pageable pageable, String search){
         return itemRepository.searchItemPage(pageable, search);
     }
+
+    public  void deleteItemId(Long ItemId){
+
+        itemRepository.deleteById(ItemId);
+
+    }
 }
