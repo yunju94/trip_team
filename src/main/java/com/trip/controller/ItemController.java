@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.IsolationLevelDataSourceAdapter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -98,33 +101,31 @@ public class ItemController {
     }
 
     // value 2개인 이유 -> 1. 네비게이션에서 상품관리 클릭 2. 상품관리 안에서 페이지 이동
-    @GetMapping(value = {"/items", "/items/page"})
-    public String itemManage(ItemSearchDto itemSearchDto,
-                             Model model){
-        // page.isPresent() -> page 값이 있는지 확인
-        // 값 있을 시 page.get() , 값 없을 시 0
-        // 한 페이지에 개수 -> 5개
-
-        model.addAttribute("itemSearchDto",itemSearchDto);
-
-
-        int count = 0;
-        model.addAttribute("count", count);
-
-        if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
-                itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("양양")||
-                itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("제주도")){
-            //itemsearchDto에서 국내 여행지일 경우 국내 여행 사이트로 연결
-            return "nature/domestic";
-//아닐 경우 해외 여행 사이트로 연결
-        }else {
-
-            return "nature/overseas";
-        }
-
-
-
-    }
+//    @GetMapping(value = {"/items", "/items/page"})
+//    public String itemManage(ItemSearchDto itemSearchDto,
+//                             Model model){
+//        // page.isPresent() -> page 값이 있는지 확인
+//        // 값 있을 시 page.get() , 값 없을 시 0
+//        // 한 페이지에 개수 -> 5개
+//
+//        model.addAttribute("itemSearchDto",itemSearchDto);
+//
+//
+//        int count = 0;
+//        model.addAttribute("count", count);
+//
+//        if (itemSearchDto.getPlaceSearch().equals("인천")|| itemSearchDto.getPlaceSearch().equals("서울")||
+//                itemSearchDto.getPlaceSearch().equals("부산")|| itemSearchDto.getPlaceSearch().equals("양양")||
+//                itemSearchDto.getPlaceSearch().equals("대전")|| itemSearchDto.getPlaceSearch().equals("제주도")){
+//            //itemsearchDto에서 국내 여행지일 경우 국내 여행 사이트로 연결
+//            return "nature/domestic";
+////아닐 경우 해외 여행 사이트로 연결
+//        }else {
+//
+//            return "nature/overseas";
+//        }
+//
+//    }
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId")Long itemId, Principal principal){
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
@@ -178,29 +179,81 @@ public class ItemController {
 
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
-    @GetMapping(value = {"/items/searchText/{search}", "/items/searchText/{search}/{page}"})
-    public  String searchItem (@PathVariable String search, Model model,@PathVariable("page") Optional<Integer> page){
+//    @GetMapping(value = {"/items/searchText/{search}", "/items/searchText/{search}/{page}"})
+//    public  String searchItem (@PathVariable String search, Model model,@PathVariable("page") Optional<Integer> page){
+//
+//        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+//
+//        Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
+//
+//        model.addAttribute("items", items);
+//        model.addAttribute("search", search);
+//        model.addAttribute("maxPage", 5);
+//
+//
+//        return "nature/SearchItem";
+//    }
+
+    @PostMapping(value = {"/item/scrolling", "/item/scrolling/{page}/{search}/{str}"})
+    public @ResponseBody ResponseEntity<Map<String, Object>> searchItemScroll(
+            @PathVariable(name = "page", required = false) Integer page,
+            @PathVariable(name = "search", required = false) String search,
+            @PathVariable(name = "str", required = false) String str,
+            @RequestParam(name = "page", defaultValue = "0") int pageParam) {
+
+        // Default values if parameters are not provided
+        page = (page != null) ? page : pageParam;
+        Pageable pageable = PageRequest.of(page, 5);
+
+        Page<MainItemDto> items;
+
+        if (str != null && !str.isEmpty()) {
+            items = itemService.natureItemPage(pageable, str);
+            System.out.println(items);
+            System.out.println("str: " + str);
+        } else if (search != null && !search.isEmpty())  {
+            items = itemService.searchItemPage(pageable, search);
+            System.out.println("search: " + search);
+
+        } else {
+            items = Page.empty();
+            System.out.println("No search or str parameter provided");
+        }
+
+        // Prepare the JSON response
+        Map<String, Object> response = new HashMap<>();
+        response.put("items", items.getContent()); // Extract items list from Page object
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = {"/items/{str}", "/items/{str}/{page}",
+                        "/items/searchText/{search}", "/items/searchText/{search}/{page}"})
+    public  String NatureItem (@PathVariable Optional<String> str,
+                               @PathVariable Optional<String> search,
+                              @PathVariable("page") Optional<Integer> page, Model model){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-
-        Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
-
+        Page<MainItemDto> items = null;
+        if (str.isPresent()) {
+            if ("domestic".equals(str.get())) {
+                items = itemService.natureItemPage(pageable, str.get());
+            } else if ("overseas".equals(str.get())) {
+                items = itemService.natureItemPage(pageable, str.get());
+            }
+            model.addAttribute("str",str);
+        } else {
+            if (search.isPresent()) {
+                items = itemService.searchItemPage(pageable, search.get());
+                model.addAttribute("search", search.get());
+            }
+        }
         model.addAttribute("items", items);
-
         model.addAttribute("maxPage", 5);
 
 
-        return "nature/SearchItem";
-    }
-
-    @PostMapping(value = "/item/scrolling")
-    public @ResponseBody ResponseEntity SearchItemScroll(@RequestParam  Optional<Integer> page
-                                                        ,@RequestParam String search){
-
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-
-        Page<MainItemDto> items = itemService.searchItemPage(pageable, search);
-        return ResponseEntity.ok(items);
+        return "nature/nature";
     }
 
 

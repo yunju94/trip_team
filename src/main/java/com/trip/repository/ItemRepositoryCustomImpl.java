@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.trip.constant.Nature.DOMESTIC;
 import static com.trip.constant.Nature.OVERSEAS;
@@ -94,7 +95,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 searchCategoryStatusEq(itemSearchDto.getPlaceSearch()))
                        //여행지(itemSearchDto.getPlaceSearch()로 국내 국외 찾기)
                 .orderBy(QItem.item.id.desc())//id가 내림차순순으로
-                .offset(offset).limit(limit).fetchResults();
+                .offset(offset)
+                .limit(limit)
+                .fetchResults();
         List<Item> content = results.getResults();
         long total = results.getTotal();
         return content;
@@ -107,9 +110,13 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         QItemImg itemImg = QItemImg.itemImg;
         //QMainItemDto @QueryProjection을 활용하면 Dto 바로 조회 가능
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id,item.itemNm,
-                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
-                .from(itemImg).join(itemImg.item, item).where(itemImg.reqImgYn.eq("Y"))
-                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.itemSellStatus,item.startDate,item.endDate))
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.reqImgYn.eq("Y"))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetchResults();
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
@@ -117,7 +124,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
 
 
-    private BooleanExpression searchStatus( String search){
+    private BooleanExpression searchStatus(String search){
 
         return QItem.item.itemNm.like("%"+ search + "%");
     }
@@ -126,14 +133,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
         return QItem.item.itemDetail.like("%"+ search + "%");
     }
-
-    public Page<MainItemDto> searchItemPage(Pageable pageable, String search) {
+    @Override
+    public Page<MainItemDto> searchItemPage(Pageable pageable,String search) {
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
         QueryResults<MainItemDto> results = queryFactory
                 .select(new  QMainItemDto(item.id,item.itemNm,
-                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.itemSellStatus, item.startDate,item.endDate))
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemImg.reqImgYn.eq("Y"))
                 .where(searchStatus(search))
@@ -167,7 +174,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
         QueryResults<MainItemDto> results = queryFactory
                 .select(new  QMainItemDto(item.id,item.itemNm,
-                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.itemSellStatus,item.startDate,item.endDate))
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemImg.reqImgYn.eq("Y"))
                 .where(item.nature.eq(viewNature(viewerList)))
@@ -182,7 +189,35 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     }
 
 
+    public  BooleanExpression natureCategory(String nature){
+        if ("domestic".equals(nature)){
+          return   QItem.item.nature.eq(DOMESTIC);
+        }else {
+            System.out.println("oooooooooooooooooooooooooooo");
+          return   QItem.item.nature.eq(OVERSEAS);
+        }
+    }
 
+    @Override//나라별로 item 나누기
+    public Page<MainItemDto> natureItemPage(Pageable pageable, String nature) {
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<MainItemDto> results = queryFactory
+                .select(new  QMainItemDto(item.id,item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.itemSellStatus,item.startDate,item.endDate))
+                .from(itemImg).join(itemImg.item, item)
+                .where(itemImg.reqImgYn.eq("Y"))
+                .where(natureCategory(nature))// 나라가 정해진 걸로 나뉨
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
 
 
 }

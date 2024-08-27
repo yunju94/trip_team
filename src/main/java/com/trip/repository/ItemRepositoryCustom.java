@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ItemRepositoryCustom {
 
@@ -18,5 +19,7 @@ public interface ItemRepositoryCustom {
 
     Page<MainItemDto> searchItemPage(Pageable pageable, String search);
     Page<MainItemDto> MemberItemPage(Pageable pageable, List<Viewer> viewerList);
+
+    Page<MainItemDto> natureItemPage(Pageable pageable, String nature);
 
 }

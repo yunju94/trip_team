@@ -141,6 +141,11 @@ public class ItemService {
         return itemRepository.searchItemPage(pageable, search);
     }
 
+    @Transactional(readOnly = true)
+    public  Page<MainItemDto> natureItemPage(Pageable pageable, String nature){
+        return  itemRepository.natureItemPage(pageable, nature);
+    }
+
     public  void deleteItemId(Long ItemId){
 
         itemRepository.deleteById(ItemId);
