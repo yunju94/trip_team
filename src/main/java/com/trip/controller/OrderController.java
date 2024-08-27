@@ -90,11 +90,17 @@ public class OrderController {
             return "member/memberLoginForm";
         }
         Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
-        //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
+        //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 5
         Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
-        Optional<Order> order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());
-        Optional<OrderItem> orderItem = orderService.orderItemDetail(order);
-        ItemFormDto itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
+        Optional<Order> order= null;
+        Optional<OrderItem> orderItem = null;
+        ItemFormDto itemFormDto = null;
+        if (orderHistDtoList.get().findFirst().isPresent()){
+            order = orderService.orderdetail(orderHistDtoList.get().findFirst().get().getOrderId());
+            orderItem = orderService.orderItemDetail(order);
+            itemFormDto =itemService.getItemDtl(orderItem.get().getItem().getId());
+        }
+
         // 이메일을 가지고 service에 가서 개인 정보를 이용해서 order리스트를 받아온다.
         //html에 오더 리스트를 넘겨주고 for문으로 돌려서 찾는다.
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,6 +129,12 @@ public class EventService {
     @Transactional(readOnly = true)
     public Page<EventDto> getEventJapan(Pageable pageable, String search){
         return  eventRepository.getEventJapan(pageable, search);
+    }
+
+
+    @Transactional(readOnly = true)
+    public  Page<EventDto> getEventDate(Pageable pageable, LocalDate startDate, LocalDate endDate){
+        return eventRepository.getEventDate(pageable, startDate, endDate);
     }
 
 

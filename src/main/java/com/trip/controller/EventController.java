@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,8 +145,30 @@ public class EventController {
         return "event/vetnam";
 
     }
-    @GetMapping(value = "/event/dragon")
-    public String Eventgragon(){
+    @GetMapping(value = {"/event/dragon", "/event/dragon/{page}"})
+    public String Eventgragon(@PathVariable Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
+
+        LocalDate startDate1 = LocalDate.of(2024,9,14);
+        LocalDate endDate1 = LocalDate.of(2024,9,18);
+        Page<EventDto> eventDtoList1 = eventService.getEventDate(pageable, startDate1, endDate1);
+        if (LocalDate.now().isAfter(endDate1)){
+            eventDtoList1 = null;
+        }else {
+            model.addAttribute("eventDtoList1", eventDtoList1);
+        }
+
+        LocalDate startDate2 = LocalDate.of(2024,10,3);
+        LocalDate endDate2 = LocalDate.of(2024,10,9);
+        Page<EventDto> eventDtoList2 = eventService.getEventDate(pageable, startDate2, endDate2);
+        if (LocalDate.now().isAfter(endDate2)){
+            eventDtoList2 = null;
+        }else {
+            model.addAttribute("eventDtoList2", eventDtoList2);
+        }
+
+        model.addAttribute("maxPage", 5);
+
 
         return "event/dragon";
 

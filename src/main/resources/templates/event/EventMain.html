@@ -43,22 +43,33 @@
 
 <div layout:fragment="content">
     <div>
-        <div class="main_img"><img th:src="@{/css/images/event.jpg}" alt="Event Image"></div>
-    </div>
-    <div class="img-container" th:each="event : ${event}">
-        <!-- event.content가 비어 있지 않는 경우 -->
-        <div class="imgdiv" th:if="${#lists.isEmpty(event.content)}">
-            <a th:href ="@{/event/{id}(id=${event.id})}">
-            <img th:src="${event.eventImgs[0].imgUrl}" id="${event.id}" >
-            </a>
-        </div>
-        <!-- event.event가 비어 있지 않는 경우 -->
-        <div class="imgdiv" th:if="${not #lists.isEmpty(event.content)}">
-            <a th:href="@{/event/{id}(id=${event.id})}">
-            <img th:src="${event.content[0].link}" id="${event.id}">
-            </a>
+        <div class="main_img">
+            <img th:src="@{/css/images/event.jpg}" alt="Event Image">
         </div>
     </div>
+
+
+        <div class="main_img">
+            <a th:href="@{/event/vetnam}">
+                <img th:src="@{/css/images/vetnam.jpg}" alt="Vietnam">
+            </a>
+        </div>
+        <div class="main_img">
+            <a th:href="@{/event/dragon}">
+                <img th:src="@{/css/images/dragon.jpg}">
+            </a>
+        </div>
+        <div class="main_img">
+            <a th:href="@{/event/japan}">
+                <img th:src="@{/css/images/japan.jpg}">
+            </a>
+        </div>
+        <div class="main_img">
+            <a th:href="@{/event/america}">
+                <img th:src="@{/css/images/ame.jpg}">
+            </a>
+        </div>
+
 </div>
 
 </html>

@@ -59,100 +59,104 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let search="";
+         let str = "";
+          let page =1;
+          let loadingData = false;
 
+          function loadItems(page) {
+              var token = $("meta[name='_csrf']").attr("content");
+              var header = $("meta[name='_csrf_header']").attr("content");
+              search = $('#search').val();
+              str = $('#str').val();
+              console.log(str);
+              if (loadingData) {
+                  return;
+              }
 
-
-    let search="";
-      let page =1;
-      let loadingData = false;
-
-      function loadItems(page) {
-          var token = $("meta[name='_csrf']").attr("content");
-          var header = $("meta[name='_csrf_header']").attr("content");
-          search = $('#search').val();
-          if (loadingData) {
-              return;
-          }
-
-          loadingData = true;
-           var paramData = {
+              loadingData = true;
+                 var paramData = {
            "page": page,
             "search": search,
+            "str": str,
 
         };
           var param = JSON.stringify(paramData);
 
-          $.ajax({
-              type: "POST",
-              url: "/item/scrolling",
-              data: param,
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader(header, token);
-              },
-              success: function (response) {
-                  var newItems = response.content;
-                  var container = $('#itemContainer');
+              $.ajax({
+                  type: "POST",
+                  url: "/item/scrolling/"+page+"/"+ search+ "/"+str ,
+                  data: param,
+                  beforeSend: function (xhr) {
+                      xhr.setRequestHeader(header, token);
+                  },
+                  success: function (response) {
+                      var newItems = response.items;
 
-                  newItems.forEach(function (item) {
-                      var newItemHtml = `
+                      var container = $('#itemContainer');
 
-                         <table class="image-table">
-                            <tbody id="data-list">
-                            <tr >
-                                <td >
-                                    <div class='image-card'>
-                                        <img src="${item.imgUrl}" alt="Item Image">
-                                    </div>
-                                </td>
-                                <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
-                                <td>
-                                    <p >${item.itemNm}</p>
-                                    <p >${item.price}</p>
-                                    <p >${item.itemDetail}</p>
-                                    <p>출발 가능 기간:<a >${item.startDate}</a></p>
-                                </td>
-                            </tr>
-                            </tbody>
+                       newItems.forEach(function (item) {
+                var itemStatusBadge = item.itemSellStatus === 'SELL'
+                    ? `<span class="badge bg-primary mgb-15"> 판매중</span>`
+                    : `<span class="badge bg-primary mgb-15"> 마감</span>`;
 
-                            <!-- 선택한 상품 삭제 버튼 -->
+                var newItemHtml = `
+                    <table class="image-table">
+                        <tbody id="data-list">
+                        <tr >
+                            <td >
+                                <div class='image-card'>
+                                    <img src="${item.imgUrl}" alt="Item Image">
+                                </div>
+                            </td>
+                            <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
+                            <td>
+                                ${itemStatusBadge}
+                                <p>${item.itemNm}</p>
+                                <p>${item.price}</p>
+                                <p>${item.itemDetail}</p>
+                                <p>출발 가능 기간:<a>${item.startDate}</a></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <!-- 선택한 상품 삭제 버튼 -->
+                    </table>
+                `;
+                container.append(newItemHtml);
+            });
+            loadingData = false;
+        },
+                  error: function (xhr, status, error) {
+                      console.error("에러: ", xhr.responseText);
+                      loadingData = false;
+                  }
+              });
+          }
 
-                        </table>
+          $(document).ready(function () {
 
-                      `;
-                      container.append(newItemHtml);
-                  });
-                  loadingData = false;
-              },
-              error: function (xhr, status, error) {
-                  console.error("에러: ", xhr.responseText);
-                  loadingData = false;
-              }
+
+              loadItems(page);
+
+              $(window).scroll(function () {
+
+                     console.log("scroll")
+                  var currentScroll = $(this).scrollTop();
+                  var windowHeight = $(window).height();
+                  var documentHeight = $(document).height();
+
+                  if (currentScroll + windowHeight >= documentHeight - 10 && !loadingData) {
+                      loadItems(++page);
+                  }
+              });
           });
-      }
-
-      $(document).ready(function () {
-
-
-          loadItems(page);
-
-          $(window).scroll(function () {
-
-                 console.log("scroll")
-              var currentScroll = $(this).scrollTop();
-              var windowHeight = $(window).height();
-              var documentHeight = $(document).height();
-
-              if (currentScroll + windowHeight >= documentHeight - 10 && !loadingData) {
-                  loadItems(++page);
-              }
-          });
-      });
     </script>
 </head>
 <body>
 <div layout:fragment="content">
     <div id="itemContainer">
         <input type="hidden" id="search" th:value="${search}">
+        <input type="hidden" id="str" th:value="${str.isPresent? str.get(): null}">
         <div th:each="item : ${items}">
             <table class="image-table">
                 <tbody id="data-list">
