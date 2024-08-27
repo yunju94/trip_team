@@ -105,17 +105,21 @@
                         <tbody id="data-list">
                         <tr >
                             <td >
+                                <a href="/item/ ${item.id}" class="text-dark">
                                 <div class='image-card'>
                                     <img src="${item.imgUrl}" alt="Item Image">
                                 </div>
+                                </a>
                             </td>
                             <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
                             <td>
+                                <a href="/item/${item.id}" class="text-dark">
                                 ${itemStatusBadge}
                                 <p>${item.itemNm}</p>
                                 <p>${item.price}</p>
                                 <p>${item.itemDetail}</p>
                                 <p>출발 가능 기간:<a>${item.startDate}</a></p>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -161,13 +165,17 @@
             <table class="image-table">
                 <tbody id="data-list">
                 <tr >
+
                     <td >
+                        <a th:href="'/item/' + ${item.id}" class="text-dark">
                         <div class='image-card'>
                             <img th:src="${item.imgUrl}" alt="Item Image">
                         </div>
+                        </a>
                     </td>
                     <!-- 상품 데이터는 JavaScript로 동적으로 로드 -->
                     <td>
+                        <a th:href="'/item/' + ${item.id}" class="text-dark">
                         <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                               class="badge bg-primary mgb-15"> 판매중</span>
                         <span th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
@@ -176,7 +184,9 @@
                         <p th:text="${item.price}"></p>
                         <p th:text="${item.itemDetail}"></p>
                         <p>출발 가능 기간:<a th:text="${item.startDate}"></a></p>
+                        </a>
                     </td>
+
                 </tr>
                 </tbody>
 
