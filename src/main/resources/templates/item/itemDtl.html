@@ -11,6 +11,14 @@
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
+            var errorMessage = [[${errorMessage}]];
+            if (errorMessage != null) {
+                alert(errorMessage);
+            }
+
+
+
+
             calculateTotalPrice();
             ItemCountPlus();
 
@@ -165,7 +173,7 @@
 
         function update() {
             var itemId = $('#itemId').val();
-            location.href = '/admin/item/update/' + itemId;
+            location.href = '/admin/item/' + itemId;
         }
 
 
@@ -202,9 +210,8 @@
                         alert('로그인 후 이용해주세요.');
                         location.href = '/members/login';
                     } else {
-                      //  alert(jqXHR.responseText);
-                        alert("삭제 완료!");
-                        location.href = '/';
+                        alert(jqXHR.responseText);
+
                     }
                 }
             });
@@ -443,12 +450,12 @@
         </div>
         <div class="important-notes">
             <h4><strong>여행시 유의사항</strong></h4>
-            <br>
-            <p><strong>여행 중 대형버스 탑승시, 탑승객 전원의 안전벨트 착용이 의무화되었습니다.</strong></p>
-            <p>주말 및 연휴 기간에는 현지 교통 혼잡으로 인해 일정이 다소 변경 될 수 있습니다.</p>
-            <p>환전은 미리 공항 또는 은행에서 해오셔야 합니다.</p>
-            <p>숙소에는 기본적인 세면도구(비누,샴푸,치약,칫솔 등)가 비치되어 있습니다.</p>
-            <p>2019년 4월 22일부터 해외에서의 육류 제품의 불법 반입에 대한 대응을 엄격화하며, 적발시 3년 이하의 징역 또는 300만엔(한화 약 3,300만원) 이하의 벌금이 부과될 수 있으니 유의바랍니다.</p>
+                    <br>
+                    <p><strong>여행 중 대형버스 탑승시, 탑승객 전원의 안전벨트 착용이 의무화되었습니다.</strong></p>
+                    <p>주말 및 연휴 기간에는 현지 교통 혼잡으로 인해 일정이 다소 변경 될 수 있습니다.</p>
+                    <p>환전은 미리 공항 또는 은행에서 해오셔야 합니다.</p>
+                    <p>숙소에는 기본적인 세면도구(비누,샴푸,치약,칫솔 등)가 비치되어 있습니다.</p>
+                    <p>2019년 4월 22일부터 해외에서의 육류 제품의 불법 반입에 대한 대응을 엄격화하며, 적발시 3년 이하의 징역 또는 300만엔(한화 약 3,300만원) 이하의 벌금이 부과될 수 있으니 유의바랍니다.</p>
         </div>
 
         <div class="document-image">

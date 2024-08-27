@@ -25,7 +25,7 @@ public class Item extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // 상품코드
 
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String itemNm; // 패키지명
 
     @Column(name = "price", nullable = false)
@@ -35,7 +35,8 @@ public class Item extends BaseEntity {
     private int stockNumber; // 인원
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
+
     private String itemDetail; // 상품상세설명
 
     @Enumerated(EnumType.STRING)
@@ -57,8 +58,6 @@ public class Item extends BaseEntity {
     private Region region; // 지역
 
     private  int count;//조회수
-
-    
 
 
     @ManyToMany(fetch = FetchType.LAZY)

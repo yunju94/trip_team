@@ -1,8 +1,10 @@
 package com.trip.controller;
 
 import com.trip.constant.Role;
+import com.trip.dto.EventDto;
 import com.trip.dto.EventFormDto;
 import com.trip.dto.ItemFormDto;
+import com.trip.dto.OrderHistDto;
 import com.trip.entity.Member;
 import com.trip.entity.event;
 import com.trip.service.EventService;
@@ -10,6 +12,9 @@ import com.trip.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,11 +49,14 @@ public class EventController {
                                 @RequestParam("eventImgFile") List<MultipartFile> eventImgFileList , Model model){
 
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult);
+            System.out.println(bindingResult.hasErrors());
             return "event/FormWrite";
         }
         try {
-
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             eventService.saveEventTem(eventFormDto, eventImgFileList);
+            System.out.println("cccccccccccccccccccccccccccccccccccccccccccc");
         } catch (Exception e) {
             model.addAttribute("errorMessage",
                     "상품 등록 중 에러가 발생하였습니다.");
@@ -121,6 +129,53 @@ public class EventController {
         return "event/EventMain";
     }
 
+    @GetMapping(value = {"/event/vetnam", "/event/vetnam/{page}"})
+    public String Eventvetnam(@PathVariable Optional<Integer> page, Model model){
+
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
+        String search = "NHA_TRANG";
+        Page<EventDto> eventDtoList = eventService.getEventJapan(pageable, search);
+
+        model.addAttribute("eventDtoList", eventDtoList);
+        model.addAttribute("maxPage", 5);
+
+
+
+        return "event/vetnam";
+
+    }
+    @GetMapping(value = "/event/dragon")
+    public String Eventgragon(){
+
+        return "event/dragon";
+
+    }
+
+    @GetMapping(value = {"/event/japan","/event/japan/{page}" })
+    public String Eventjapan(@PathVariable Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
+        String search = "JAPAN";
+        Page<EventDto> eventDtoList = eventService.getEventJapan(pageable, search);
+
+        model.addAttribute("eventDtoList", eventDtoList);
+        model.addAttribute("maxPage", 5);
+
+        return "event/japan";
+
+    }
+    @GetMapping(value = {"/event/america", "/event/america/{page}"})
+    public String Eventamerica(@PathVariable Optional<Integer> page, Model model){
+
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 5);
+        String search = "USA";
+        Page<EventDto> eventDtoList = eventService.getEventJapan(pageable, search);
+
+        model.addAttribute("eventDtoList", eventDtoList);
+        model.addAttribute("maxPage", 5);
+
+        return "event/america";
+
+    }
 
 
 }

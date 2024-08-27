@@ -1,17 +1,15 @@
 package com.trip.repository;
 
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import com.trip.constant.Category;
+import com.trip.constant.Nature;
 import com.trip.dto.*;
 import com.trip.dto.QMainItemDto;
 
-import com.trip.entity.Item;
-import com.trip.entity.QItem;
-import com.trip.entity.QItemImg;
+import com.trip.entity.*;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +21,7 @@ import java.util.List;
 
 import static com.trip.constant.Nature.DOMESTIC;
 import static com.trip.constant.Nature.OVERSEAS;
+import static com.trip.entity.QItemImg.itemImg;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     private JPAQueryFactory queryFactory; // 동적쿼리 사용하기 위해 JPAQueryFactory 변수 선언
@@ -148,6 +147,43 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
+
+    public  Nature viewNature(List<Viewer> viewerList){
+        int domestic = 0;
+        int overseas = 0;
+        for (Viewer view : viewerList){
+            if (view.getItem().getNature().equals(DOMESTIC)){
+                domestic+= 1;
+            }else {
+                overseas+=1;
+            }
+        }
+        return domestic >= overseas ? DOMESTIC : OVERSEAS;
+
+    }
+    public Page<MainItemDto> MemberItemPage(Pageable pageable, List<Viewer> viewerList) {
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<MainItemDto> results = queryFactory
+                .select(new  QMainItemDto(item.id,item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.startDate,item.endDate))
+                .from(itemImg).join(itemImg.item, item)
+                .where(itemImg.reqImgYn.eq("Y"))
+                .where(item.nature.eq(viewNature(viewerList)))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
+
+
+
+
 
 }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<th:block layout:fragment="script">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script th:inline="javascript">
+
+
+    </script>
+</th:block>
+<th:block layout:fragment="css">
+    <style>
+        .imgDiv {
+            position: relative;
+            width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+            padding-left: 25px; /* 전체 컨테이너를 왼쪽으로 25px 이동 */
+            box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
+        }
+
+        .imgDiv img {
+            display: block; /* 이미지의 블록 디스플레이 설정 */
+            margin: 0 auto; /* 이미지의 좌우 여백을 자동으로 설정하여 가운데 정렬 */
+            max-width: 100%; /* 이미지가 부모 요소의 너비를 초과하지 않도록 설정 */
+        }
+    </style>
+</th:block>
+<div layout:fragment="content" >
+    <div class="imgDiv">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_001_1.jpg" alt="Description of image">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_008_fix.jpg" alt="Description of image">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_008_9.jpg" alt="Description of image">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_008_10.jpg" alt="Description of image">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_008_bottom.jpg" alt="Description of image">
+        <img src="https://image.hanatour.com/usr/manual/md/2023/10/PL00114279/pc_009.jpg" alt="Description of image">
+    </div>
+
+</div>
+</html>

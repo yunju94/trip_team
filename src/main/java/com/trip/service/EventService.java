@@ -1,9 +1,6 @@
 package com.trip.service;
 
-import com.trip.dto.EventFormDto;
-import com.trip.dto.EventImgDto;
-import com.trip.dto.ItemFormDto;
-import com.trip.dto.ItemImgDto;
+import com.trip.dto.*;
 import com.trip.entity.Item;
 import com.trip.entity.ItemImg;
 import com.trip.entity.event;
@@ -12,6 +9,8 @@ import com.trip.repository.EventImgReposotory;
 import com.trip.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -124,6 +123,11 @@ public class EventService {
        eventRepository.delete(event);
 
 
+    }
+
+    @Transactional(readOnly = true)
+    public Page<EventDto> getEventJapan(Pageable pageable, String search){
+        return  eventRepository.getEventJapan(pageable, search);
     }
 
 

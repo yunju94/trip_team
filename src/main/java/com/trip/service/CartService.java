@@ -1,21 +1,14 @@
 package com.trip.service;
 
-import com.trip.dto.CartDetailDto;
-import com.trip.dto.CartItemDto;
-import com.trip.dto.CartOrderDto;
-import com.trip.dto.OrderDto;
-import com.trip.entity.Cart;
-import com.trip.entity.CartItem;
-import com.trip.entity.Item;
-import com.trip.entity.Member;
-import com.trip.repository.CartItemRepository;
-import com.trip.repository.CartRepository;
-import com.trip.repository.ItemRepository;
-import com.trip.repository.MemberRepository;
+import com.trip.dto.*;
+import com.trip.entity.*;
+import com.trip.repository.*;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -34,6 +27,7 @@ public class CartService {
     private  final CartRepository cartRepository;
     private  final CartItemRepository cartItemRepository;
     private  final  OrderService orderService;
+    private  final ViewRepository viewRepository;
 
     @Transactional(readOnly = true)
     public List<CartDetailDto> getCartList(String email){
@@ -130,6 +124,9 @@ public class CartService {
             cartItemRepository.delete(cartItem);
 
         return orderId;
+    }
+    public Page<MainItemDto> MemberItemPage(Pageable pageable, List<Viewer> viewerList){
+        return itemRepository.MemberItemPage(pageable, viewerList);
     }
 
 

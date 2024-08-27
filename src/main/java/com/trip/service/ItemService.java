@@ -131,6 +131,8 @@ public class ItemService {
     public  int countPlus(int count, long itemId){
         Item item =itemRepository.findById(itemId).orElseThrow();
         item.setCount(count+1);
+
+
         itemRepository.save(item);
         return item.getCount();
     }
@@ -144,4 +146,6 @@ public class ItemService {
         itemRepository.deleteById(ItemId);
 
     }
+
+
 }

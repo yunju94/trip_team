@@ -407,18 +407,12 @@ padding-right:10px;
                 </svg>
             </h3>
             <div class="slider">
-                <div class="sliderDiv">
-                    <img class="img-fluid" th:src="@{/css/images/jeju_1.jpg}">
+                <div class="sliderDiv" th:each="view : ${MemberItem}">
+                    <a th:href="@{'item/' + ${view.id}}">
+                    <img class="img-fluid" th:src="${view.imgUrl}" style="width:300px; height:200px;">
+                    </a>
                 </div>
-                <div class="sliderDiv">
-                    <img class="img-fluid" th:src="@{/css/images/jeju_2.jpg}">
-                </div>
-                <div class="sliderDiv">
-                    <img class="img-fluid" th:src="@{/css/images/jeju_3.jpg}">
-                </div>
-                <div class="sliderDiv">
-                    <img class="img-fluid" th:src="@{/css/images/jeju_4.jpg}">
-                </div>
+
             </div>
 
         </div>
