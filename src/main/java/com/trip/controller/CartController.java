@@ -2,10 +2,7 @@ package com.trip.controller;
 
 import com.trip.dto.*;
 import com.trip.entity.*;
-import com.trip.service.CartService;
-import com.trip.service.ItemService;
-import com.trip.service.MemberService;
-import com.trip.service.OrderService;
+import com.trip.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.LockSupport;
 
 @Controller
 @AllArgsConstructor
@@ -31,6 +29,7 @@ public class CartController {
     private  final OrderService orderService;
     private  final ItemService itemService;
     private  final MemberService memberService;
+    private  final ViewService viewService;
 
     @GetMapping(value = "/cart")
     public String main(Principal principal, Model model) {
@@ -42,6 +41,15 @@ public class CartController {
         //아이템과 오더, 카트를 조인한 후 거기에 필요한 정보를 빼와서 리스트로 만든다.
         List<CartDetailDto> cartDetailItem = cartService.getCartList(principal.getName());
         model.addAttribute("cartDetailItem", cartDetailItem);
+
+        List<Viewer> viewerList = viewService.memberSearch(principal.getName());
+        Pageable pageable = PageRequest.of( 0, 5);
+        Page<MainItemDto> MemberItem = cartService.MemberItemPage( pageable, viewerList);
+
+        model.addAttribute("MemberItem", MemberItem);
+
+
+
 
         return "cart/cartList";
     }

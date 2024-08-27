@@ -1,7 +1,9 @@
 package com.trip.service;
 
+import com.trip.entity.Item;
 import com.trip.entity.ItemImg;
 import com.trip.repository.ItemImgRepository;
+import com.trip.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ItemImgService {
     @Value("${itemImgLocation}")
     private String itemImgLocation;
+
+    private  final ItemRepository itemRepository;
 
     private final ItemImgRepository itemImgRepository;
     private final FileService fileService;
@@ -63,6 +69,16 @@ public class ItemImgService {
             // ※ 영속성 상태여야함
             savedItemImg.updateItemImg(oriImgName,imgName,imgUrl);
         }
+    }
+
+
+    public  void deleteImg(Long itemId){
+        Item item = itemRepository.findById(itemId).orElseThrow();
+        List<ItemImg> itemImgList = itemImgRepository.findById(item.getId()).stream().toList();
+        for (ItemImg itemImg : itemImgList){
+            itemImgRepository.delete(itemImg);
+        }
+
     }
 }
 

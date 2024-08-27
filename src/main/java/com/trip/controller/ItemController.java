@@ -4,8 +4,10 @@ import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.entity.Member;
+import com.trip.service.ItemImgService;
 import com.trip.service.ItemService;
 import com.trip.service.MemberService;
+import com.trip.service.ViewService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ import java.util.Optional;
 public class ItemController {
     private final ItemService itemService;
     private final MemberService memberService;
+    private  final ViewService viewService;
+    private  final ItemImgService itemImgService;
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto",new ItemFormDto());
@@ -146,21 +150,32 @@ public class ItemController {
     public @ResponseBody ResponseEntity deleteItemDtl(@PathVariable Long Id, Model model){
 
         try {
-
+            viewService.deleteItem(Id);
+            itemImgService.deleteImg(Id);
             itemService.deleteItemId(Id);
 
         } catch (Exception e) {
             model.addAttribute("errorMessage", "삭제 중 오류 발생!");
         }
-        return   ResponseEntity.ok(Id);
+        String jsonResponse = "{\"Id\": \"" + Id + "\"}";
+        return  new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
     }
 
     @PostMapping(value = "/item/count/{Itemcount}/{itemId}")
     public @ResponseBody ResponseEntity itemCountSave (@PathVariable(name = "Itemcount") int Itemcount,
-                                                       @PathVariable(name = "itemId") Long itemId){
+                                                       @PathVariable(name = "itemId") Long itemId,
+                                                       Principal principal){
+
+        String email=principal.getName();
+        Member member = memberService.memberload(email);
+        viewService.savememberItem(member, itemId);
+
+
         int ItemCount=itemService.countPlus(Itemcount, itemId);
         String jsonResponse = "{\"count\": \"" + ItemCount + "\"}";
+
+
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
     @GetMapping(value = {"/items/searchText/{search}", "/items/searchText/{search}/{page}"})
