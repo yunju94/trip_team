@@ -393,6 +393,10 @@
     color: red;
     font-weight: bold;
 }
+
+              .bg-red {
+                background-color: #FF0000; /* 붉은 색 */
+            }
     </style>
 </th:block>
 <div layout:fragment="content" style="margin-left: 25%;margin-right: 25%;">
@@ -409,7 +413,7 @@
             <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                   class="badge bg-primary mgb-15">판매중</span>
             <span th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
-                  class="badge bg-primary mgb-15">마감</span>
+                  class="badge bg-red mgb-15">마감</span>
             <div class="h4" th:text="${item.itemNm}"></div>
             <hr class="my-4">
             <div class="text-right">

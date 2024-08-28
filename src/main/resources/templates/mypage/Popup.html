@@ -22,11 +22,21 @@
                 }
             }
             function setParentText() {
-                opener.document.getElementById("memberId").value = document.getElementById("ChId").value;
-                opener.document.getElementById("Id").value = document.getElementById("ChId").value;
+                var checkboxes = $('input[name="ChkBox"]:checked');
+                 var value='';
+                  checkboxes.each(function() {
+                    value = $(this).val();
+                    console.log(value);
+                })
+
+
+
+
+                opener.document.getElementById("memberId").value =value;
+                opener.document.getElementById("Id").value = value;
                 var token = [[${_csrf.token}]];
                 var header = [[${_csrf.headerName}]];
-                var memberId = document.getElementById("ChId").value;
+                var memberId = value;
                 var url = "/mileage/" + memberId + "/search";
 
                  var paramData = {

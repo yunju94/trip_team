@@ -1,5 +1,6 @@
 package com.trip.controller;
 
+import com.trip.constant.ItemSellStatus;
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,6 +222,16 @@ public class ItemController {
             System.out.println("No search or str parameter provided");
         }
 
+
+        LocalDate currency=LocalDate.now();
+        for (MainItemDto mainItemDto : items){
+            if (mainItemDto.getStartDate().isBefore(currency)){
+                if (mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)){
+                    itemService.ItemSellStatusChange(mainItemDto.getId());
+                }
+            }
+        }
+
         // Prepare the JSON response
         Map<String, Object> response = new HashMap<>();
         response.put("items", items.getContent()); // Extract items list from Page object
@@ -249,12 +261,24 @@ public class ItemController {
                 model.addAttribute("search", search.get());
             }
         }
+        LocalDate currency=LocalDate.now();
+        for (MainItemDto mainItemDto : items){
+            if (mainItemDto.getStartDate().isBefore(currency)){
+                if (mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)){
+                    itemService.ItemSellStatusChange(mainItemDto.getId());
+                }
+            }
+        }
         model.addAttribute("items", items);
         model.addAttribute("maxPage", 5);
 
 
         return "nature/nature";
     }
+
+
+
+
 
 
 

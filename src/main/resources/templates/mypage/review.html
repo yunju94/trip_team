@@ -320,121 +320,42 @@ margin-top:-450px;
                 </ul>
             </div>
 
-        <!-----------------------------건들이지 말기-------------------------------->
+            <!-----------------------------건들이지 말기-------------------------------->
 
-        <div>
-            <h4 class="hh4">예약 내역</h4>
-        </div>
-
-        <div>
-            <div th:each="order, status : ${orderlist}">
-                <div class="fullbox">
-                    <div class="dateline">
-                        <tr>
-                            <td th:text="${order.orderDate}">주문 시간</td><!--주문 시간-->
-                            <a class="tx2">주문번호 :
-                                <td th:text="${order.orderId}">
-                            </a></td><!--주문번호-->
-                        </tr>
-                    </div>
-
-                    <div class="itembox">
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
-                            <td rowspan="3">
-                                <div class="imgbox">
-                                    <img class="rounded repImg" th:alt="${orderItem.itemNm}"
-                                         th:src="${orderItem.imgUrl}" width="450px" height="300px">
-                                </div>
-                            </td><!--이미지-->
-
-
-                            <a class="tx3">상품 명 :
-                                <td th:text="${orderItem.itemNm}">
-                            </a>
-                            </td><!--상품명-->
-                        </tr>
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
-                            <a class="tx4">인원 :
-                                <td th:text="${orderItem.count}">
-                            </a>
-
-                            </td><!--인원-->
-                        </tr>
-                        <tr th:each="orderItem : ${order.orderItemDtoList}">
-                            <a class="tx5">가격 :
-                                <td th:text="${orderItem.orderPrice}">가격</td>
-                            </a>
-                        </tr>
-                        <tr>
-                            <a class="tx6">상세 설명 :
-                                <td th:text="${order.itemDetail}"></td>
-                            </a>
-                        </tr>
-                        <tr>
-                            <a class="tx7">국내/해외 :
-                                <td th:text="${order.nature.displayName}"></td>
-                            </a>
-                        </tr>
-
-                        <tr>
-                            <a class="tx8">도착지 :
-                                <td th:text="${order.category.displayName}"></td>
-                            </a>
-                        </tr>
-
-                        <tr>
-                            <a class="tx9">출발일 :
-                                <td th:text="${order.startDate}"></td>
-                            </a>
-                        </tr>
-
-                        <tr>
-                            <a class="tx10">도착일 :
-                                <td th:text="${order.endDate}"></td>
-                            </a>
-                        </tr>
-
-
-                    </div>
-
-
+            <div>
+                <h4 class="hh4">여행 후기</h4>
+            </div>
+            <table>
+                <thead>
+                    <tr>예약코드/예약날짜</tr>
+                    <tr>상품명</tr>
+                    <tr>인원</tr>
+                    <tr>출발일/귀국일</tr>
+                    <tr>예약상태</tr>
+                    <tr>상품평</tr>
+                </thead>
+                <tbody th:each=" view : ${orderHistDtoList}">
                     <tr>
-                        <td>
-                            <button class="order-cancel"
-                                    onclick="orderCancel(this.value)" th:if="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}"
-                                    th:value="${order.orderId}" type="button">주문 취소
-                            </button>
-                            <h3 class="cancelcp"
-                                th:unless="${order.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">취소 완료</h3>
-                        </td>
+                        <td th:text="${view.orderUid}"></td>/
+                        <td  th:text="${view.orderDate}"></td>
                     </tr>
-                </div>
-            </div>
-
-
-            <div th:with="start=${(orderlist.number/maxPage)*maxPage + 1},
-                end=(${(orderlist.totalPages ==0) ?
-                1 : (start + (maxPage-1) <orderlist.totalPages ? start + (maxPage -1) : orderlist.totalPages)})">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:classappend="${orderlist.first}? 'disabled'">
-                        <a th:href="@{'/orders/'+ ${orderlist.number-1}}" aria-label='Previous' class="page-link">
-                            <span aria-hidden="true">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
-                        th:classappend="${orderlist.number eq page-1}?'active':''">
-                        <a th:href="@{'/orders/' + ${page -1}}"
-                           th:inline="text"
-                           class="page-link">[[${page}]]</a>
-                    </li>
-                    <li class="page-item" th:classappend="${orderlist.last}?'disabled'">
-                        <a th:href="@{'/orders/'+ ${orderlist.number+1}}" aria-label="Next" class="page-link">
-                            <span aria-hidden="true">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
+                    <tr th:text="${view.itemNm}"></tr>
+                    <tr th:text="${view.item.count}"></tr>
+                    <tr>
+                        <td th:text="${view.startDate}"></td>/
+                        <td  th:text="${view.endDate}"></td>
+                    </tr>
+                    <tr>
+                        <td class="badge bg-primary mgb-15"
+                            th:if="${view.orderStatus== (com.trip.constant.ItemSellStatus).SELL}">판매중</td>
+                        <td class="badge bg-primary mgb-15"
+                            th:unless="${view.orderStatus== (com.trip.constant.ItemSellStatus).SELL}">마감</td>
+                    </tr>
+                    <tr>
+                        <button >상품평 작성</button>
+                    </tr>
+                </tbody>
+            </table>
 
 
         </div>

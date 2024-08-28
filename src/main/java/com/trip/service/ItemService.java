@@ -1,6 +1,7 @@
 package com.trip.service;
 
 
+import com.trip.constant.ItemSellStatus;
 import com.trip.constant.Nature;
 import com.trip.dto.*;
 import com.trip.entity.*;
@@ -150,6 +151,11 @@ public class ItemService {
 
         itemRepository.deleteById(ItemId);
 
+    }
+
+    public  void  ItemSellStatusChange(Long itemId){
+        Item item = itemRepository.findById(itemId).orElseThrow();
+        item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
     }
 
 
