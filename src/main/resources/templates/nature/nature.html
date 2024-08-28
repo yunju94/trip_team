@@ -56,6 +56,10 @@
     border-radius: 50%;
   }
 
+        .bg-red {
+    background-color: #FF0000; /* 붉은 색 */
+}
+
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -98,7 +102,7 @@
                        newItems.forEach(function (item) {
                 var itemStatusBadge = item.itemSellStatus === 'SELL'
                     ? `<span class="badge bg-primary mgb-15"> 판매중</span>`
-                    : `<span class="badge bg-primary mgb-15"> 마감</span>`;
+                    : `<span class="badge bg-red mgb-15"> 마감</span>`;
 
                 var newItemHtml = `
                     <table class="image-table">
@@ -179,7 +183,7 @@
                         <span th:if="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
                               class="badge bg-primary mgb-15"> 판매중</span>
                         <span th:unless="${item.itemSellStatus == T(com.trip.constant.ItemSellStatus).SELL}"
-                              class="badge bg-primary mgb-15"> 마감</span>
+                              class="badge bg-red mgb-15"> 마감</span>
                         <p th:text="${item.itemNm}"></p>
                         <p th:text="${item.price}"></p>
                         <p th:text="${item.itemDetail}"></p>

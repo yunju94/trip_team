@@ -7,8 +7,10 @@ import com.trip.dto.MileageDto;
 import com.trip.dto.OrderHistDto;
 import com.trip.entity.*;
 import com.trip.service.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -159,4 +161,20 @@ public class MypageController {
         model.addAttribute("comments", commen);
         return "mypage/UserQuestion";//멤버 정보가 관리자인 경우
     }
+
+    @GetMapping(value = {"/review", "/review/{page}"})
+    public String reviewPage(@PathVariable Optional<Integer>page,
+                             Principal principal, Model model){
+
+        Pageable pageable = PageRequest.of(page.isPresent()? page.get() : 0, 10);
+        //페이지가 있는가? 없으면 [0]페이지를 받는다. 있으면 그 페이지를 얻는다. 페이지당 크기 10
+        Page<OrderHistDto> orderHistDtoList = orderService.orderlist(principal.getName(), pageable);
+
+        model.addAttribute("orderHistDtoList", orderHistDtoList);
+        return "mypage/review";
+    }
+
+
+
+
 }
