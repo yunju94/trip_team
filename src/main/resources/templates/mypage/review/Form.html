@@ -11,11 +11,13 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        function review(){
-            var itemNm = $('#itemNm').text();
-            console.log(itemNm)
-             location.href = "/review/new/" + encodeURIComponent(itemNm);
-        }
+        $(document).ready(function () {
+           var errorMessage = [[${errorMessage}]];
+           if (errorMessage != null) {
+               alert(errorMessage);
+           }
+        })
+
     </script>
 </th:block>
 
@@ -309,6 +311,58 @@ margin-top:-450px;
         button:hover {
             background-color: #218838;
         }
+
+
+
+
+
+
+
+         /* 리뷰 작성 */
+
+        body {
+                font-family: Arial, sans-serif;
+            }
+            form {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                background-color: #f9f9f9;
+            }
+            label {
+                display: block;
+                margin: 10px 0 5px;
+                font-weight: bold;
+            }
+            input[type="text"], textarea, select {
+                width: 100%;
+                padding: 8px;
+                margin: 5px 0 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            textarea {
+                height: 200px;
+                width:500px;
+                resize: vertical;
+            }
+            button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                color: #fff;
+                background-color: #007bff;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            div {
+                margin-top: 20px;
+            }
     </style>
 </th:block>
 <body>
@@ -346,35 +400,47 @@ margin-top:-450px;
             <div>
                 <h4 class="hh4">여행 후기</h4>
             </div>
-            <table>
-                <thead>
-                <tr>
-                    <th>예약날짜</th>
-                    <th>상품명</th>
-                    <th>출발일/귀국일</th>
-                    <th>예약상태</th>
-                    <th>상품평</th>
-                </tr>
-                </thead>
-                <tbody th:each="view : ${orderHistDtoList}">
-                <tr>
-                    <td th:text="${view.orderDate}"></td>
-                    <td th:text="${view.itemNm}" id="itemNm" th:value="${view.itemNm}"></td>
-                    <td >[[${view.startDate}]]/
-                    [[${view.endDate}]]</td>
-                    <td>
-                        <span class="badge bg-primary mgb-15" th:text="${view.orderStatus}">판매중</span>
-                    </td>
 
-                    <td>
-                        <div th:if="${view.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">
-                            <button onclick="review()">상품평 작성</button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <form action="/review/Formsave"   method="post" enctype="multipart/form-data" th:object="${reviewFormDto}">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{member}">
+                <input type="hidden" th:field="*{item}">
 
+                <p><a>[[${reviewFormDto.member.name}]]</a>님! 여행은 어떠셨나요?</p>
+                <label>별점</label>
+                <select th:field="*{star}">
+                    <option value="0">☆☆☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="5">★★★★★</option>
+                </select>
+
+                <label>제목</label>
+                <input type="text" th:field="*{title}">
+
+                <label>내용</label>
+                <textarea th:field="*{content}"></textarea>
+
+<!--                <div th:if="${#lists.isEmpty(reviewFormDto.itemImgDtoList)}">-->
+<!--                    <div class="row" th:each="num: ${#numbers.sequence(1,5)}">-->
+<!--                        <div class="input-group mb3">-->
+<!--                            <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>-->
+<!--                            <input type="file" class="imageFile form-control" name="itemImgFile">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+                <div th:if="${#strings.isEmpty(reviewFormDto.id)}">
+                    <button type="submit">저장</button>
+                </div>
+                <div th:unless="${#strings.isEmpty(reviewFormDto.id)}">
+                    <button type="submit">수정</button>
+                </div>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </form>
 
         </div>
     </main>

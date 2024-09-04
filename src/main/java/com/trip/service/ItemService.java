@@ -49,6 +49,7 @@ public class ItemService {
                 itemImg.setReqImgYn("N");
             itemImgService.saveItemImg(itemImg,itemImgFileList.get(i));
         }
+
         return item.getId();
     }
 
@@ -156,6 +157,10 @@ public class ItemService {
     public  void  ItemSellStatusChange(Long itemId){
         Item item = itemRepository.findById(itemId).orElseThrow();
         item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
+    }
+
+    public  Item searchItemNm(String itemNm){
+        return  itemRepository.findByItemNm(itemNm).getFirst();
     }
 
 
