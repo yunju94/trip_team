@@ -78,13 +78,10 @@ public class PaymentController {
     }
 
     @GetMapping("/fail-payment/{orderUid}")
-    public String failPaymentPage(@PathVariable("orderUid") String orderUid, @RequestBody UseMileage useMileage) {
+    public String failPaymentPage(@PathVariable("orderUid") String orderUid) {
                                             //파라미터 값이 없으면 null값으로
 
-        Order order =orderService.orderUidOrderCancle(orderUid);
-        Member member = memberService.findMember(order.getMember().getId()).orElseThrow();
-        mileageService.saveCancel(member, useMileage.getUseMileage());
-
+        orderService.orderUidOrderCancle(orderUid);
         return "order/fail-payment";
     }
 

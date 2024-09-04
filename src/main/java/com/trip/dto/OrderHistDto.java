@@ -48,12 +48,14 @@ public class OrderHistDto {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.orderStatus = order.getOrderStatus();
 
+
         //////////item/////////
         this.category = item.getCategory();
         this.nature = item.getNature();
         this.startDate = item.getStartDate();
         this.endDate = item.getEndDate();
         this.itemDetail = item.getItemDetail();
+        this.itemNm = item.getItemNm();
 
 
  }
