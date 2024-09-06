@@ -11,10 +11,9 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        function review(){
-            var itemNm = $('#itemNm').text();
+        function review(itemNm){
             console.log(itemNm)
-             location.href = "/review/new/" + encodeURIComponent(itemNm);
+           location.href = "/review/new/" + encodeURIComponent(itemNm);
         }
     </script>
 </th:block>
@@ -349,6 +348,7 @@ margin-top:-450px;
             <table>
                 <thead>
                 <tr>
+                    <th>예약번호</th>
                     <th>예약날짜</th>
                     <th>상품명</th>
                     <th>출발일/귀국일</th>
@@ -358,7 +358,8 @@ margin-top:-450px;
                 </thead>
                 <tbody th:each="view : ${orderHistDtoList}">
                 <tr>
-                    <td th:text="${view.orderDate}"></td>
+                    <td>[[${view.orderId}]]</td>
+                    <td>[[${view.orderDate}]]</td>
                     <td th:text="${view.itemNm}" id="itemNm" th:value="${view.itemNm}"></td>
                     <td >[[${view.startDate}]]/
                     [[${view.endDate}]]</td>
@@ -368,7 +369,7 @@ margin-top:-450px;
 
                     <td>
                         <div th:if="${view.orderStatus == T(com.trip.constant.OrderStatus).ORDER}">
-                            <button onclick="review()">상품평 작성</button>
+                            <button th:value="${view.itemNm}" onclick="review(this.value)">상품평 작성</button>
                         </div>
                     </td>
                 </tr>

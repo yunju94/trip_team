@@ -4,6 +4,7 @@ import com.trip.dto.ReviewFormDto;
 import com.trip.entity.Item;
 import com.trip.entity.Member;
 import com.trip.entity.Order;
+import com.trip.entity.Review;
 import com.trip.service.ItemService;
 import com.trip.service.MemberService;
 import com.trip.service.OrderService;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,31 +36,41 @@ public class ReviewController {
         Member member = memberService.memberload(principal.getName());
         Item item = itemService.searchItemNm(itemNm);
 
-        ReviewFormDto reviewFormDto = new ReviewFormDto();
-        reviewFormDto.setMember(member);
-        reviewFormDto.setItem(item);
-
-
-        model.addAttribute("reviewFormDto", reviewFormDto);
+        Optional<Review> review = reviewService.findByMemberIdAndItemId(member.getId(), item.getId());
+        if (review.isPresent()){
+            ReviewFormDto reviewFormDto = reviewService.Dtoadd(review.get());
+            model.addAttribute("reviewFormDto", reviewFormDto);
+        }else {
+            ReviewFormDto reviewFormDto = new ReviewFormDto();
+            reviewFormDto.setMember(member);
+            reviewFormDto.setItem(item);
+            model.addAttribute("reviewFormDto", reviewFormDto);
+        }
 
         return "mypage/review/Form";
     }
 
     @PostMapping(value = "/review/Formsave")
-    public String reviewNew(@Valid ReviewFormDto reviewFormDto , BindingResult bindingResult, Model model) throws Exception {
-
-
+    public String reviewNew(@Valid ReviewFormDto reviewFormDto ,
+                            BindingResult bindingResult,
+                            Model model,
+                            @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList)
+            throws Exception {
         if (bindingResult.hasErrors()) {
-
             return "mypage/review/Form";
         }
 
-//        if (itemImgFileList.get(0).isEmpty()) {
-//            model.addAttribute("errorMessage",
-//                    "첫번째 상품 이미지는 필수 입력 값입니다.");
-//            return "mypage/review/Form";
-//        }
-        reviewService.saveReview(reviewFormDto);
+        if (itemImgFileList.get(0).isEmpty()) {
+            model.addAttribute("errorMessage",
+                    "첫번째 상품 이미지는 필수 입력 값입니다.");
+            return "mypage/review/Form";
+        }
+        try{
+            reviewService.saveReview(reviewFormDto, itemImgFileList);
+        }catch (Exception e){
+            model.addAttribute("errorMessage",
+                    "등록 중 오류 발생!");
+        }
 
 
         return "redirect:/";

@@ -4,11 +4,10 @@ import com.trip.constant.ItemSellStatus;
 import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
+import com.trip.dto.ReviewFormDto;
 import com.trip.entity.Member;
-import com.trip.service.ItemImgService;
-import com.trip.service.ItemService;
-import com.trip.service.MemberService;
-import com.trip.service.ViewService;
+import com.trip.entity.Review;
+import com.trip.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +37,7 @@ public class ItemController {
     private final MemberService memberService;
     private  final ViewService viewService;
     private  final ItemImgService itemImgService;
+    private  final ReviewService reviewService;
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto",new ItemFormDto());
@@ -137,8 +137,13 @@ public class ItemController {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item",itemFormDto);
 
+
         Member member =memberService.memberload(principal.getName());
         model.addAttribute("member", member);
+
+        List<ReviewFormDto> reviewList =  reviewService.findByItemId(itemId);
+        model.addAttribute("reviewList", reviewList);
+
         return "item/itemDtl";
     }
     @PostMapping("/admin/items/delete")
