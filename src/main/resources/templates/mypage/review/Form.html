@@ -423,14 +423,25 @@ margin-top:-450px;
                 <label>내용</label>
                 <textarea th:field="*{content}"></textarea>
 
-<!--                <div th:if="${#lists.isEmpty(reviewFormDto.itemImgDtoList)}">-->
-<!--                    <div class="row" th:each="num: ${#numbers.sequence(1,5)}">-->
-<!--                        <div class="input-group mb3">-->
-<!--                            <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>-->
-<!--                            <input type="file" class="imageFile form-control" name="itemImgFile">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div th:if="${#lists.isEmpty(reviewFormDto.itemImgDtoList)}">
+                    <div class="row" th:each="num: ${#numbers.sequence(1,5)}">
+                        <div class="input-group mb3">
+                            <label class="image input-group-text" th:text="상품이미지 + ${num}"></label>
+                            <input type="file" class="imageFile form-control" name="itemImgFile">
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${not #lists.isEmpty(reviewFormDto.itemImgDtoList)}">
+                    <div class="row" th:each="reviewFormDto, status: ${reviewFormDto.itemImgDtoList}">
+                        <div class="input-group mb3">
+                            <label class="image input-group-text" th:text="${not #strings.isEmpty(reviewFormDto.oriImgName)} ?
+                    ${reviewFormDto.oriImgName} : '상품이미지'+${status.index+1}"></label>
+                            <input type="file" class="imageFile form-control" name="itemImgFile">
+                            <input type="hidden" name="itemImgIds" th:value="${reviewFormDto.id}">
+                        </div>
+                    </div>
+                </div>
 
 
                 <div th:if="${#strings.isEmpty(reviewFormDto.id)}">

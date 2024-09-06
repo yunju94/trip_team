@@ -35,6 +35,10 @@ public class Review {
 
     private int Star;//별점
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ItemImg> itemImgs; // itemImg 엔티티와의 일대다 관계
+
+
 
     public static Review  saveReview(ReviewFormDto reviewFormDto){
         Review review = new Review();

@@ -36,7 +36,6 @@ public class Item extends BaseEntity {
 
     @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
-
     private String itemDetail; // 상품상세설명
 
     @Enumerated(EnumType.STRING)

@@ -397,6 +397,33 @@
               .bg-red {
                 background-color: #FF0000; /* 붉은 색 */
             }
+
+
+
+
+
+
+        /*리뷰*/
+
+
+        .reviewBox{
+            border: 1px solid #ccc;
+        }
+         .reviewBox>ul{
+            list-style: none
+        }
+
+       .review_Imgbox {
+            display: flex;
+            flex-wrap: wrap; /* 이미지가 여러 줄에 걸쳐 나올 수 있게 설정 */
+            gap: 10px; /* 이미지 사이의 간격 */
+       }
+
+       .review_repImg {
+            width: 100px;
+            height: 100px;
+            object-fit: cover; /* 이미지 비율 유지하며 잘림 */
+       }
     </style>
 </th:block>
 <div layout:fragment="content" style="margin-left: 25%;margin-right: 25%;">
@@ -542,6 +569,52 @@
         <button type="button" onclick="update()">수정하기</button>
         <button type="button" onclick="deleteItem()">삭제하기</button>
 
+    </div>
+    <div >
+        <h3>여행 후기\(0w0)/</h3>
+        <div th:each="review : ${reviewList}">
+           <div class="reviewBox">
+                <ul>
+                    <li><span>별점</span>
+                        <span th:if="${review.star == 0}">
+                            ☆☆☆☆☆
+                        </span>
+                        <span th:if="${review.star == 1}">
+                            ★☆☆☆☆
+                        </span>
+                        <span th:if="${review.star == 2}">
+                            ★★☆☆☆
+                        </span>
+                        <span th:if="${review.star == 3}">
+                            ★★★☆☆
+                        </span>
+                        <span th:if="${review.star == 4}">
+                            ★★★★☆
+                        </span>
+                        <span th:if="${review.star == 5}">
+                            ★★★★★
+                        </span>
+                    </li>
+                    <li>
+                        <span th:text="${review.member.name}"></span>
+                    </li>
+                    <li>
+                        <span th:text="${review.title}"></span>
+                    </li>
+                    <li>
+                        <span th:text="${review.content}"></span>
+                    </li>
+                    <li>
+                        <div th:each="reviewImg : ${review.itemImgDtoList}">
+                            <div th:if="${reviewImg.imgUrl != null and reviewImg.imgUrl.trim() != ''}"
+                                class="review_Imgbox">
+                                <img th:src="${reviewImg.imgUrl}" class="review_repImg" >
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+           </div>
+        </div>
     </div>
 </div>
 </div>

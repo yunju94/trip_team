@@ -14,6 +14,12 @@ public class ItemImg extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+
     @Id
     @Column(name = "item_img_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
