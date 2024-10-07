@@ -5,6 +5,7 @@ import com.trip.dto.ItemFormDto;
 import com.trip.dto.ItemSearchDto;
 import com.trip.dto.MainItemDto;
 import com.trip.dto.ReviewFormDto;
+import com.trip.entity.Item;
 import com.trip.entity.Member;
 import com.trip.entity.Review;
 import com.trip.service.*;
@@ -209,78 +210,110 @@ public class ItemController {
     public @ResponseBody ResponseEntity<Map<String, Object>> searchItemScroll(
             @PathVariable(name = "page", required = false) Integer page,
             @PathVariable(name = "search", required = false) String search,
-            @PathVariable(name = "str", required = false) String str,
-            @RequestParam(name = "page", defaultValue = "0") int pageParam) {
+            @PathVariable(name = "str", required = false) String str) {
 
-        // Default values if parameters are not provided
-        page = (page != null) ? page : pageParam;
+        // page가 null인 경우 기본값 설정
+        if (page == null) {
+            page = 0; // 첫 페이지
+        }
         Pageable pageable = PageRequest.of(page, 5);
-
         Page<MainItemDto> items;
 
         if (str != null && !str.isEmpty()) {
             items = itemService.natureItemPage(pageable, str);
-            System.out.println(items);
-            System.out.println("str: " + str);
-        } else if (search != null && !search.isEmpty())  {
+        } else if (search != null && !search.isEmpty()) {
             items = itemService.searchItemPage(pageable, search);
-            System.out.println("search: " + search);
-
         } else {
             items = Page.empty();
-            System.out.println("No search or str parameter provided");
         }
 
-
-        LocalDate currency=LocalDate.now();
-        for (MainItemDto mainItemDto : items){
-            if (mainItemDto.getStartDate().isBefore(currency)){
-                if (mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)){
-                    itemService.ItemSellStatusChange(mainItemDto.getId());
-                }
+        // 상품 상태 변경 로직
+        LocalDate currency = LocalDate.now();
+        for (MainItemDto mainItemDto : items) {
+            if (mainItemDto.getStartDate().isBefore(currency) &&
+                    mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)) {
+                itemService.ItemSellStatusChange(mainItemDto.getId());
             }
         }
 
-        // Prepare the JSON response
+        // JSON 응답 준비
         Map<String, Object> response = new HashMap<>();
-        response.put("items", items.getContent()); // Extract items list from Page object
+        response.put("items", items.getContent());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
-    @GetMapping(value = {"/items/{str}", "/items/{str}/{page}",
-                        "/items/searchText/{search}", "/items/searchText/{search}/{page}"})
-    public  String NatureItem (@PathVariable Optional<String> str,
-                               @PathVariable Optional<String> search,
-                              @PathVariable("page") Optional<Integer> page, Model model){
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-        Page<MainItemDto> items = null;
-        if (str.isPresent()) {
-            if ("domestic".equals(str.get())) {
-                items = itemService.natureItemPage(pageable, str.get());
-            } else if ("overseas".equals(str.get())) {
-                items = itemService.natureItemPage(pageable, str.get());
-            }
-            model.addAttribute("str",str);
-        } else {
-            if (search.isPresent()) {
-                items = itemService.searchItemPage(pageable, search.get());
-                model.addAttribute("search", search.get());
-            }
+    @GetMapping(value = {"/items/{str}", "/items/{str}/{page}",
+                        "/items/searchText/{search}", "/items/searchText/{search}/{page}",
+                            "items/page"})
+    public  String NatureItem (@PathVariable(required = false) String str,
+                               @PathVariable(required = false) String search,
+                               @PathVariable(required = false) Integer page,
+                               @RequestParam(required = false) String placeSearch,
+                               @RequestParam(required = false) String startPlace,
+                               @RequestParam(required = false) String datefilter,Model model){
+
+
+        // ItemSearchDto 초기화
+        ItemSearchDto itemSearchDto = new ItemSearchDto(); // 초기화
+
+        Pageable pageable = PageRequest.of(page != null ? page : 0, 5);
+        Page<MainItemDto> items;
+
+
+        if (!placeSearch.isEmpty()){
+            itemSearchDto.setPlaceSearch(placeSearch);
+            System.out.println(placeSearch);
         }
-        LocalDate currency=LocalDate.now();
-        for (MainItemDto mainItemDto : items){
-            if (mainItemDto.getStartDate().isBefore(currency)){
-                if (mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)){
+        if (!startPlace.isEmpty()){
+            itemSearchDto.setStartPlace(startPlace);
+            System.out.println(startPlace);
+        }
+        if (!datefilter.isEmpty()){
+            itemSearchDto.setDatefilter(datefilter);
+            System.out.println(datefilter);
+        }
+
+        // 검색용
+        if (str != null) {
+            if ("domestic".equals(str)) {
+                items = itemService.natureItemPage(pageable, str);
+                System.out.println("11111111111111111111111111111111");
+
+            } else if ("overseas".equals(str)) {
+                items = itemService.natureItemPage(pageable, str);
+                System.out.println("2222222222222222222222");
+            } else {
+                items = itemService.getMainItemPage(itemSearchDto, pageable); // Default handling
+                System.out.println("333333333333333333333333");
+            }
+            model.addAttribute("str", str);
+        } else {
+            if (search != null) {
+                items = itemService.searchItemPage(pageable, search);
+                model.addAttribute("search", search);
+                System.out.println("4444444444444444444444444444444");
+            } else {
+                items = itemService.getAdminItemPage(itemSearchDto, pageable); // Default handling
+                System.out.println("555555555555555555555555555555");
+            }
+        };
+
+        LocalDate currency = LocalDate.now();
+        for (MainItemDto mainItemDto : items) {
+            if (mainItemDto.getStartDate().isBefore(currency)) {
+                if (mainItemDto.getItemSellStatus().equals(ItemSellStatus.SELL)) {
                     itemService.ItemSellStatusChange(mainItemDto.getId());
                 }
             }
+
+            System.out.println(mainItemDto.getItemNm());
         }
+
         model.addAttribute("items", items);
         model.addAttribute("maxPage", 5);
-
 
         return "nature/nature";
     }

@@ -72,24 +72,30 @@
               var token = $("meta[name='_csrf']").attr("content");
               var header = $("meta[name='_csrf_header']").attr("content");
               search = $('#search').val();
-              str = $('#str').val();
-              console.log(str);
+              str =  $('#str').val().present()? ? str.get() : null
+              console.log("Str value:", str);
               if (loadingData) {
                   return;
               }
-
+                var url = `/item/scrolling/${page}`; // 기본 URL
+                if (search) {
+                    url += `/${encodeURIComponent(search)}`;
+                }
+                if (str) {
+                    url +=  `/${encodeURIComponent(str)}`;
+                }
               loadingData = true;
                  var paramData = {
-           "page": page,
-            "search": search,
-            "str": str,
+                   "page": page,
+                    "search": search,
+                    "str": str,
 
-        };
+                };
           var param = JSON.stringify(paramData);
 
               $.ajax({
                   type: "POST",
-                  url: "/item/scrolling/"+page+"/"+ search+ "/"+str ,
+                  url: url,
                   data: param,
                   beforeSend: function (xhr) {
                       xhr.setRequestHeader(header, token);
@@ -164,7 +170,8 @@
 <div layout:fragment="content">
     <div id="itemContainer">
         <input type="hidden" id="search" th:value="${search}">
-        <input type="hidden" id="str" th:value="${str.isPresent? str.get(): null}">
+        <input type="hidden" id="str" th:value="${str}">
+
         <div th:each="item : ${items}">
             <table class="image-table">
                 <tbody id="data-list">

@@ -51,188 +51,188 @@ public class NatureController {
         return "nature/overseas";
     }
 
-    @PostMapping("/domestic")
-    public ResponseEntity<String> getDomesticData( @RequestParam int nextPageLimit,
-                                                 @RequestParam int limit,
-                                                 @RequestParam(required = false) List<Long> loadedItemIds) {
-        if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>();
-        }
-
-        List<Item> items = itemService.getItems(nextPageLimit, limit);
-        StringBuilder sb = new StringBuilder();
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
-        for (Item item : items) {
-            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
-                String formattedPrice = numberFormat.format(item.getPrice());
-                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
-                        .append("<td>")
-                        .append("<div class='image-card'>")
-                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
-                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
-                        .append("</div>")
-                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
-                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
-                        .append("</a>")
-                        .append("<div class='item-details'>")
-                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-
-                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
-                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
-
-                        .append("</div>")
-                        .append("</div>")
-                        .append("</td>")
-                        .append("</tr>");
-            }
-        }
-
-        return ResponseEntity.ok(sb.toString());
-    }
-
-
-
-    @PostMapping("/domestic/search")
-    public ResponseEntity getDomesticData( @RequestParam(name = "placeSearch", required = false, defaultValue = "") String placeSearch,
-                                                   @RequestParam(name = "startPlace", required = false, defaultValue = "") String startPlace,
-                                                   @RequestParam(name = "datefilter", required = false, defaultValue = "") String datefilter,
-                                                    @RequestParam int nextPageLimit,
-                                                   @RequestParam int limit,
-                                                   @RequestParam(required = false) List<Long> loadedItemIds) {
-
-
-        if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>();
-        }
-        ItemSearchDto itemSearchDto = new ItemSearchDto();
-        itemSearchDto.setDatefilter(datefilter);
-        itemSearchDto.setPlaceSearch(placeSearch);
-        itemSearchDto.setStartPlace(startPlace);
-
-        List<Item> items = itemService.getAdminItemPage(itemSearchDto,nextPageLimit, limit);
-        StringBuilder sb = new StringBuilder();
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
-        for (Item item : items) {
-            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
-                String formattedPrice = numberFormat.format(item.getPrice());
-                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
-                        .append("<td>")
-                        .append("<div class='image-card'>")
-                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
-                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
-                        .append("</div>")
-                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
-                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
-                        .append("</a>")
-                        .append("<div class='item-details'>")
-                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-
-                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
-                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
-
-                        .append("</div>")
-                        .append("</div>")
-                        .append("</td>")
-                        .append("</tr>");
-            }
-        }
-
-        return ResponseEntity.ok(sb.toString());
-    }
-
-    @PostMapping("/overseas")
-    public ResponseEntity<String> getOverseasData(
-            @RequestParam int nextPageLimit,
-            @RequestParam int limit,
-            @RequestParam(required = false) List<Long> loadedItemIds
-    ) {
-        if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>();
-        }
-
-        List<Item> items = itemService.getItems(nextPageLimit, limit);
-        StringBuilder sb = new StringBuilder();
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
-        for (Item item : items) {
-            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.OVERSEAS) {
-                String formattedPrice = numberFormat.format(item.getPrice());
-                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
-                        .append("<td>")
-                        .append("<div class='image-card'>")
-                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
-                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
-                        .append("</div>")
-                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
-                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
-                        .append("</a>")
-                        .append("<div class='item-details'>")
-                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-
-                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
-                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
-
-                        .append("</div>")
-                        .append("</div>")
-                        .append("</td>")
-                        .append("</tr>");
-            }
-        }
-
-        return ResponseEntity.ok(sb.toString());
-    }
-
-
-
-    @PostMapping("/overseas/search")
-    public ResponseEntity getOverseasData( @RequestParam(name = "placeSearch", required = false, defaultValue = "") String placeSearch,
-                                           @RequestParam(name = "startPlace", required = false, defaultValue = "") String startPlace,
-                                           @RequestParam(name = "datefilter", required = false, defaultValue = "") String datefilter,
-                                           @RequestParam int nextPageLimit,
-                                           @RequestParam int limit,
-                                           @RequestParam(required = false) List<Long> loadedItemIds) {
-
-
-        if (loadedItemIds == null) {
-            loadedItemIds = new ArrayList<>();
-        }
-        ItemSearchDto itemSearchDto = new ItemSearchDto();
-        itemSearchDto.setDatefilter(datefilter);
-        itemSearchDto.setPlaceSearch(placeSearch);
-        itemSearchDto.setStartPlace(startPlace);
-
-        List<Item> items = itemService.getAdminItemPage(itemSearchDto,nextPageLimit, limit);
-        StringBuilder sb = new StringBuilder();
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
-        for (Item item : items) {
-            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.OVERSEAS) {
-                String formattedPrice = numberFormat.format(item.getPrice());
-                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
-                        .append("<td>")
-                        .append("<div class='image-card'>")
-                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
-                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
-                        .append("</div>")
-                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
-                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
-                        .append("</a>")
-                        .append("<div class='item-details'>")
-                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
-
-                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
-                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
-
-                        .append("</div>")
-                        .append("</div>")
-                        .append("</td>")
-                        .append("</tr>");
-            }
-        }
-
-        return ResponseEntity.ok(sb.toString());
-    }
+//    @PostMapping("/domestic")
+//    public ResponseEntity<String> getDomesticData( @RequestParam int nextPageLimit,
+//                                                 @RequestParam int limit,
+//                                                 @RequestParam(required = false) List<Long> loadedItemIds) {
+//        if (loadedItemIds == null) {
+//            loadedItemIds = new ArrayList<>();
+//        }
+//
+//        List<Item> items = itemService.getItems(nextPageLimit, limit);
+//        StringBuilder sb = new StringBuilder();
+//        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+//
+//        for (Item item : items) {
+//            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
+//                String formattedPrice = numberFormat.format(item.getPrice());
+//                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
+//                        .append("<td>")
+//                        .append("<div class='image-card'>")
+//                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
+//                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
+//                        .append("</div>")
+//                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
+//                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
+//                        .append("</a>")
+//                        .append("<div class='item-details'>")
+//                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+//
+//                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+//                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+//
+//                        .append("</div>")
+//                        .append("</div>")
+//                        .append("</td>")
+//                        .append("</tr>");
+//            }
+//        }
+//
+//        return ResponseEntity.ok(sb.toString());
+//    }
+//
+//
+//
+//    @PostMapping("/domestic/search")
+//    public ResponseEntity getDomesticData( @RequestParam(name = "placeSearch", required = false, defaultValue = "") String placeSearch,
+//                                                   @RequestParam(name = "startPlace", required = false, defaultValue = "") String startPlace,
+//                                                   @RequestParam(name = "datefilter", required = false, defaultValue = "") String datefilter,
+//                                                    @RequestParam int nextPageLimit,
+//                                                   @RequestParam int limit,
+//                                                   @RequestParam(required = false) List<Long> loadedItemIds) {
+//
+//
+//        if (loadedItemIds == null) {
+//            loadedItemIds = new ArrayList<>();
+//        }
+//        ItemSearchDto itemSearchDto = new ItemSearchDto();
+//        itemSearchDto.setDatefilter(datefilter);
+//        itemSearchDto.setPlaceSearch(placeSearch);
+//        itemSearchDto.setStartPlace(startPlace);
+//
+//        List<Item> items = itemService.getAdminItemPage(itemSearchDto,nextPageLimit, limit);
+//        StringBuilder sb = new StringBuilder();
+//        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+//
+//        for (Item item : items) {
+//            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.DOMESTIC) {
+//                String formattedPrice = numberFormat.format(item.getPrice());
+//                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
+//                        .append("<td>")
+//                        .append("<div class='image-card'>")
+//                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
+//                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
+//                        .append("</div>")
+//                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
+//                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
+//                        .append("</a>")
+//                        .append("<div class='item-details'>")
+//                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+//
+//                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+//                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+//
+//                        .append("</div>")
+//                        .append("</div>")
+//                        .append("</td>")
+//                        .append("</tr>");
+//            }
+//        }
+//
+//        return ResponseEntity.ok(sb.toString());
+//    }
+//
+//    @PostMapping("/overseas")
+//    public ResponseEntity<String> getOverseasData(
+//            @RequestParam int nextPageLimit,
+//            @RequestParam int limit,
+//            @RequestParam(required = false) List<Long> loadedItemIds
+//    ) {
+//        if (loadedItemIds == null) {
+//            loadedItemIds = new ArrayList<>();
+//        }
+//
+//        List<Item> items = itemService.getItems(nextPageLimit, limit);
+//        StringBuilder sb = new StringBuilder();
+//        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+//
+//        for (Item item : items) {
+//            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.OVERSEAS) {
+//                String formattedPrice = numberFormat.format(item.getPrice());
+//                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
+//                        .append("<td>")
+//                        .append("<div class='image-card'>")
+//                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
+//                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
+//                        .append("</div>")
+//                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
+//                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
+//                        .append("</a>")
+//                        .append("<div class='item-details'>")
+//                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+//
+//                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+//                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+//
+//                        .append("</div>")
+//                        .append("</div>")
+//                        .append("</td>")
+//                        .append("</tr>");
+//            }
+//        }
+//
+//        return ResponseEntity.ok(sb.toString());
+//    }
+//
+//
+//
+//    @PostMapping("/overseas/search")
+//    public ResponseEntity getOverseasData( @RequestParam(name = "placeSearch", required = false, defaultValue = "") String placeSearch,
+//                                           @RequestParam(name = "startPlace", required = false, defaultValue = "") String startPlace,
+//                                           @RequestParam(name = "datefilter", required = false, defaultValue = "") String datefilter,
+//                                           @RequestParam int nextPageLimit,
+//                                           @RequestParam int limit,
+//                                           @RequestParam(required = false) List<Long> loadedItemIds) {
+//
+//
+//        if (loadedItemIds == null) {
+//            loadedItemIds = new ArrayList<>();
+//        }
+//        ItemSearchDto itemSearchDto = new ItemSearchDto();
+//        itemSearchDto.setDatefilter(datefilter);
+//        itemSearchDto.setPlaceSearch(placeSearch);
+//        itemSearchDto.setStartPlace(startPlace);
+//
+//        List<Item> items = itemService.getAdminItemPage(itemSearchDto,nextPageLimit, limit);
+//        StringBuilder sb = new StringBuilder();
+//        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+//
+//        for (Item item : items) {
+//            if (!loadedItemIds.contains(item.getId()) && item.getNature() == Nature.OVERSEAS) {
+//                String formattedPrice = numberFormat.format(item.getPrice());
+//                sb.append("<tr data-item-id=\"").append(item.getId()).append("\">")
+//                        .append("<td>")
+//                        .append("<div class='image-card'>")
+//                        .append("<div sec:authorize='hasRole(\"ADMIN\")'>")
+//                        .append("<input type='checkbox' id='item_").append(item.getId()).append("' name='selectedItems' value='").append(item.getId()).append("' class='item-checkbox'>")
+//                        .append("</div>")
+//                        .append("<a href='/item/").append(item.getId()).append("' class='text-dark'>")
+//                        .append("<img src='").append(item.getItemImgs().get(0).getImgUrl()).append("' alt='").append(item.getItemNm()).append("'>")
+//                        .append("</a>")
+//                        .append("<div class='item-details'>")
+//                        .append("<div class='item-name'>").append(item.getItemNm()).append("</div>")
+//
+//                        .append("<div class='item-price'>").append(formattedPrice).append("원</div>")
+//                        .append("<div class='item-startDate'>출발 가능 기간 : ").append(item.getStartDate()).append("</div>")
+//
+//                        .append("</div>")
+//                        .append("</div>")
+//                        .append("</td>")
+//                        .append("</tr>");
+//            }
+//        }
+//
+//        return ResponseEntity.ok(sb.toString());
+//    }
 
 }

@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static com.trip.constant.Nature.DOMESTIC;
 import static com.trip.constant.Nature.OVERSEAS;
+import static com.trip.entity.QItem.item;
 import static com.trip.entity.QItemImg.itemImg;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
@@ -63,7 +64,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
             }
 
 
-        return QItem.item.category.eq(str);
+        return item.category.eq(str);
     }
 
 
@@ -82,25 +83,27 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         String endDate = Date.substring(13, 23); //07/18/2024
         str = endDate.split("/");
         String End = str[2]+"-" + str[0]+"-"+ str[1]; //2024-07-18
-        return QItem.item.startDate.eq(LocalDate.parse(Start));
+        return item.startDate.eq(LocalDate.parse(Start));
 
     }
 
 
 
     @Override
-    public List<Item> getAdminItemPage(ItemSearchDto itemSearchDto, int offset, int limit){
-        QueryResults<Item> results = queryFactory.selectFrom(QItem.item).//item에서 찾는다.
-                where(DateChangeStartDate(itemSearchDto.getDatefilter()),//출발일(itemSearchDto.getDatefilter())
+    public Page<MainItemDto> getAdminItemPage(ItemSearchDto itemSearchDto,  Pageable pageable){
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id,item.itemNm,
+                        item.itemDetail,itemImg.imgUrl,item.price,item.nature,item.itemSellStatus,item.startDate,item.endDate))
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(DateChangeStartDate(itemSearchDto.getDatefilter()),//출발일(itemSearchDto.getDatefilter())
                 searchCategoryStatusEq(itemSearchDto.getPlaceSearch()))
                        //여행지(itemSearchDto.getPlaceSearch()로 국내 국외 찾기)
-                .orderBy(QItem.item.id.desc())//id가 내림차순순으로
-                .offset(offset)
-                .limit(limit)
-                .fetchResults();
-        List<Item> content = results.getResults();
+                .orderBy(item.id.desc())//id가 내림차순순으로
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
-        return content;
+        return new PageImpl<>(content,pageable,total);
     }
 
 
@@ -126,12 +129,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private BooleanExpression searchStatus(String search){
 
-        return QItem.item.itemNm.like("%"+ search + "%");
+        return item.itemNm.like("%"+ search + "%");
     }
 
     private BooleanExpression searchDetailStatus( String search){
 
-        return QItem.item.itemDetail.like("%"+ search + "%");
+        return item.itemDetail.like("%"+ search + "%");
     }
     @Override
     public Page<MainItemDto> searchItemPage(Pageable pageable,String search) {
@@ -191,10 +194,10 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     public  BooleanExpression natureCategory(String nature){
         if ("domestic".equals(nature)){
-          return   QItem.item.nature.eq(DOMESTIC);
+          return   item.nature.eq(DOMESTIC);
         }else {
             System.out.println("oooooooooooooooooooooooooooo");
-          return   QItem.item.nature.eq(OVERSEAS);
+          return   item.nature.eq(OVERSEAS);
         }
     }
 
